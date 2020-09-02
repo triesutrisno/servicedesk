@@ -36,15 +36,24 @@
                         </div>
                     </div>
                     <div class="form-group">
+                      <label for="tiketLayanan" class="col-md-4 control-label">Atasan</label>
+                      <div class="col-md-6">
+                        <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i> 
+                        {{ session('infoUser')['AL_NAMA'] }} ({{ session('infoUser')['AL_NIK'] }})
+                      </div>
+                    </div>
+                    <div class="form-group">
                       <label for="tiketLayanan" class="col-md-4 control-label">Layanan</label>
                       <div class="col-md-6">
-                        <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i>{{ $service[0]['layanan'][0]['nama_layanan'] }}
+                        <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i> 
+                        {{ $service[0]['layanan'][0]['nama_layanan'] }}
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="tiketService" class="col-md-4 control-label">Service</label>
                       <div class="col-md-6">
-                        <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i>{{ $service[0]['ServiceName'] }}
+                        <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i> 
+                        {{ $service[0]['ServiceName'] }}
                       </div>
                     </div>
                     <div class="form-group">

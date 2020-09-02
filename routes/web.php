@@ -33,6 +33,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/tiket/create', 'TiketController@create');
     Route::get('/tiket/create/{id}', 'TiketController@created');
     Route::get('/tiket/create/{id}/{id2}', 'TiketController@add');
-    Route::post('/tiket/create/{id}/{id2}', 'TiketController@store');
+    Route::post('/tiket/create/{id}/{id2}', 'TiketController@store');    
+    Route::get('/tiket/edit/{id}', 'TiketController@edit');   
+    Route::post('/tiket/edit/{id}', 'TiketController@update');
+    Route::post('/tiket/delete/{id}', 'TiketController@destroy');
 });
 
