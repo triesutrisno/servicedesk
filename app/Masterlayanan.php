@@ -4,11 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Service extends Model
+class Masterlayanan extends Model
 {
-    protected $table = 'ticket_service';
-    protected $primaryKey = "id";
-    protected $fillable = ['id','ServiceName'];
+	protected $table = 'm_layanan';
+    protected $fillable = ['id','nama_layanan'];
 
 
     /**

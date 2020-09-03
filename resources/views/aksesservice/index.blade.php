@@ -14,7 +14,7 @@
 <div class="row">
 
   <div class="col-lg-2">
-    <a href="{{ route('service.create') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Master Service</a>
+    <a href="{{ route('aksesservice.create') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Akses service</a>
   </div>
     <div class="col-lg-12">
                   @if (Session::has('message'))
@@ -27,15 +27,18 @@
               <div class="card">
 
                 <div class="card-body">
-                  <h4 class="card-title">Data Master Service</h4>
+                  <h4 class="card-title">Akses Service</h4>
                   
                   <div class="table-responsive">
                     <table class="table table-striped" id="table">
                       <thead>
                         <tr>
-                        <th>No</th>
-                        <th>Nama Layanan</th>
-                          <th>Nama Service</th>
+                        <th>
+                            Nama Service
+                          </th>
+                          <th>
+                            Nama Subservice
+                          </th>
 
                           <th>
                             Action
@@ -45,17 +48,21 @@
                       <tbody>
                       @foreach($datas as $data)
                         <tr>
-                        <td class="py-1">{{$loop->iteration}}</td>
-                        <td class="py-1"></td>
-                          <td class="py-1">{{$data->ServiceName}}</td>
+                        <td class="py-1">
+
+                         {{ $data->service[0]['ServiceName'] }}
+                          </td>
+                          <td class="py-1">
+                          {{$data->ServiceSubName}}
+                          </td>
                           <td>
                            <div class="btn-group dropdown">
                           <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Action
                           </button>
                           <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 30px, 0px);">
-                            <a class="dropdown-item" href="{{route('service.edit', $data->id)}}"> Edit </a>
-                            <form action="{{ route('service.destroy', $data->id) }}" class="pull-left"  method="post">
+                            <a class="dropdown-item" href="{{route('aksesservice.edit', $data->id)}}"> Edit </a>
+                            <form action="{{ route('aksesservice.destroy', $data->id) }}" class="pull-left"  method="post">
                             {{ csrf_field() }}
                             {{ method_field('delete') }}
                             <button class="dropdown-item" onclick="return confirm('Anda yakin ingin menghapus data ini?')"> Delete

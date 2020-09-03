@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+
 use App\User;
 use App\Anggota;
 use App\Subservice;
 use App\Service;
-use App\Layanan;
+use App\Masterlayanan;
+
 
 use Carbon\Carbon;
 use Session;
@@ -16,7 +19,8 @@ use Auth;
 use DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class ServiceController extends Controller
+
+class MasterlayananController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,20 +33,15 @@ class ServiceController extends Controller
         $this->middleware('auth');
     }
 
-
-
     public function index()
-    {    
-        if(session('infoUser')['LEVEL'] == 'admin')
-        {
-            $datas = Service::with(['layanan'])->get();
-        } else {            
-            $datas = Service::with(['layanan'])
-                        ->where(['nikUser' => session('infoUser')['NIK']])
-                        ->get();
+    {
+        if(Auth::user()->level == 'user') {
+            Alert::info('Oopss..', 'Anda dilarang masuk ke area ini.');
+            return redirect()->to('/');
         }
-        
-        return view('service.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'']);
+
+        $datas = Masterlayanan::get();
+        return view('Masterlayanan.index', compact('datas'));
     }
 
     /**
@@ -52,20 +51,9 @@ class ServiceController extends Controller
      */
 
 
-
     public function create()
     {
-        if(Auth::user()->level == 'user') {
-            Alert::info('Oopss..', 'Anda dilarang masuk ke area ini.');
-            return redirect()->to('/');
-        }
-
-        $users = User::WhereNotExists(function($query) {
-                        $query->select(DB::raw(1))
-                        ->from('ticket_service');
-                        //->whereRaw('anggota.user_id = users.id');
-                     })->get();
-        return view('service.create', compact('users'));
+        //
     }
 
     /**
@@ -74,8 +62,6 @@ class ServiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
-
     public function store(Request $request)
     {
         // $count = Anggota::where('npm',$request->input('npm'))->count();
@@ -88,14 +74,14 @@ class ServiceController extends Controller
          }
          */    
          $this->validate($request, [
-             'ServiceName' => 'required|string|max:255',
+             'nama_layanan' => 'required|string|max:255',
             // 'npm' => 'required|string|max:20|unique:anggota'
          ]);
              
-         Service::create($request->all());
+         masterlayanan::create($request->all());
  
          alert()->success('Berhasil.','Data telah ditambahkan!');
-         return redirect()->route('service.index');
+         return redirect()->route('masterlayanan.index');
  
      }
  
@@ -105,6 +91,8 @@ class ServiceController extends Controller
       * @param  int  $id
       * @return \Illuminate\Http\Response
       */
+
+
     public function show($id)
     {
         //
@@ -123,9 +111,9 @@ class ServiceController extends Controller
                 return redirect()->to('/');
         }
 
-        $data = Service::findOrFail($id);
+        $data = Masterlayanan::findOrFail($id);
         $users = User::get();
-        return view('service.edit', compact('data', 'users'));
+        return view('masterlayanan.edit', compact('data', 'users'));
     }
 
     /**
@@ -135,12 +123,13 @@ class ServiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
-        Service::find($id)->update($request->all());
+        Masterlayanan::find($id)->update($request->all());
 
-        alert()->success('Berhasil.','Data Master Service telah diubah!');
-        return redirect()->to('service');
+       // alert()->success('Berhasil.','Data Master Layanan telah diubah!');
+        return redirect()->to('masterlayanan');
     }
 
     /**
@@ -153,8 +142,6 @@ class ServiceController extends Controller
 
     public function destroy($id)
     {
-        Service::find($id)->delete();
-        alert()->success('Berhasil.','Data Master Service telah dihapus!');
-        return redirect()->route('service.index');
+        //
     }
 }

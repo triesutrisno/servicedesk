@@ -28,6 +28,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', 'UserController');
     Route::resource('subservice', 'SubserviceController');
     Route::resource('service', 'ServiceController');
+    Route::resource('masterlayanan', 'MasterlayananController');
+    Route::resource('aksesservice', 'AksesserviceController');
+
 
     Route::get('/tiket', 'TiketController@index');
     Route::get('/tiket/create', 'TiketController@create');

@@ -34,10 +34,11 @@
       </a>
       <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="{{ url('user') }}">Data Layanan2</a></li>
+              <li class="nav-item"><a class="nav-link" href="{{ url('masterlayanan') }}">Data Layanan</a></li>
               <li class="nav-item"><a class="nav-link" href="{{ url('user') }}">Data User</a></li>
               <li class="nav-item"><a class="nav-link" href="{{ url('service') }}">Data Service</a></li>
               <li class="nav-item"><a class="nav-link" href="{{ url('subservice') }}">Data Sub Service</a></li>
+              
           </ul>
       </div>
     </li>

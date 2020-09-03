@@ -33,10 +33,9 @@
                     <table class="table table-striped" id="table">
                       <thead>
                         <tr>
-                          <th>
-                            Nama Sub Service
-                          </th>
-
+                        <th>No</th>
+                        <th>Nama Service</th>
+                        <th>Nama Sub Service</th>
                           <th>
                             Action
                           </th>
@@ -45,10 +44,9 @@
                       <tbody>
                       @foreach($datas as $data)
                         <tr>
-                          <td class="py-1">
-
-                            {{$data->ServiceSubName}}
-                          </td>
+                          <td class="py-1">{{$loop->iteration}}</td>
+                          <td class="py-1">{{ $data->service[0]['ServiceName'] }}</td>
+                          <td class="py-1">{{$data->ServiceSubName}}</td>
                           <td>
                            <div class="btn-group dropdown">
                           <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
