@@ -62,21 +62,21 @@ class TiketController extends Controller
         $subService = Subservice::where(['ServiceSubStatus'=>'1', 'ServiceIDf'=>$id2])->get();
         
         $urle = "http://172.20.145.36/tiketsilog/getKepala.php";
-            $response = Http::withHeaders([
-                            'Content-Type' => 'application/json',
-                            'token' => 'tiketing.silog.co.id'
-                        ])
-                        ->post($urle,[
-                            'biro' => $service[0]['layanan'][0]['kode_biro'],
-                    ]);
-            $dtAPi = json_decode($response->getBody()->getContents(),true);  
-            $responStatus = $response->getStatusCode();
-            //dd($dtAPi);
-            if($responStatus=='200'){
-                $dtAtasanService = $dtAPi["data"];
-            }else{
-                $dtAtasanService = $dtAPi["data"];
-            }
+        $response = Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                        'token' => 'tiketing.silog.co.id'
+                    ])
+                    ->post($urle,[
+                        'biro' => $service[0]['layanan'][0]['kode_biro'],
+                ]);
+        $dtAPi = json_decode($response->getBody()->getContents(),true);  
+        $responStatus = $response->getStatusCode();
+        //dd($dtAPi);
+        if($responStatus=='200'){
+            $dtAtasanService = $dtAPi["data"];
+        }else{
+            $dtAtasanService = $dtAPi["data"];
+        }
         
         //dd($eselon."<=".$service[0]['min_eselon']);
         if($eselon <= $service[0]['min_eselon']){
@@ -160,7 +160,7 @@ class TiketController extends Controller
                             'contentEmail' => '0',
                             'sistem' => 'tiketSilog',
                     ]);
-            $dtAPi = json_decode($response->getBody()->getContents(),true);  
+            #$dtAPi = json_decode($response->getBody()->getContents(),true);  
             #$responStatus = $response->getStatusCode();
             //dd($dtAPi);
             

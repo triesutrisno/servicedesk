@@ -108,17 +108,19 @@
                             @if($data->tiketStatus == '1')
                             <label class="badge badge-warning">open</label>
                             @elseif($data->tiketStatus == '2')
-                                <label class="badge badge-warning">Sdh App Atasan</label>
+                                <label class="badge badge-warning">Diapprove Atasan Unit</label>
                             @elseif($data->tiketStatus == '3')
-                                <label class="badge badge-warning">Sudah App Atasan IT </label>
+                                <label class="badge badge-danger">Ditolak Atasan Unit</label>
                             @elseif($data->tiketStatus == '4')
-                                <label class="badge badge-success">Selesai</label>
-                            @elseif($data->tiketStatus == '7')
-                                <label class="badge badge-success">Ditolak Atasan IT</label>
+                                <label class="badge badge-success">Disetujui</label>
+                            @elseif($data->tiketStatus == '5')
+                                <label class="badge badge-danger">Ditolak</label>
                             @elseif($data->tiketStatus == '6')
-                                <label class="badge badge-success">Ditolak Atasan Unit</label>
-                            @else
-                                <label class="badge badge-success">close</label>
+                                <label class="badge badge-info">Dikerjakan</label>
+                            @elseif($data->tiketStatus == '7')
+                                <label class="badge badge-primary">Selesai</label>
+                            @elseif($data->tiketStatus == '8')
+                                <label class="badge badge-dark">Close</label>
                             @endif
                         </td>
                     </tr>
@@ -130,24 +132,5 @@
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="myModalApprove" tabindex="-1" role="dialog" aria-labelledby="myModalApprove" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Approve Tiket</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Anda yakin akan melakukan approve atas tiket ini ?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Approve</button>
-      </div>
-    </div>
-  </div>
 </div>
 @endsection
