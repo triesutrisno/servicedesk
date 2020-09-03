@@ -34,7 +34,10 @@
       </a>
       <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
+<<<<<<< HEAD
               <li class="nav-item"><a class="nav-link" href="{{ url('user') }}">Data Layanan</a></li>
+=======
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
               <li class="nav-item"><a class="nav-link" href="{{ url('user') }}">Data User</a></li>
               <li class="nav-item"><a class="nav-link" href="{{ url('service') }}">Data Service</a></li>
               <li class="nav-item"><a class="nav-link" href="{{ url('subservice') }}">Data Sub Service</a></li>

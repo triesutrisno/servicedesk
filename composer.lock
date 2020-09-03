@@ -2175,6 +2175,7 @@
         },
         {
             "name": "symfony/console",
+<<<<<<< HEAD
             "version": "v5.1.5",
             "source": {
                 "type": "git",
@@ -2185,6 +2186,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/console/zipball/186f395b256065ba9b890c0a4e48a91d598fa2cf",
                 "reference": "186f395b256065ba9b890c0a4e48a91d598fa2cf",
+=======
+            "version": "v5.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "51ff337ce194bdc3d8db12b20ce8cd54ac9f71e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/51ff337ce194bdc3d8db12b20ce8cd54ac9f71e9",
+                "reference": "51ff337ce194bdc3d8db12b20ce8cd54ac9f71e9",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
                 "shasum": ""
             },
             "require": {
@@ -2264,11 +2277,19 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2020-09-02T07:07:40+00:00"
         },
         {
             "name": "symfony/css-selector",
             "version": "v5.1.5",
+=======
+            "time": "2020-08-17T13:51:41+00:00"
+        },
+        {
+            "name": "symfony/css-selector",
+            "version": "v5.1.4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -2399,7 +2420,11 @@
         },
         {
             "name": "symfony/error-handler",
+<<<<<<< HEAD
             "version": "v5.1.5",
+=======
+            "version": "v5.1.4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
@@ -2470,7 +2495,11 @@
         },
         {
             "name": "symfony/event-dispatcher",
+<<<<<<< HEAD
             "version": "v5.1.5",
+=======
+            "version": "v5.1.4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -2632,7 +2661,11 @@
         },
         {
             "name": "symfony/finder",
+<<<<<<< HEAD
             "version": "v5.1.5",
+=======
+            "version": "v5.1.4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -2695,7 +2728,11 @@
         },
         {
             "name": "symfony/http-foundation",
+<<<<<<< HEAD
             "version": "v5.1.5",
+=======
+            "version": "v5.1.4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
@@ -2770,6 +2807,7 @@
         },
         {
             "name": "symfony/http-kernel",
+<<<<<<< HEAD
             "version": "v5.1.5",
             "source": {
                 "type": "git",
@@ -2780,6 +2818,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/http-kernel/zipball/3e32676e6cb5d2081c91a56783471ff8a7f7110b",
                 "reference": "3e32676e6cb5d2081c91a56783471ff8a7f7110b",
+=======
+            "version": "v5.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/http-kernel.git",
+                "reference": "f829c240113986b60fda425c2533142e88efd7c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/f829c240113986b60fda425c2533142e88efd7c4",
+                "reference": "f829c240113986b60fda425c2533142e88efd7c4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
                 "shasum": ""
             },
             "require": {
@@ -2879,11 +2929,19 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2020-09-02T08:15:18+00:00"
         },
         {
             "name": "symfony/mime",
             "version": "v5.1.5",
+=======
+            "time": "2020-08-31T06:18:12+00:00"
+        },
+        {
+            "name": "symfony/mime",
+            "version": "v5.1.4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
@@ -3740,7 +3798,11 @@
         },
         {
             "name": "symfony/process",
+<<<<<<< HEAD
             "version": "v5.1.5",
+=======
+            "version": "v5.1.4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -3804,7 +3866,11 @@
         },
         {
             "name": "symfony/routing",
+<<<<<<< HEAD
             "version": "v5.1.5",
+=======
+            "version": "v5.1.4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
@@ -3972,7 +4038,11 @@
         },
         {
             "name": "symfony/string",
+<<<<<<< HEAD
             "version": "v5.1.5",
+=======
+            "version": "v5.1.4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
@@ -4057,7 +4127,11 @@
         },
         {
             "name": "symfony/translation",
+<<<<<<< HEAD
             "version": "v5.1.5",
+=======
+            "version": "v5.1.4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
@@ -4224,7 +4298,11 @@
         },
         {
             "name": "symfony/var-dumper",
+<<<<<<< HEAD
             "version": "v5.1.5",
+=======
+            "version": "v5.1.4",
+>>>>>>> ba674ed4c12f752a76e8cfe82308a1e120023b60
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
