@@ -7,7 +7,7 @@ use App\User;
 use App\Anggota;
 use App\Subservice;
 use App\Service;
-use App\Layanan;
+use App\Masterlayanan;
 
 use Carbon\Carbon;
 use Session;

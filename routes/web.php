@@ -25,6 +25,7 @@ Route::post('/login','LoginController@login');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout','LoginController@logout');
 
+    Route::get('home', 'HomeController@index');
     Route::resource('user', 'UserController');
     Route::resource('subservice', 'SubserviceController');
     Route::resource('service', 'ServiceController');
