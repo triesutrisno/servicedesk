@@ -61,9 +61,32 @@ class TiketController extends Controller
                 ->where(['ServiceStatus'=>'1', 'id'=>$id2, 'id_layanan'=>$id])->get();
         $subService = Subservice::where(['ServiceSubStatus'=>'1', 'ServiceIDf'=>$id2])->get();
         
+        $urle = "http://172.20.145.36/tiketsilog/getKepala.php";
+            $response = Http::withHeaders([
+                            'Content-Type' => 'application/json',
+                            'token' => 'tiketing.silog.co.id'
+                        ])
+                        ->post($urle,[
+                            'biro' => $service[0]['layanan'][0]['kode_biro'],
+                    ]);
+            $dtAPi = json_decode($response->getBody()->getContents(),true);  
+            $responStatus = $response->getStatusCode();
+            //dd($dtAPi);
+            if($responStatus=='200'){
+                $dtAtasanService = $dtAPi["data"];
+            }else{
+                $dtAtasanService = $dtAPi["data"];
+            }
+        
         //dd($eselon."<=".$service[0]['min_eselon']);
         if($eselon <= $service[0]['min_eselon']){
-            return view('tiket.add', ['service'=>$service, 'subService'=>$subService, 'id_layanan'=>$id, 'id_service'=>$id2, 'kode'=>$kode]);
+            return view('tiket.add', [
+                        'service'=>$service, 
+                        'subService'=>$subService, 
+                        'dtAtasanService'=>$dtAtasanService, 
+                        'id_layanan'=>$id, 
+                        'id_service'=>$id2, 'kode'=>$kode
+                   ]);
         }else{
             return redirect('/tiket')->with('pesan', 'Anda tidak diijinkan mengakses menu yang tadi !');
         }
@@ -92,10 +115,9 @@ class TiketController extends Controller
             $request->request->add(['unit'=>session('infoUser')['UNIT']]);
             $request->request->add(['biro'=>session('infoUser')['BIROBU']]);
             $request->request->add(['nikUser'=>session('infoUser')['NIK']]);
-            $request->request->add(['tiketApprove'=>'N']);
+            $request->request->add(['tiketApprove'=>'W']);
             $request->request->add(['tiketNikAtasan'=> session('infoUser')['AL_NIK']]);
-            $request->request->add(['tiketApproveService'=>'W']);
-            $request->request->add(['tiketNikAtasanService'=>'01300']);
+            $request->request->add(['tiketApproveService'=>'N']);
             $request->request->add(['tiketStatus'=>'1']);
             Tiket::create($request->all());
             
@@ -131,7 +153,7 @@ class TiketController extends Controller
                             #'recipients' => session('infoUser')['AL_EMAIL'],
                             'recipients' => 'triesutrisno@gmail.com',
                             'cc' => '',
-                            'subjectEmail' => 'Approve Tiket',
+                            'subjectEmail' => 'Permintaan Approve Tiket',
                             'isiEmail' => addslashes($isiEmail),
                             'status' => 'outbox',
                             'password' => 'sistem2017',
@@ -172,7 +194,24 @@ class TiketController extends Controller
                     ->get();        
         if($tiket[0]['tiketStatus']=='1'){
             $subService = Subservice::where(['ServiceSubStatus'=>'1', 'ServiceIDf'=>$tiket[0]['serviceId']])->get();
-            return view('tiket.edit', ['tiket'=>$tiket, 'subService'=>$subService]);
+            
+            $urle = "http://172.20.145.36/tiketsilog/getKepala.php";
+            $response = Http::withHeaders([
+                            'Content-Type' => 'application/json',
+                            'token' => 'tiketing.silog.co.id'
+                        ])
+                        ->post($urle,[
+                            'biro' => $tiket[0]['layanan'][0]['kode_biro'],
+                    ]);
+            $dtAPi = json_decode($response->getBody()->getContents(),true);  
+            $responStatus = $response->getStatusCode();
+            //dd($dtAPi);
+            if($responStatus=='200'){
+                $dtAtasanService = $dtAPi["data"];
+            }else{
+                $dtAtasanService = $dtAPi["data"];
+            }
+            return view('tiket.edit', ['tiket'=>$tiket, 'subService'=>$subService, 'dtAtasanService'=>$dtAtasanService]);
         }else{
             return redirect('/tiket')->with(['kode'=>'90', 'pesan'=>'Data tidak bisa diubah !']);
         }
@@ -198,6 +237,7 @@ class TiketController extends Controller
                   'tiketKeterangan' => $request->tiketKeterangan,
                   'subServiceId' => $request->subServiceId,
                   'tiketPrioritas' => $request->tiketPrioritas,
+                  'tiketNikAtasanService' => $request->tiketNikAtasanService,
             ]);
             return redirect('/tiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil diubah !']);
         }else{

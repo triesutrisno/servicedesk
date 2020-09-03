@@ -37,5 +37,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/tiket/edit/{id}', 'TiketController@edit');   
     Route::post('/tiket/edit/{id}', 'TiketController@update');
     Route::post('/tiket/delete/{id}', 'TiketController@destroy');
+    
+    Route::get('/approvetiket', 'ApprovetiketController@index');
+    Route::patch('/approvetiket/approve/{id}', 'ApprovetiketController@approve');
+    Route::patch('/approvetiket/reject/{id}', 'ApprovetiketController@reject');
+    
+    Route::get('/persetujuantiket', 'PersetujuantiketController@index');
+    Route::patch('/persetujuantiket/approve/{id}', 'PersetujuantiketController@approve');
+    Route::patch('/persetujuantiket/reject/{id}', 'PersetujuantiketController@reject');
 });
 

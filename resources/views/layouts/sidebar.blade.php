@@ -44,13 +44,13 @@
 
     @if(session('infoUser')['ESELON'] < '40')
       <li class="nav-item">
-          <a class="nav-link" href="{{url('approve')}}">
+          <a class="nav-link" href="{{url('approvetiket')}}">
             <i class="menu-icon fa fa-handshake-o"></i>
             <span class="menu-title">Approve Tiket</span>
           </a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="{{url('persetujuan')}}">
+          <a class="nav-link" href="{{url('persetujuantiket')}}">
             <i class="menu-icon fa fa-book"></i>
             <span class="menu-title">Persetujuan Tiket</span>
           </a>

@@ -1,10 +1,16 @@
 @section('js')
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#tableTiket').DataTable({
-      "iDisplayLength": 50
+    $(document).ready(function() {
+        $('#tableTiket').DataTable({
+          "iDisplayLength": 50
+        });
+
+        $('.pilihAtasanService').click( function(){
+            $('#tiketNikAtasanService').val($(this).attr('data_nik'));
+            $('#namaAtasanService').text($(this).attr('data_nama'));
+            $('#myModalAtasanService').modal('hide');
+        });
     });
-} );
 </script>
 @stop
 @extends('layouts.app')
@@ -68,15 +74,30 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="tiketPrioritas" class="col-md-4 control-label">Prioritas</label>
-                      <div class="col-md-6">
-                          <select class="form-control" required id="tiketPrioritas" name="tiketPrioritas">
-                            <option value="">Silakan Pilih</option>
-                            <option value="1">Biasa</option>
-                            <option value="2">Segera</option>
-                            <option value="3">Prioritas dan Penting</option>
-                        </select>
-                      </div>
+                        <label for="tiketPrioritas" class="col-md-4 control-label">Prioritas</label>
+                        <div class="col-md-6">
+                            <select class="form-control" required id="tiketPrioritas" name="tiketPrioritas">
+                              <option value="">Silakan Pilih</option>
+                              <option value="1">Biasa</option>
+                              <option value="2">Segera</option>
+                              <option value="3">Prioritas dan Penting</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="tiketNikAtasanService" class="col-md-4 control-label">Tujuan</label>
+                        <div class="input-group col-md-6">
+                            <input type="text" name="tiketNikAtasanService" id="tiketNikAtasanService" class="form-control" required>
+                            <a href="#" data-toggle="modal" data-target="#myModalAtasanService" style="text-decoration:none">
+                            <div class="input-group-append bg-primary border-primary">
+                                <span class="input-group-text bg-transparent">                                    
+                                    <i class="fa fa-search text-white"></i>
+                                </span>
+                            </div>
+                            </a>
+
+                        </div>
+                        <div class="col-md-6" id="namaAtasanService"></div>
                     </div>
                     <div class="form-group {{ $errors->has('tiketKeterangan') ? 'has-error' : '' }}">
                         <label for="tiketKeterangan" class="col-md-4 control-label">Keterangan</label>
@@ -102,6 +123,46 @@
                         <button type='reset' class="btn btn-light">Reset</button>
                     </div>
                 </form>                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" id="myModalAtasanService" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document" >
+        <div class="modal-content" style="background: #fff;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cari Tujuan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>NIK</th>
+                                                <th>NAMA</th>
+                                                <th>JABATAN</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($dtAtasanService as $data)
+                                            <tr class="pilihAtasanService" data_nik="{{ $data['NIK'] }}" data_nama="{{ $data['NAMA'] }}">
+                                                <td><a href="#" style="text-decoration:none">{{$data['NIK']}}</a></td>
+                                                <td>{{$data['NAMA']}}</td>
+                                                <td>{{$data['URAIAN_JAB']}}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </div>
