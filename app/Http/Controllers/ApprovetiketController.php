@@ -70,7 +70,7 @@ class ApprovetiketController extends Controller
             $isiEmail.= "</body>";
             $isiEmail.="</html>";
 
-            $urle = "http://172.20.145.36/tiketsilog/sendEmail.php";
+            $urle = env('API_BASE_URL')."/sendEmail.php";
             $response = Http::withHeaders([
                            'Content-Type' => 'application/json',
                            'token' => 'tiketing.silog.co.id'

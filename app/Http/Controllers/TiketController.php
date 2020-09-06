@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Http;
 use Auth;
 use App\Tiket;
+use App\Nextnumber;
 use App\Layanan;
 use App\Transaksiot;
 use App\Service;
@@ -56,12 +57,33 @@ class TiketController extends Controller
     public function add($id,$id2)
     {
         $eselon = substr(session('infoUser')['ESELON'],0,1);
-        $kode = "TIKET00001";    
+        $dtNextnumber = Nextnumber::where([
+            'tahun'=>date("Y"),
+            'status'=>1,
+        ])->get();
+        $jmlNext = count($dtNextnumber);
+        if($jmlNext>0){
+            $nomer = sprintf("%05d",$dtNextnumber[0]['nextnumber']);
+            $nextnumber = "TK".date("y").date("m").$nomer; //TK200900001
+            //dd($nextnumber);
+            if (tiket::where(['kode_tiket'=>$nextnumber])->doesntExist()){                
+                $kode = $nextnumber;   
+                $update = Nextnumber::where('id', $dtNextnumber[0]['id'])
+                    ->update([
+                        'nextnumber' => $dtNextnumber[0]['nextnumber']+1,
+                  ]);
+            }else{
+                return redirect('/tiket')->with(['kode'=>'90', 'pesan'=>'Nextnumber '.$nextnumber.' sudah ada ditahun ini !']);
+            }
+        }else{
+            return redirect('/tiket')->with(['kode'=>'90', 'pesan'=>'Nextnumber ditahun ini belum disetting !']);
+        }
+         
         $service = Service::with(['layanan'])
                 ->where(['ServiceStatus'=>'1', 'id'=>$id2, 'id_layanan'=>$id])->get();
         $subService = Subservice::where(['ServiceSubStatus'=>'1', 'ServiceIDf'=>$id2])->get();
         
-        $urle = "http://172.20.145.36/tiketsilog/getKepala.php";
+        $urle = env('API_BASE_URL')."/getKepala.php";
         $response = Http::withHeaders([
                         'Content-Type' => 'application/json',
                         'token' => 'tiketing.silog.co.id'
@@ -143,7 +165,7 @@ class TiketController extends Controller
             $isiEmail.= "</body>";
             $isiEmail.="</html>";
             
-            $urle = "http://172.20.145.36/tiketsilog/sendEmail.php";
+            $urle = env('API_BASE_URL')."/sendEmail.php";
             $response = Http::withHeaders([
                             'Content-Type' => 'application/json',
                             'token' => 'tiketing.silog.co.id'
@@ -195,7 +217,7 @@ class TiketController extends Controller
         if($tiket[0]['tiketStatus']=='1'){
             $subService = Subservice::where(['ServiceSubStatus'=>'1', 'ServiceIDf'=>$tiket[0]['serviceId']])->get();
             
-            $urle = "http://172.20.145.36/tiketsilog/getKepala.php";
+            $urle = env('API_BASE_URL')."/getKepala.php";
             $response = Http::withHeaders([
                             'Content-Type' => 'application/json',
                             'token' => 'tiketing.silog.co.id'

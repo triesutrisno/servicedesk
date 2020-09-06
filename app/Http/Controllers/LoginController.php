@@ -31,7 +31,7 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        $urle = "http://intra.silog.co.id/tiketsilog/getLogin.php";
+        $urle = env('API_BASE_URL')."/getLogin.php";
         $response = Http::withHeaders([
                         'Content-Type' => 'application/json',
                         'token' => 'tiketing.silog.co.id'
