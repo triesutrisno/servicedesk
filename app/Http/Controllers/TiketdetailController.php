@@ -55,6 +55,7 @@ class TiketdetailController extends Controller
             ->leftjoin('m_layanan as c', 'c.id', '=', 'b.layananId')
             ->leftjoin('ticket_service as d', 'd.id', '=', 'b.serviceId')
             ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'b.subServiceId')
+            ->where(['nikTeknisi'=>session('infoUser')['NIK']])
             ->get();
         
         return view('tiket_detail.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'']);
