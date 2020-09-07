@@ -160,9 +160,25 @@ class TiketdetailController extends Controller
 
                 Tiket::where('tiketId', $tktDetail[0]['tiketId'])
                     ->update(['tiketStatus' => '10']);
+        }elseif(in_array($request->progres,array('11','19'))){ // Ketika tiket di statusnya Go Live dan Finish Pengerjaan
+            Tiketdetail::where('tiketDetailId', $id)
+                    ->update([
+                        'keterangan' => $request->keterangan,
+                        'progresId' => $request->progres,
+                        'namaAkun' => $request->namaAkun,
+                        'passwordAkun' => $request->passwordAkun,
+                        'tglWawancara' => $request->tglWawancara,
+                        'tglMulaiMengerjakan' => $request->tglMulaiMengerjakan,
+                        'tglSelesaiMengerjakan' => $request->tglSelesaiMengerjakan,
+                        'tglImplementasi' => $request->tglImplementasi,
+                        'tglPelatihan' => $request->tglPelatihan,
+                        'tiketDetailStatus' => '5', // status dicancel
+                ]);
+
+                Tiket::where('tiketId', $tktDetail[0]['tiketId'])
+                    ->update(['tiketStatus' => '7']);
         }else{
-            if($tktDetail[0]['tiketDetailStatus']=='1'){
-                Tiketdetail::where('tiketDetailId', $id)
+            Tiketdetail::where('tiketDetailId', $id)
                     ->update([
                         'keterangan' => $request->keterangan,
                         'progresId' => $request->progres,
@@ -178,20 +194,6 @@ class TiketdetailController extends Controller
 
                 Tiket::where('tiketId', $tktDetail[0]['tiketId'])
                     ->update(['tiketStatus' => '6']);
-            }else{
-                Tiketdetail::where('tiketDetailId', $id)
-                    ->update([
-                        'keterangan' => $request->keterangan,
-                        'progresId' => $request->progres,
-                        'namaAkun' => $request->namaAkun,
-                        'passwordAkun' => $request->passwordAkun,
-                        'tglWawancara' => $request->tglWawancara,
-                        'tglMulaiMengerjakan' => $request->tglMulaiMengerjakan,
-                        'tglSelesaiMengerjakan' => $request->tglSelesaiMengerjakan,
-                        'tglImplementasi' => $request->tglImplementasi,
-                        'tglPelatihan' => $request->tglPelatihan,
-                 ]);
-            }    
         }
         $histori = new Histori();
         $histori->keterangan = $request->keterangan;
