@@ -25,7 +25,7 @@ class TiketController extends Controller
     {    
         if(session('infoUser')['LEVEL'] == 'admin')
         {
-            $datas = Tiket::with(['layanan', 'service', 'subService'])->get();
+            $datas = Tiket::with(['layanan', 'service', 'subService', 'tiketDetail'])->get();
         } else {            
             $datas = Tiket::with(['layanan', 'service', 'subService'])
                         ->where(['nikUser' => session('infoUser')['NIK']])

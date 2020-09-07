@@ -19,6 +19,7 @@ class CreateTiketDetailTable extends Migration
             $table->string('nikTeknisi',10)->nullable();
             $table->string('keterangan',1500)->nullable();
             $table->string('tiketDetailStatus',2)->nullable();
+            $table->smallInteger('progresId')->nullable();
             $table->string('namaAkun',150)->nullable();
             $table->string('passwordAkun',250)->nullable();
             $table->date('tglWawancara')->nullable();

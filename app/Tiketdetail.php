@@ -21,4 +21,9 @@ class Tiketdetail extends Model
         'tglImplementasi',
         'tglPelatihan'
     ];
+    
+    public function tiket()
+    {
+        return $this->hasMany('App\Tiket','tiketId','tiketId');
+    }
 }

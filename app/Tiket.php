@@ -43,4 +43,8 @@ class Tiket extends Model
     {
         return $this->hasMany('App\Subservice','id','subServiceId');
     }
+    
+    public function tiketDetail(){
+        return $this->hasOne('App\Tiketdetail','tiketId','tiketId');
+    }
 }

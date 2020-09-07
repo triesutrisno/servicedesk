@@ -44,7 +44,7 @@
     </li>
     @endif   
 
-    @if(session('infoUser')['ESELON'] < '40')
+    @if(session('infoUser')['ESELON'] <= '40')
       <li class="nav-item">
           <a class="nav-link" href="{{url('approvetiket')}}">
             <i class="menu-icon fa fa-handshake-o"></i>
@@ -64,5 +64,11 @@
         <i class="menu-icon fa fa-ticket"></i>
         <span class="menu-title">Tiket</span>
       </a>
-    </li>    
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{url('tugasku')}}">
+        <i class="menu-icon fa fa-cubes"></i>
+        <span class="menu-title">Tugasku</span>
+      </a>
+    </li>
 </ul>

@@ -81,7 +81,7 @@
                           </a>
                           @if($data->tiketStatus=='2')
                           <a href="#" class="btn btn-icons btn-inverse-primary pilihSetuju" data-tiket_id="{{ $data->tiketId }}" title="Setuju" data-toggle="modal" data-target="#myModalApprove">
-                              <i class="fa fa-edit icon-lg"></i>
+                              <i class="fa fa-check-square icon-lg"></i>
                           </a> 
                           <form action="{{ url('persetujuantiket/reject') }}/{{ $data->tiketId }}" method="post" class="d-inline">
                               @method('patch')
@@ -127,6 +127,10 @@
                                 <label class="badge badge-primary">Selesai</label>
                             @elseif($data->tiketStatus == '8')
                                 <label class="badge badge-dark">Close</label>
+                            @elseif($data->tiketStatus == '9')
+                                <label class="badge badge-warning">Pending</label>
+                            @elseif($data->tiketStatus == '10')
+                                <label class="badge badge-danger">Cancle</label>
                             @endif
                         </td>
                     </tr>

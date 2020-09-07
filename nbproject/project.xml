@@ -6,8 +6,10 @@
             <name>servicedesk</name>
         </data>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>Penting</word>
             <word>php</word>
             <word>phpforeach</word>
+            <word>Segera</word>
         </spellchecker-wordlist>
     </configuration>
 </project>
