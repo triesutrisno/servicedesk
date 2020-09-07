@@ -20,6 +20,7 @@
         $('.pilihTeknisi').click( function(){
             $('#nikTeknisi').val($(this).attr('data_nik'));
             $('#namaTeknisi').text($(this).attr('data_nama'));
+            $('#emailTeknisi').val($(this).attr('data_email'));
             $('#myModalTeknisi').modal('hide');
         });
     } );
@@ -160,6 +161,7 @@
               <label for="tiketNikAtasanService" class="col-md-4 control-label">Teknisi</label>
               <div class="input-group col-md-6">
                   <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required>
+                  <input type="hidden" name="emailTeknisi" id="emailTeknisi" readonly="true" class="form-control" required>
                   <input type="hidden" name="tiketId" id="tiketId" readonly="true" class="form-control" required>
                   <a href="#" data-toggle="modal" data-target="#myModalTeknisi" style="text-decoration:none">
                   <div class="input-group-append bg-primary border-primary">
@@ -209,7 +211,7 @@
                                                 $nik = $data['NIK'];
                                                 if($nik!=$nikLama){
                                                 @endphp
-                                                <tr class="pilihTeknisi" data_nik="{{ $data['NIK'] }}" data_nama="{{ $data['NAMA'] }}">
+                                                <tr class="pilihTeknisi" data_nik="{{ $data['NIK'] }}" data_nama="{{ $data['NAMA'] }}" data_email="{{ $data['EMAIL'] }}">
                                                     <td><a href="#" style="text-decoration:none">{{$data['NIK']}}</a></td>
                                                     <td>{{$data['NAMA']}}</td>
                                                     <td>{{$data['URAIAN_JAB']}}</td>

@@ -69,24 +69,26 @@ class ApprovetiketController extends Controller
             $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
             $isiEmail.= "</body>";
             $isiEmail.="</html>";
-
-            $urle = env('API_BASE_URL')."/sendEmail.php";
-            $response = Http::withHeaders([
-                           'Content-Type' => 'application/json',
-                           'token' => 'tiketing.silog.co.id'
-                       ])
-                        ->post($urle,[
-                            'tanggal' => date("Y-m-d H:i:s"),
-                            #'recipients' => session('infoUser')['AL_EMAIL'],
-                            'recipients' => 'triesutrisno@gmail.com',
-                            'cc' => '',
-                            'subjectEmail' => 'Info Permintaan Tiket',
-                            'isiEmail' => addslashes($isiEmail),
-                            'status' => 'outbox',
-                            'password' => 'sistem2017',
-                            'contentEmail' => '0',
-                            'sistem' => 'tiketSilog',
-                    ]);
+            
+            if($tiket[0]['tiketEmailAtasanService']!=""){
+                $urle = env('API_BASE_URL')."/sendEmail.php";
+                $response = Http::withHeaders([
+                               'Content-Type' => 'application/json',
+                               'token' => 'tiketing.silog.co.id'
+                           ])
+                            ->post($urle,[
+                                'tanggal' => date("Y-m-d H:i:s"),
+                                'recipients' => $tiket[0]['tiketEmailAtasanService'],
+                                #'recipients' => 'triesutrisno@gmail.com',
+                                'cc' => '',
+                                'subjectEmail' => 'Info Permintaan Tiket',
+                                'isiEmail' => addslashes($isiEmail),
+                                'status' => 'outbox',
+                                'password' => 'sistem2017',
+                                'contentEmail' => '0',
+                                'sistem' => 'tiketSilog',
+                        ]);
+            }
             return redirect('/approvetiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil diapprove !']);
         }else{
             return redirect('/approvetiket')->with(['kode'=>'90', 'pesan'=>'Data tidak bisa diapprove !']);

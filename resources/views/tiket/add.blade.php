@@ -8,6 +8,7 @@
         $('.pilihAtasanService').click( function(){
             $('#tiketNikAtasanService').val($(this).attr('data_nik'));
             $('#namaAtasanService').text($(this).attr('data_nama'));
+            $('#tiketEmailAtasanService').val($(this).attr('data_email'));
             $('#myModalAtasanService').modal('hide');
         });
     });
@@ -88,6 +89,7 @@
                         <label for="tiketNikAtasanService" class="col-md-4 control-label">Tujuan</label>
                         <div class="input-group col-md-6">
                             <input type="text" name="tiketNikAtasanService" id="tiketNikAtasanService" class="form-control" required>
+                            <input type="hidden" name="tiketEmailAtasanService" id="tiketEmailAtasanService" class="form-control" required readonly="true">
                             <a href="#" data-toggle="modal" data-target="#myModalAtasanService" style="text-decoration:none">
                             <div class="input-group-append bg-primary border-primary">
                                 <span class="input-group-text bg-transparent">                                    
@@ -151,7 +153,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach($dtAtasanService as $data)
-                                            <tr class="pilihAtasanService" data_nik="{{ $data['NIK'] }}" data_nama="{{ $data['NAMA'] }}">
+                                            <tr class="pilihAtasanService" data_nik="{{ $data['NIK'] }}" data_nama="{{ $data['NAMA'] }}" data_email="{{ $data['EMAIL'] }}">
                                                 <td><a href="#" style="text-decoration:none">{{$data['NIK']}}</a></td>
                                                 <td>{{$data['NAMA']}}</td>
                                                 <td>{{$data['URAIAN_JAB']}}</td>

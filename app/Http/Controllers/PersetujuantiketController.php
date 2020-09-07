@@ -103,8 +103,8 @@ class PersetujuantiketController extends Controller
                        ])
                         ->post($urle,[
                             'tanggal' => date("Y-m-d H:i:s"),
-                            #'recipients' => session('infoUser')['AL_EMAIL'],
-                            'recipients' => 'triesutrisno@gmail.com',
+                            'recipients' => $request->emailTeknisi,
+                            #'recipients' => 'triesutrisno@gmail.com',
                             'cc' => '',
                             'subjectEmail' => 'Info Pengerjaan Tiket',
                             'isiEmail' => addslashes($isiEmail),

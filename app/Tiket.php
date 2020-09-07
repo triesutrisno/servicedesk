@@ -25,6 +25,7 @@ class Tiket extends Model
         'tiketApproveService',
         'tiketTglApproveService',
         'tiketNikAtasanService',
+        'tiketEmailAtasanService',
         'tiketPrioritas',
         'tiketStatus'
     ];

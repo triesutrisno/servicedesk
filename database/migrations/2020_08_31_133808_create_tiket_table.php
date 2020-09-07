@@ -31,6 +31,7 @@ class CreateTiketTable extends Migration
             $table->string('tiketApproveService',2)->nullable();
             $table->dateTime('tiketTglApproveService')->nullable();
             $table->string('tiketNikAtasanService',10)->nullable();
+            $table->string('tiketEmailAtasanService',256)->nullable();
             $table->string('tiketPrioritas',3)->nullable();
             $table->string('tiketStatus',3)->nullable();
             $table->timestamps();

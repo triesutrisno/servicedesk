@@ -165,26 +165,28 @@ class TiketController extends Controller
             $isiEmail.= "</body>";
             $isiEmail.="</html>";
             
-            $urle = env('API_BASE_URL')."/sendEmail.php";
-            $response = Http::withHeaders([
-                            'Content-Type' => 'application/json',
-                            'token' => 'tiketing.silog.co.id'
-                        ])
-                        ->post($urle,[
-                            'tanggal' => date("Y-m-d H:i:s"),
-                            #'recipients' => session('infoUser')['AL_EMAIL'],
-                            'recipients' => 'triesutrisno@gmail.com',
-                            'cc' => '',
-                            'subjectEmail' => 'Permintaan Approve Tiket',
-                            'isiEmail' => addslashes($isiEmail),
-                            'status' => 'outbox',
-                            'password' => 'sistem2017',
-                            'contentEmail' => '0',
-                            'sistem' => 'tiketSilog',
-                    ]);
-            #$dtAPi = json_decode($response->getBody()->getContents(),true);  
-            #$responStatus = $response->getStatusCode();
-            //dd($dtAPi);
+            if(session('infoUser')['AL_EMAIL']!=""){
+                $urle = env('API_BASE_URL')."/sendEmail.php";
+                $response = Http::withHeaders([
+                                'Content-Type' => 'application/json',
+                                'token' => 'tiketing.silog.co.id'
+                            ])
+                            ->post($urle,[
+                                'tanggal' => date("Y-m-d H:i:s"),
+                                'recipients' => session('infoUser')['AL_EMAIL'],
+                                #'recipients' => 'triesutrisno@gmail.com',
+                                'cc' => '',
+                                'subjectEmail' => 'Permintaan Approve Tiket',
+                                'isiEmail' => addslashes($isiEmail),
+                                'status' => 'outbox',
+                                'password' => 'sistem2017',
+                                'contentEmail' => '0',
+                                'sistem' => 'tiketSilog',
+                        ]);
+                #$dtAPi = json_decode($response->getBody()->getContents(),true);  
+                #$responStatus = $response->getStatusCode();
+                //dd($dtAPi);
+            }
             
             return redirect('/tiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil disampan !']);
         }else{
