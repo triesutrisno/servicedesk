@@ -31,7 +31,8 @@ class TiketdetailController extends Controller
                 'a.tglMulaiMengerjakan',           
                 'a.tglSelesaiMengerjakan',          
                 'a.tglImplementasi',          
-                'a.tglPelatihan',          
+                'a.tglPelatihan',
+                'f.progresProsen',      
                 'b.kode_tiket',          
                 'b.comp',          
                 'b.unit',          
@@ -55,7 +56,11 @@ class TiketdetailController extends Controller
             ->leftjoin('m_layanan as c', 'c.id', '=', 'b.layananId')
             ->leftjoin('ticket_service as d', 'd.id', '=', 'b.serviceId')
             ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'b.subServiceId')
+            ->leftjoin('m_progres as f', 'f.progresId', '=', 'a.progresId')
+            ->leftjoin('users as g', 'g.username', '=', 'b.nikUser')
             ->where(['nikTeknisi'=>session('infoUser')['NIK']])
+            ->orderBy('b.tiketStatus', 'asc')
+            ->orderBy('b.kode_tiket', 'asc')
             ->get();
         
         return view('tiket_detail.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'']);

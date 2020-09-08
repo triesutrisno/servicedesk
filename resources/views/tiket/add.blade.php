@@ -46,7 +46,7 @@
                       <label for="tiketLayanan" class="col-md-4 control-label">Atasan</label>
                       <div class="col-md-6">
                         <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i> 
-                        {{ session('infoUser')['AL_NAMA'] }} ({{ session('infoUser')['AL_NIK'] }})
+                        {{ session('infoUser')['AL_NAMA'] }} @if(session('infoUser')['AL_NIK'] !="" ) ({{ session('infoUser')['AL_NIK'] }}) @endif
                       </div>
                     </div>
                     <div class="form-group">

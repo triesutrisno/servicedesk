@@ -66,6 +66,7 @@
                       <th>Subservice</th>
                       <th>Keterangan</th>
                       <th>Tgl Buat</th>
+                      <th>UserBy</th>
                       <th>Prioritas</th>
                       <th>Status</th>
                     </tr>
@@ -95,11 +96,12 @@
                       </td>
                         <!--<td align="center">{{$loop->iteration}}</td>-->
                         <td class="py-1">{{$data->kode_tiket }}</td>
-                        <td>{{ $data->layanan[0]['nama_layanan'] }}</td>
-                        <td>{{ $data->service[0]['ServiceName'] }}</td>
-                        <td>{{ $data->subService[0]['ServiceSubName'] }}</td>
+                        <td>{{ $data->nama_layanan }}</td>
+                        <td>{{ $data->ServiceName }}</td>
+                        <td>{{ $data->ServiceSubName }}</td>
                         <td>{{ $data->tiketKeterangan}}</td>
-                        <td>{{ date('d-m-Y H:i', strtotime($data->created_at)) }}</td>                        
+                        <td>{{ date('d-m-Y H:i', strtotime($data->created_at)) }}</td>                           
+                        <td>{{ $data->name}}</td>                                          
                         <td>
                           @if($data->tiketPrioritas == '1')
                               Biasa

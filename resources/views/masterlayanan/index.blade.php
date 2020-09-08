@@ -14,7 +14,7 @@
 <div class="row">
 
   <div class="col-lg-2">
-    <a href="{{ route('masterlayanan.create') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Master masterlayanan</a>
+    <a href="{{ route('masterlayanan.create') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Master Layanan</a>
   </div>
     <div class="col-lg-12">
                   @if (Session::has('message'))

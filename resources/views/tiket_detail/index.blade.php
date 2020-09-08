@@ -50,6 +50,7 @@
                       <th>Tgl Buat</th>
                       <th>Prioritas</th>
                       <th>Status</th>
+                      <th>Progres</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -110,6 +111,11 @@
                                 <label class="badge badge-warning">Pending</label>
                             @elseif($data->tiketStatus == '10')
                                 <label class="badge badge-danger">Cancle</label>
+                            @endif
+                        </td>
+                        <td>
+                            @if($data->progresProsen!="")
+                                {{ $data->progresProsen }} %
                             @endif
                         </td>
                     </tr>

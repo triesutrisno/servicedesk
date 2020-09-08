@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Tiket;
 use App\Tiketdetail;
+use DB;
 
 class PersetujuantiketController extends Controller
 {
@@ -16,9 +17,41 @@ class PersetujuantiketController extends Controller
      */
     public function index()
     {
-        $datas = Tiket::with(['layanan', 'service', 'subService'])
-                        ->where(['tiketNikAtasanService' => session('infoUser')['NIK'], 'tiketApproveService'=>'W'])
-                        ->get();
+        $datas = DB::table('tiket as a')
+                ->select(
+                    'a.tiketId',
+                    'a.kode_tiket',          
+                    'a.comp',          
+                    'a.unit',          
+                    'a.nikUser',
+                    'g.name',
+                    'a.layananId',         
+                    'c.nama_layanan',          
+                    'a.serviceId',             
+                    'd.ServiceName',          
+                    'a.subServiceId',            
+                    'e.ServiceSubName',           
+                    'a.tiketKeterangan',          
+                    'a.file',          
+                    'a.tiketApprove',          
+                    'a.tiketTglApprove',          
+                    'a.tiketNikAtasan',          
+                    'a.tiketPrioritas',          
+                    'a.tiketStatus',          
+                    'a.created_at',
+                    'b.nikTeknisi',
+                    'f.progresProsen'
+                )
+                ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
+                ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
+                ->leftjoin('ticket_service as d', 'd.id', '=', 'a.serviceId')
+                ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'a.subServiceId')
+                ->leftjoin('m_progres as f', 'f.progresId', '=', 'b.progresId')
+                ->leftjoin('users as g', 'g.username', '=', 'a.nikUser')
+                ->where(['a.tiketNikAtasanService' => session('infoUser')['NIK'], 'a.tiketApproveService'=>'W'])
+                ->orderBy('a.tiketStatus', 'asc')
+                ->orderBy('a.kode_tiket', 'asc')
+                ->get();
         
         $urle = env('API_BASE_URL')."/getAnakBuah.php";
         $response = Http::withHeaders([
@@ -77,14 +110,17 @@ class PersetujuantiketController extends Controller
             $isiEmail.="<td>Layanan</td>";
             $isiEmail.="<td>:</td>";
             $isiEmail.="<td>".$tiket[0]['layanan'][0]['nama_layanan']."</td>";
+            $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Service</td>";
             $isiEmail.="<td>:</td>";
             $isiEmail.="<td>".$tiket[0]['service'][0]['ServiceName']."</td>";
+            $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Subservice</td>";
             $isiEmail.="<td>:</td>";
             $isiEmail.="<td>".$tiket[0]['subService'][0]['serviceSubName']."</td>";
+            $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Keterangan</td>";
             $isiEmail.="<td>:</td>";

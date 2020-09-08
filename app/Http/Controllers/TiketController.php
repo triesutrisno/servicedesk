@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Http;
 use Auth;
+use DB;
 use App\Tiket;
 use App\Nextnumber;
 use App\Layanan;
@@ -25,13 +26,79 @@ class TiketController extends Controller
     {    
         if(session('infoUser')['LEVEL'] == 'admin')
         {
-            $datas = Tiket::with(['layanan', 'service', 'subService', 'tiketDetail'])->get();
-        } else {            
-            $datas = Tiket::with(['layanan', 'service', 'subService'])
-                        ->where(['nikUser' => session('infoUser')['NIK']])
-                        ->get();
+            #$datas = Tiket::with(['layanan', 'service', 'subService', 'tiketDetail'])->get();
+            $datas = DB::table('tiket as a')
+                ->select(
+                    'a.tiketId',
+                    'a.kode_tiket',          
+                    'a.comp',          
+                    'a.unit',          
+                    'a.nikUser',
+                    'g.name',
+                    'a.layananId',         
+                    'c.nama_layanan',          
+                    'a.serviceId',             
+                    'd.ServiceName',          
+                    'a.subServiceId',            
+                    'e.ServiceSubName',           
+                    'a.tiketKeterangan',          
+                    'a.file',          
+                    'a.tiketApprove',          
+                    'a.tiketTglApprove',          
+                    'a.tiketNikAtasan',          
+                    'a.tiketPrioritas',          
+                    'a.tiketStatus',          
+                    'a.created_at',
+                    'b.nikTeknisi',
+                    'f.progresProsen'
+                )
+                ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
+                ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
+                ->leftjoin('ticket_service as d', 'd.id', '=', 'a.serviceId')
+                ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'a.subServiceId')
+                ->leftjoin('m_progres as f', 'f.progresId', '=', 'b.progresId')
+                ->leftjoin('users as g', 'g.username', '=', 'a.nikUser')
+                ->orderBy('a.tiketStatus', 'asc')
+                ->orderBy('a.kode_tiket', 'asc')
+                ->get();
+        } else {
+            $datas = DB::table('tiket as a')
+                ->select(
+                    'a.tiketId',
+                    'a.kode_tiket',          
+                    'a.comp',          
+                    'a.unit',          
+                    'a.nikUser',
+                    'g.name',
+                    'a.layananId',         
+                    'c.nama_layanan',          
+                    'a.serviceId',             
+                    'd.ServiceName',          
+                    'a.subServiceId',            
+                    'e.ServiceSubName',           
+                    'a.tiketKeterangan',          
+                    'a.file',          
+                    'a.tiketApprove',          
+                    'a.tiketTglApprove',          
+                    'a.tiketNikAtasan',          
+                    'a.tiketPrioritas',          
+                    'a.tiketStatus',          
+                    'a.created_at',
+                    'b.nikTeknisi',
+                    'f.progresProsen'
+                )
+                ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
+                ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
+                ->leftjoin('ticket_service as d', 'd.id', '=', 'a.serviceId')
+                ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'a.subServiceId')
+                ->leftjoin('m_progres as f', 'f.progresId', '=', 'b.progresId')
+                ->leftjoin('users as g', 'g.username', '=', 'a.nikUser')
+                ->where(['a.nikUser' => session('infoUser')['NIK']])
+                ->orderBy('a.tiketStatus', 'asc')
+                ->orderBy('a.kode_tiket', 'asc')
+                ->get();
         }
-        
+        //dd($datas);
         return view('tiket.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'']);
     }
 
@@ -137,55 +204,104 @@ class TiketController extends Controller
             $request->request->add(['unit'=>session('infoUser')['UNIT']]);
             $request->request->add(['biro'=>session('infoUser')['BIROBU']]);
             $request->request->add(['nikUser'=>session('infoUser')['NIK']]);
-            $request->request->add(['tiketApprove'=>'W']);
-            $request->request->add(['tiketNikAtasan'=> session('infoUser')['AL_NIK']]);
-            $request->request->add(['tiketApproveService'=>'N']);
-            $request->request->add(['tiketStatus'=>'1']);
+            if(session('infoUser')['AL_NIK'] !=""){
+                $request->request->add(['tiketApprove'=>'W']);
+                $request->request->add(['tiketNikAtasan'=> session('infoUser')['AL_NIK']]);
+                $request->request->add(['tiketApproveService'=>'N']);
+                $request->request->add(['tiketStatus'=>'1']);
+            }else{
+                $request->request->add(['tiketApprove'=>'A']);
+                $request->request->add(['tiketNikAtasan'=> '']);
+                $request->request->add(['tiketApproveService'=>'W']);
+                $request->request->add(['tiketStatus'=>'2']);
+            }
             Tiket::create($request->all());
             
-            
-            $isiEmail="<html>";
-            $isiEmail.="<html>";
-            $isiEmail.="<body>";           
-            $isiEmail.="Mohon untuk segera diapprove permintaan tiket dengan: <br />";
-            $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
-            $isiEmail.="<tr>";
-            $isiEmail.="<td width=\"40\">Nomer</td>";
-            $isiEmail.="<td width=\"10\">:</td>";
-            $isiEmail.="<td>".$request->kode_tiket."</td>";
-            $isiEmail.="</tr>";
-            $isiEmail.="<tr>";
-            $isiEmail.="<td>Keterangan</td>";
-            $isiEmail.="<td>:</td>";
-            $isiEmail.="<td>".$request->tiketKeterangan."</td>";
-            $isiEmail.="</tr>";            
-            $isiEmail.="</table><br />";
-            $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
-            $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
-            $isiEmail.= "</body>";
-            $isiEmail.="</html>";
-            
-            if(session('infoUser')['AL_EMAIL']!=""){
-                $urle = env('API_BASE_URL')."/sendEmail.php";
-                $response = Http::withHeaders([
-                                'Content-Type' => 'application/json',
-                                'token' => 'tiketing.silog.co.id'
-                            ])
-                            ->post($urle,[
-                                'tanggal' => date("Y-m-d H:i:s"),
-                                'recipients' => session('infoUser')['AL_EMAIL'],
-                                #'recipients' => 'triesutrisno@gmail.com',
-                                'cc' => '',
-                                'subjectEmail' => 'Permintaan Approve Tiket',
-                                'isiEmail' => addslashes($isiEmail),
-                                'status' => 'outbox',
-                                'password' => 'sistem2017',
-                                'contentEmail' => '0',
-                                'sistem' => 'tiketSilog',
-                        ]);
-                #$dtAPi = json_decode($response->getBody()->getContents(),true);  
-                #$responStatus = $response->getStatusCode();
-                //dd($dtAPi);
+            if(session('infoUser')['AL_NIK'] !=""){
+                $isiEmail="<html>";
+                $isiEmail.="<html>";
+                $isiEmail.="<body>";           
+                $isiEmail.="Mohon untuk segera diapprove permintaan tiket dengan: <br />";
+                $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
+                $isiEmail.="<tr>";
+                $isiEmail.="<td width=\"40\">Nomer</td>";
+                $isiEmail.="<td width=\"10\">:</td>";
+                $isiEmail.="<td>".$request->kode_tiket."</td>";
+                $isiEmail.="</tr>";
+                $isiEmail.="<tr>";
+                $isiEmail.="<td>Keterangan</td>";
+                $isiEmail.="<td>:</td>";
+                $isiEmail.="<td>".$request->tiketKeterangan."</td>";
+                $isiEmail.="</tr>";            
+                $isiEmail.="</table><br />";
+                $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
+                $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
+                $isiEmail.= "</body>";
+                $isiEmail.="</html>";
+
+                if(session('infoUser')['AL_EMAIL']!=""){
+                    $urle = env('API_BASE_URL')."/sendEmail.php";
+                    $response = Http::withHeaders([
+                                    'Content-Type' => 'application/json',
+                                    'token' => 'tiketing.silog.co.id'
+                                ])
+                                ->post($urle,[
+                                    'tanggal' => date("Y-m-d H:i:s"),
+                                    'recipients' => session('infoUser')['AL_EMAIL'],
+                                    #'recipients' => 'triesutrisno@gmail.com',
+                                    'cc' => '',
+                                    'subjectEmail' => 'Permintaan Approve Tiket',
+                                    'isiEmail' => addslashes($isiEmail),
+                                    'status' => 'outbox',
+                                    'password' => 'sistem2017',
+                                    'contentEmail' => '0',
+                                    'sistem' => 'tiketSilog',
+                            ]);
+                    #$dtAPi = json_decode($response->getBody()->getContents(),true);  
+                    #$responStatus = $response->getStatusCode();
+                    //dd($dtAPi);
+                }
+            }else{
+                $isiEmail="<html>";
+                $isiEmail.="<html>";
+                $isiEmail.="<body>";           
+                $isiEmail.="Saat ini ada mendapatkan permintaan tiket dengan: <br />";
+                $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
+                $isiEmail.="<tr>";
+                $isiEmail.="<td width=\"40\">Nomer</td>";
+                $isiEmail.="<td width=\"10\">:</td>";
+                $isiEmail.="<td>".$request->kode_tiket."</td>";
+                $isiEmail.="</tr>";
+                $isiEmail.="<tr>";
+                $isiEmail.="<td>Keterangan</td>";
+                $isiEmail.="<td>:</td>";
+                $isiEmail.="<td>".$request->tiketKeterangan."</td>";
+                $isiEmail.="</tr>";            
+                $isiEmail.="</table><br />";
+                $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
+                $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
+                $isiEmail.= "</body>";
+                $isiEmail.="</html>";
+
+                if($request->tiketEmailAtasanService!=""){
+                    $urle = env('API_BASE_URL')."/sendEmail.php";
+                    $response = Http::withHeaders([
+                                   'Content-Type' => 'application/json',
+                                   'token' => 'tiketing.silog.co.id'
+                               ])
+                                ->post($urle,[
+                                    'tanggal' => date("Y-m-d H:i:s"),
+                                    'recipients' => $request->tiketEmailAtasanService,
+                                    #'recipients' => 'triesutrisno@gmail.com',
+                                    'cc' => '',
+                                    'subjectEmail' => 'Info Permintaan Tiket',
+                                    'isiEmail' => addslashes($isiEmail),
+                                    'status' => 'outbox',
+                                    'password' => 'sistem2017',
+                                    'contentEmail' => '0',
+                                    'sistem' => 'tiketSilog',
+                            ]);
+                }
             }
             
             return redirect('/tiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil disampan !']);
