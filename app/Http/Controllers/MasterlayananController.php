@@ -41,7 +41,7 @@ class MasterlayananController extends Controller
         }
 
         $datas = Masterlayanan::get();
-        return view('Masterlayanan.index', compact('datas'));
+        return view('masterlayanan.index', compact('datas'));
     }
 
     /**
