@@ -150,7 +150,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="tglSelesaiMengerjakan" class="col-md-4 control-label">Tanggal Selesai Mengerjakan</label>                       
+                        <label for="tglSelesaiMengerjakan" class="col-md-4 control-label">Tanggal Target Selesai</label>                       
                         <div class="input-group col-md-6">
                           <input type="date" id="tglSelesaiMengerjakan" name="tglSelesaiMengerjakan" class="form-control" value="{{ $datas[0]->tglSelesaiMengerjakan }}">
                         </div>
