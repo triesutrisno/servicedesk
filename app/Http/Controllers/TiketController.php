@@ -122,7 +122,7 @@ class TiketController extends Controller
     }
     
     public function add($id,$id2)
-    {
+    {   
         $eselon = substr(session('infoUser')['ESELON'],0,1);
         $dtNextnumber = Nextnumber::where([
             'tahun'=>date("Y"),
@@ -204,14 +204,17 @@ class TiketController extends Controller
             $request->request->add(['unit'=>session('infoUser')['UNIT']]);
             $request->request->add(['biro'=>session('infoUser')['BIROBU']]);
             $request->request->add(['nikUser'=>session('infoUser')['NIK']]);
+            $request->request->add(['tiketEmail'=>session('infoUser')['EMAIL']]);
             if(session('infoUser')['AL_NIK'] !=""){
                 $request->request->add(['tiketApprove'=>'W']);
                 $request->request->add(['tiketNikAtasan'=> session('infoUser')['AL_NIK']]);
+                $request->request->add(['tiketEmailAtasan'=> session('infoUser')['AL_EMAIL']]);
                 $request->request->add(['tiketApproveService'=>'N']);
                 $request->request->add(['tiketStatus'=>'1']);
             }else{
                 $request->request->add(['tiketApprove'=>'A']);
                 $request->request->add(['tiketNikAtasan'=> '']);
+                $request->request->add(['tiketEmailAtasan'=> '']);
                 $request->request->add(['tiketApproveService'=>'W']);
                 $request->request->add(['tiketStatus'=>'2']);
             }
@@ -347,6 +350,13 @@ class TiketController extends Controller
                     'a.created_at',
                     'b.nikTeknisi',
                     'h.name as namaTeknisi',
+                    'b.namaAkun',
+                    'b.passwordAkun',
+                    'b.tglWawancara',
+                    'b.tglMulaiMengerjakan',
+                    'b.tglSelesaiMengerjakan',
+                    'b.tglImplementasi',
+                    'b.tglPelatihan',
                     'f.progresProsen'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
@@ -369,7 +379,8 @@ class TiketController extends Controller
                     'a.tiketDetailId',
                     'a.progresId',
                     'a.created_at',                     
-                    'a.keterangan',                    
+                    'a.keterangan',
+                    'a.tglRTL',                   
                     'c.progresNama',                   
                     'c.progresProsen'
                 )

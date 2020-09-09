@@ -162,6 +162,9 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Histori Tiket</a>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#lain-lain" role="tab" aria-controls="lain-lain" aria-selected="false">Lain - Lain</a>
+                    </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <!--Start Detail Approval Tiket -->
@@ -227,12 +230,70 @@
                                     </a>
                                     <a href="#" class="float-right">{{ date('d-m-Y H:i', strtotime($dtHistori->created_at)) }}</a>
                                     <p>{{ $dtHistori->keterangan }}</p>
+                                    @if($dtHistori->tglRTL!="")                                    
+                                        Tgl RTL : {{ date('d-m-Y H:i', strtotime($dtHistori->tglRTL)) }}
+                                    @endif
                                 </li>
                                 @endforeach
                             </ul>
                         </div>
                     </div>                    
                     <!--End Histori Tiket -->
+                    <!--Start Lain-Lain -->
+                    <div class="tab-pane fade" id="lain-lain" role="tabpanel" aria-labelledby="profile-tab">
+                        <p>&nbsp;</p>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td width="10%">Nama Akun</td>
+                                    <td width="2%">:</td>
+                                    <td>{{ $data[0]->namaAkun }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Password Akun</td>
+                                    <td>:</td>
+                                    <td>{{ $data[0]->passwordAkun }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tanggal Wawancara</td>
+                                    <td>:</td>
+                                    <td>
+                                        @if($data[0]->tglWawancara!="")
+                                            {{ date('d-m-Y H:i', strtotime($data[0]->tglWawancara)) }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tanggal Mulai Mengerjakan</td>
+                                    <td>:</td>
+                                    <td>
+                                        @if($data[0]->tglMulaiMengerjakan!="")
+                                            {{ date('d-m-Y H:i', strtotime($data[0]->tglMulaiMengerjakan)) }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tanggal Target Selesai</td>
+                                    <td>:</td>
+                                    <td>
+                                        @if($data[0]->tglSelesaiMengerjakan!="")
+                                            {{ date('d-m-Y H:i', strtotime($data[0]->tglSelesaiMengerjakan)) }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tanggal Implementasi</td>
+                                    <td>:</td>
+                                    <td>
+                                        @if($data[0]->tglImplementasi!="")
+                                            {{ date('d-m-Y H:i', strtotime($data[0]->tglImplementasi)) }}
+                                        @endif
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>                    
+                    <!--End Lain-Lain -->
                 </div>
             </div>
         </div>

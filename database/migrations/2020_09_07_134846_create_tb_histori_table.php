@@ -18,6 +18,7 @@ class CreateTbHistoriTable extends Migration
             $table->smallInteger('tiketDetailId')->nullable();
             $table->string('keterangan',1500)->nullable();
             $table->smallInteger('progresId')->nullable();
+            $table->date('tglRTL')->nullable();
             $table->timestamps();
         });
     }

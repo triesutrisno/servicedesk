@@ -19,7 +19,8 @@ class Tiketdetail extends Model
         'tglMulaiMengerjakan',
         'tglSelesaiMengerjakan',
         'tglImplementasi',
-        'tglPelatihan'
+        'tglPelatihan',
+        'tglRTL'
     ];
     
     public function tiket()

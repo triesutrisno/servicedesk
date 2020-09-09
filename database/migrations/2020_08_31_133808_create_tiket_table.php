@@ -20,6 +20,7 @@ class CreateTiketTable extends Migration
             $table->string('unit',10)->nullable();
             $table->string('biro',10)->nullable();
             $table->string('nikUser',10)->nullable();
+            $table->string('tiketEmail',256)->nullable();
             $table->smallInteger('layananId')->nullable();
             $table->smallInteger('serviceId')->nullable();
             $table->smallInteger('subServiceId')->nullable();
@@ -28,6 +29,7 @@ class CreateTiketTable extends Migration
             $table->string('tiketApprove',2)->nullable();
             $table->dateTime('tiketTglApprove')->nullable();
             $table->string('tiketNikAtasan',10)->nullable();
+            $table->string('tiketEmailAtasan',256)->nullable();
             $table->string('tiketApproveService',2)->nullable();
             $table->dateTime('tiketTglApproveService')->nullable();
             $table->string('tiketNikAtasanService',10)->nullable();

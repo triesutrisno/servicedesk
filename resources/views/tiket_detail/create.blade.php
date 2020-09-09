@@ -109,13 +109,13 @@
                         <div class="col-md-6">{{ $datas[0]->tiketKeterangan }}</div>
                     </div>
                     <div class="form-group">
-                        <label for="keterangan" class="col-md-4 control-label">Keterangan</label>
+                        <label for="keterangan" class="col-md-4 control-label">Keterangan *</label>
                         <div class="col-md-6">
                             <textarea class="form-control" required id="keterangan" name="keterangan" rows="6">{{ $datas[0]->keterangan }}</textarea>                            
                         </div>
                     </div>
                     <div class="form-group">
-                      <label for="subServiceId" class="col-md-4 control-label">Progres</label>
+                      <label for="subServiceId" class="col-md-4 control-label">Progres *</label>
                       <div class="col-md-6">
                         <select class="form-control"  required id="progres" name="progres">
                             <option value="">Silakan Pilih</option>
@@ -149,10 +149,18 @@
                           <input type="date" id="tglMulaiMengerjakan" name="tglMulaiMengerjakan" class="form-control" value="{{ $datas[0]->tglMulaiMengerjakan }}">
                         </div>
                     </div>
+                    @if($datas[0]->tiketDetailStatus=='1')
                     <div class="form-group">
-                        <label for="tglSelesaiMengerjakan" class="col-md-4 control-label">Tanggal Target Selesai</label>                       
+                        <label for="tglSelesaiMengerjakan" class="col-md-4 control-label">Tanggal Target Selesai *</label>                       
                         <div class="input-group col-md-6">
-                          <input type="date" id="tglSelesaiMengerjakan" name="tglSelesaiMengerjakan" class="form-control" value="{{ $datas[0]->tglSelesaiMengerjakan }}">
+                            <input type="date" id="tglSelesaiMengerjakan" name="tglSelesaiMengerjakan" class="form-control" required value="{{ $datas[0]->tglSelesaiMengerjakan }}">
+                        </div>
+                    </div>
+                    @endif
+                    <div class="form-group">
+                        <label for="tglRTL" class="col-md-4 control-label">Tanggal RTL</label>                       
+                        <div class="input-group col-md-6">
+                            <input type="date" id="tglRTL" name="tglRTL" class="form-control" value="{{ $datas[0]->tglRTL }}">
                         </div>
                     </div>
                     <div class="form-group">

@@ -12,5 +12,6 @@ class Histori extends Model
         'keterangan',
         'progresId',
         'tiketDetailId',
+        'tglRTL'
     ];
 }
