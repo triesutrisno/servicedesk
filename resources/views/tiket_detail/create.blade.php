@@ -34,7 +34,7 @@
                     {{ csrf_field() }}
                     <div class="row form-group">
                         <div class="col-md-4">
-                            <label for="kode_tiket" class="col-md-4 control-label">No Tiket</label>
+                            <label for="kode_tiket" class="col-md-4 control-label">Nomor Tiket</label>
                             <div class="col-md-6">
                                 <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i> 
                                 {{ $datas[0]->kode_tiket }}

@@ -49,7 +49,7 @@
                     <tr>
                       <th>Action</th>
                       <!--<th>No</th>-->
-                      <th>Kode Ticket</th>                      
+                      <th>Nomor</th>                      
                       <th>Layanan</th>
                       <th>Service</th>
                       <th>Subservice</th>
@@ -67,7 +67,7 @@
                     <tr>                        
                       <td>
                           @csrf                          
-                          <a href="{{ url('/tiket')}}/detail/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-warning" title="Detail">
+                          <a href="{{ url('/approvetiket')}}/detail/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-warning" title="Detail">
                               <i class="fa fa-search icon-lg"></i>
                           </a>
                           @if($data->tiketStatus=='1')

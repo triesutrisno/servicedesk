@@ -42,14 +42,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/tiket/edit/{id}', 'TiketController@update');
     Route::post('/tiket/delete/{id}', 'TiketController@destroy');
     Route::get('/tiket/detail/{id}', 'TiketController@show');
+    Route::post('/tiket/close/{id}', 'TiketController@close');
     
     Route::get('/approvetiket', 'ApprovetiketController@index');
     Route::patch('/approvetiket/approve/{id}', 'ApprovetiketController@approve');
     Route::patch('/approvetiket/reject/{id}', 'ApprovetiketController@reject');
+    Route::get('/approvetiket/detail/{id}', 'ApprovetiketController@show');
     
     Route::get('/persetujuantiket', 'PersetujuantiketController@index');
     Route::patch('/persetujuantiket/approve', 'PersetujuantiketController@approve');
     Route::patch('/persetujuantiket/reject/{id}', 'PersetujuantiketController@reject');
+    Route::get('/persetujuantiket/detail/{id}', 'PersetujuantiketController@show');
     
     Route::get('/tugasku', 'TiketdetailController@index');
     Route::get('/tugasku/solusi/{id}', 'TiketdetailController@create');

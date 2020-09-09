@@ -1,0 +1,19 @@
+Status Tiket
+1 => Baru
+2 => Approve Atasan
+3 => Ditolak Atasan
+4 => Approve Ka.Unit Service
+5 => Ditolak Ka.Unit Service
+6 => Dikerjakan
+7 => Selesai
+8 => Close
+9 => Pending
+10 => Cancle
+
+Status Detail Tiket
+1 => Baru
+2 => Dikerjakan
+3 => Pending
+4 => Cancle
+5 => Selesai dikerjakan
+6 => Close

@@ -42,7 +42,7 @@
                     <tr>
                       <th>Action</th>
                       <!--<th>No</th>-->
-                      <th>Kode Ticket</th>                      
+                      <th>Nomor</th>                      
                       <!--<th>Layanan</th>-->
                       <th>Service</th>
                       <th>Subservice</th>
@@ -63,7 +63,7 @@
                           <a href="{{ url('/tugasku')}}/detail/{{ $data->tiketDetailId }}" class="btn btn-icons btn-inverse-primary" title="Detail">
                               <i class="fa fa-search icon-lg"></i>
                           </a>
-                          @if($data->tiketDetailStatus<'5')
+                          @if($data->tiketDetailStatus<'6')
                           <a href="{{ url('/tugasku')}}/solusi/{{ $data->tiketDetailId }}" class="btn btn-icons btn-inverse-warning" title="Solusi">
                               <i class="fa fa-send-o icon-lg"></i>
                           </a> 

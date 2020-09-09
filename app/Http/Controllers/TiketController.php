@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Http;
 use Auth;
 use DB;
 use App\Tiket;
+use App\Tiketdetail;
+use App\Histori;
 use App\Nextnumber;
 use App\Layanan;
 use App\Transaksiot;
@@ -467,5 +469,35 @@ class TiketController extends Controller
     {
         Tiket::destroy($id);
         return redirect('/tiket')->with(['pesan'=> 'Data berhasil dihapus !']);
+    }
+    
+    public function close($id)
+    {
+                
+        Tiket::where('tiketId', $id)
+          ->update([
+              'tiketStatus' => 8,
+        ]);
+        
+        $tiketDetail = Tiketdetail::where('tiketId', '=', $id)->get();
+        $jml = $tiketDetail->count();
+        //dd($jml);
+        if($jml) { // Cek data apakah sudah ada atau belum di database    
+            //dd($tiketDetail);
+            Tiketdetail::where('tiketDetailId', $tiketDetail[0]->tiketDetailId)
+              ->update([
+                  'tiketDetailStatus' => 6,
+                  'keterangan' => 'Tiket Close',
+            ]);
+
+            $histori = new Histori();
+            $histori->keterangan    = 'Tiket Close';
+            $histori->progresId     = '20';
+            $histori->tiketDetailId = $tiketDetail[0]->tiketDetailId;
+            $histori->save();
+        }
+        
+        return redirect('/tiket')->with(['kode'=>'99', 'pesan'=>'Tiket berhasil Close !']);
+        
     }
 }
