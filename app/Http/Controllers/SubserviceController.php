@@ -42,7 +42,7 @@ class SubserviceController extends Controller
                     'a.ServiceIDf',          
                     'a.ServiceSubName',          
                     'a.ServiceSubStatus',
-                    'b.ServiceName',
+                    'b.ServiceName'
                 )
                 ->leftjoin('ticket_service as b', 'b.id', '=', 'a.ServiceIDf')
                 ->get();
@@ -53,7 +53,7 @@ class SubserviceController extends Controller
                 'a.ServiceIDf',          
                 'a.ServiceSubName',          
                 'a.ServiceSubStatus',
-                'b.ServiceName',
+                'b.ServiceName'
             )
             ->leftjoin('ticket_service as b', 'b.id', '=', 'a.ServiceIDf')
             ->get();

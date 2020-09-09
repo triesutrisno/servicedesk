@@ -44,7 +44,7 @@ class ServiceController extends Controller
                     'a.id',
                     'a.ServiceName',          
                     'a.keterangan',    
-                    'b.nama_layanan',
+                    'b.nama_layanan'
                 )
                 ->leftjoin('m_layanan as b', 'b.id', '=', 'a.id_layanan')
                 ->get();
@@ -54,7 +54,7 @@ class ServiceController extends Controller
                 'a.id',
                 'a.ServiceName',          
                 'a.keterangan',    
-                'b.nama_layanan',
+                'b.nama_layanan'
             )
             ->leftjoin('m_layanan as b', 'b.id', '=', 'a.id_layanan')
             ->get();
