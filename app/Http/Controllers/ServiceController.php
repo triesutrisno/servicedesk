@@ -147,7 +147,15 @@ class ServiceController extends Controller
 
         $data = Service::findOrFail($id);
         $users = User::get();
-        return view('service.edit', compact('data', 'users'));
+
+        $layanan = Layanan::where(['status_layanan'=>'1'])->get();
+        $sservice = Service::with(['layanan'])
+        ->where(['id'=>$id])
+        ->get();   
+        
+        $sslayanan = Layanan::where(['status_layanan'=>'1', 'id'=>$sservice[0]['id_layanan']])->get();
+
+        return view('service.edit', compact('data','users','layanan','sslayanan'));
     }
 
     /**
@@ -161,8 +169,7 @@ class ServiceController extends Controller
     {
         Service::find($id)->update($request->all());
 
-        alert()->success('Berhasil.','Data Master Service telah diubah!');
-        return redirect()->to('service');
+        return redirect('/service')->with(['kode'=>'99', 'pesan'=>'Data berhasil diupdate !']);
     }
 
     /**

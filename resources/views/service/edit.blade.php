@@ -23,7 +23,19 @@ $(document).ready(function() {
                   <div class="card">
                     <div class="card-body">
                       <h4 class="card-title">Edit Master Service</h4>
-                      
+
+                      <div class="form-group">
+                        <label for="id_layanan" class="col-md-4 control-label">Layanan</label>
+                            <div class="col-md-6">
+                                <select class="form-control"  required id="id_layanan" name="id_layanan" required>
+                                <option value="">Silakan Pilih</option>
+                            @foreach($sslayanan as $key => $val)
+                                <option value="{{ $val->id }}" {{ $sslayanan[0]['id_layanan'] == $val->id ? 'selected' : '' }}>{{ $val->nama_layanan }}</option>
+                            @endforeach
+                                </select>
+                            </div>
+                      </div>
+
                         <div class="form-group{{ $errors->has('ServiceName') ? ' has-error' : '' }}">
                             <label for="ServiceName" class="col-md-4 control-label">Nama Master Service</label>
                             <div class="col-md-6">
