@@ -8,7 +8,7 @@ class Masterlayanan extends Model
 {
     protected $table = 'm_layanan';
     
-    protected $fillable = ['id','nama_layanan'];
+    protected $fillable = ['id','kode_layanan','keterangan','nama_layanan','kode_biro','status_layanan'];
 
 
     /**

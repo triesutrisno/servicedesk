@@ -8,7 +8,7 @@ class Service extends Model
 {
     protected $table = 'ticket_service';
     protected $primaryKey = "id";
-    protected $fillable = ['id','ServiceName'];
+    protected $fillable = ['id','ServiceName','id_layanan','min_eselon','keterangan','ServiceStatus'];
 
 
     /**

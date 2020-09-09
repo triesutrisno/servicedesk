@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Subservice extends Model
 {
 	protected $table = 'ticket_service_sub';
-    protected $fillable = ['id','ServiceSubName'];
+    protected $fillable = ['id','ServiceSubName','ServiceIDf','ServiceSubStatus'];
 
 
     /**

@@ -23,6 +23,22 @@ $(document).ready(function() {
                     <div class="card-body">
                       <h4 class="card-title">Tambah Sub Service</h4>
                       
+
+                      <div class="form-group">
+                        <label for="ServiceIDf" class="col-md-4 control-label">Service</label>
+                            <div class="col-md-6">
+                                <select class="form-control"  required id="ServiceIDf" name="ServiceIDf">
+                                <option value="">Silakan Pilih</option>
+                            @foreach($service as $key => $val)
+                                <option value="{{ $val->id }}">{{ $val->ServiceName }}</option>
+                            @endforeach
+                                </select>
+                            </div>
+                      </div>    
+
+
+
+
                         <div class="form-group{{ $errors->has('ServiceSubName') ? ' has-error' : '' }}">
                             <label for="ServiceSubName" class="col-md-4 control-label">Nama Sub Service</label>
                             <div class="col-md-6">
@@ -34,6 +50,16 @@ $(document).ready(function() {
                                 @endif
                             </div>
                         </div>
+
+                    <div class="form-group">
+                        <label for="ServiceSubStatus" class="col-md-4 control-label">Status</label>
+                        <div class="col-md-6">
+                            <select class="form-control" required id="ServiceSubStatus" name="ServiceSubStatus">
+                              <option value="1">Aktif</option>
+                            </select>
+                        </div>
+                    </div>
+
                         <button type="submit" class="btn btn-primary" id="submit">
                                     Submit
                         </button>

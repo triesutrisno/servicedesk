@@ -34,12 +34,17 @@
                       <thead>
                         <tr>
                         <th>
+                            No
+                          </th>
+                        <th>
                             Kode Layanan
                           </th>
                           <th>
                             Nama Layanan
                           </th>
-
+                          <th>
+                            Kode Biro
+                          </th>
                           <th>
                             Action
                           </th>
@@ -50,11 +55,17 @@
                         <tr>
                         <td class="py-1">
 
+                        {{$loop->iteration}}
+                          </td>
+                        <td class="py-1">
+
                           {{$data->kode_layanan}}
                           </td>
                           <td class="py-1">
-
                             {{$data->nama_layanan}}
+                          </td>
+                          <td class="py-1">
+                            {{$data->kode_biro}}
                           </td>
                           <td>
                            <div class="btn-group dropdown">

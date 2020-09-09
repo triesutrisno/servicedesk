@@ -8,6 +8,9 @@ use App\Anggota;
 use App\Subservice;
 use App\Service;
 use App\Masterlayanan;
+use App\Layanan;
+
+
 
 use Carbon\Carbon;
 use Session;
@@ -35,13 +38,28 @@ class ServiceController extends Controller
     {    
         if(session('infoUser')['LEVEL'] == 'admin')
         {
-            $datas = Service::with(['layanan'])->get();
-        } else {            
-            $datas = Service::with(['layanan'])
-                        ->where(['nikUser' => session('infoUser')['NIK']])
-                        ->get();
+
+            $datas = DB::table('ticket_service as a')
+                ->select(
+                    'a.id',
+                    'a.ServiceName',          
+                    'a.keterangan',    
+                    'b.nama_layanan',
+                )
+                ->leftjoin('m_layanan as b', 'b.id', '=', 'a.id_layanan')
+                ->get();
+        } else {
+            $datas = DB::table('ticket_service as a')
+            ->select(
+                'a.id',
+                'a.ServiceName',          
+                'a.keterangan',    
+                'b.nama_layanan',
+            )
+            ->leftjoin('m_layanan as b', 'b.id', '=', 'a.id_layanan')
+            ->get();
         }
-        
+        //dd($datas);
         return view('service.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'']);
     }
 
@@ -65,7 +83,10 @@ class ServiceController extends Controller
                         ->from('ticket_service');
                         //->whereRaw('anggota.user_id = users.id');
                      })->get();
-        return view('service.create', compact('users'));
+
+
+        $layanan = Layanan::where(['status_layanan'=>'1'])->get();             
+        return view('service.create', compact('layanan'));
     }
 
     /**
@@ -89,14 +110,15 @@ class ServiceController extends Controller
          */    
          $this->validate($request, [
              'ServiceName' => 'required|string|max:255',
+             'min_eselon' =>   'required|string|max:255',
+             'keterangan' => 'required|string|max:255',
+             'ServiceStatus' => 'required|string|max:255',
+             'id_layanan' => 'required|string|max:255',
             // 'npm' => 'required|string|max:20|unique:anggota'
          ]);
              
          Service::create($request->all());
- 
-         alert()->success('Berhasil.','Data telah ditambahkan!');
-         return redirect()->route('service.index');
- 
+         return redirect('/service')->with(['kode'=>'99', 'pesan'=>'Data berhasil disimpan !']);
      }
  
      /**
