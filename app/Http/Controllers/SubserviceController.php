@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Anggota;
 use App\Subservice;
+use App\Service;
+
 use Carbon\Carbon;
 use Session;
 use Illuminate\Support\Facades\Redirect;
@@ -30,14 +32,34 @@ class SubserviceController extends Controller
 
 
     public function index()
-    {
-        if(Auth::user()->level == 'user') {
-            Alert::info('Oopss..', 'Anda dilarang masuk ke area ini.');
-            return redirect()->to('/');
-        }
+    {    
+        if(session('infoUser')['LEVEL'] == 'admin')
+        {
 
-        $datas = Subservice::get();
-        return view('subservice.index', compact('datas'));
+            $datas = DB::table('ticket_service_sub as a')
+                ->select(
+                    'a.id',
+                    'a.ServiceIDf',          
+                    'a.ServiceSubName',          
+                    'a.ServiceSubStatus',
+                    'b.ServiceName',
+                )
+                ->leftjoin('ticket_service as b', 'b.id', '=', 'a.ServiceIDf')
+                ->get();
+        } else {
+            $datas = DB::table('ticket_service_sub as a')
+            ->select(
+                'a.id',
+                'a.ServiceIDf',          
+                'a.ServiceSubName',          
+                'a.ServiceSubStatus',
+                'b.ServiceName',
+            )
+            ->leftjoin('ticket_service as b', 'b.id', '=', 'a.ServiceIDf')
+            ->get();
+        }
+        //dd($datas);
+        return view('subservice.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'']);
     }
 
     /**
@@ -45,6 +67,10 @@ class SubserviceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
+
     public function create()
     {
         if(Auth::user()->level == 'user') {
@@ -57,7 +83,9 @@ class SubserviceController extends Controller
                         ->from('ticket_service_sub');
                         //->whereRaw('anggota.user_id = users.id');
                      })->get();
-        return view('subservice.create', compact('users'));
+
+        $service = service::where(['ServiceStatus'=>'1'])->get();             
+        return view('subservice.create', compact('service'));
     }
 
     /**
@@ -79,13 +107,14 @@ class SubserviceController extends Controller
         */    
         $this->validate($request, [
             'ServiceSubName' => 'required|string|max:255',
+            'ServiceSubStatus' => 'required|string|max:255',
+            'ServiceIDf' => 'required|string|max:255',
            // 'npm' => 'required|string|max:20|unique:anggota'
         ]);
             
         Subservice::create($request->all());
 
-        alert()->success('Berhasil.','Data telah ditambahkan!');
-        return redirect()->route('subservice.index');
+        return redirect('/subservice')->with(['kode'=>'99', 'pesan'=>'Data berhasil disimpan !']);
 
     }
 

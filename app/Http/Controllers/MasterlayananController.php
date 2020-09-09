@@ -53,7 +53,12 @@ class MasterlayananController extends Controller
 
     public function create()
     {
-        //
+        if(Auth::user()->level == 'user') {
+            Alert::info('Oopss..', 'Anda dilarang masuk ke area ini.');
+            return redirect()->to('/');
+        }
+             
+        return view('masterlayanan.create');
     }
 
     /**
@@ -62,6 +67,10 @@ class MasterlayananController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
+
+
     public function store(Request $request)
     {
         // $count = Anggota::where('npm',$request->input('npm'))->count();
@@ -74,14 +83,17 @@ class MasterlayananController extends Controller
          }
          */    
          $this->validate($request, [
+            'kode_layanan' => 'required|string|max:5',
              'nama_layanan' => 'required|string|max:255',
+             'keterangan' => 'required|string|max:255',
+             'kode_biro' => 'required|string|max:10',
+             'status_layanan' => 'required|string|max:2',
             // 'npm' => 'required|string|max:20|unique:anggota'
          ]);
              
          masterlayanan::create($request->all());
  
-         alert()->success('Berhasil.','Data telah ditambahkan!');
-         return redirect()->route('masterlayanan.index');
+         return redirect('/masterlayanan')->with(['kode'=>'99', 'pesan'=>'Data berhasil disimpan !']);
  
      }
  

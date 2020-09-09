@@ -45,7 +45,7 @@
                       @foreach($datas as $data)
                         <tr>
                           <td class="py-1">{{$loop->iteration}}</td>
-                          <td class="py-1">{{ $data->service[0]['ServiceName'] }}</td>
+                          <td class="py-1">{{ $data->ServiceName }}</td>
                           <td class="py-1">{{$data->ServiceSubName}}</td>
                           <td>
                            <div class="btn-group dropdown">
