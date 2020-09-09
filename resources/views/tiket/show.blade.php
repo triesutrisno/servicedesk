@@ -1,113 +1,187 @@
+
 @section('js')
-
 <script type="text/javascript">
+  $(document).ready(function() {
+    $('#table').DataTable({
+      "iDisplayLength": 20
+    });
+    
+    $('.hapusKategori').click(function(){
+            var jawab = confirm("Anda yakin akan menghapus data ini ?");
+            if (jawab === true) {
+//            kita set hapus false untuk mencegah duplicate request
+                var hapus = false;
+                if (!hapus) {
+                    hapus = true;
+                    //$.post('hapus.php', {id: $(this).attr('data-id')},
+                    var idne = $(this).attr('data-id');
+                    var _token = $('input[name="_token"]').val();
+                    //alert(idne);
+                    $.ajax({
+                        url : "{{ url('/tiket/delete') }}/"+idne,
+                        method : "POST",
+                        data : {_token:_token},
+                        success : function(result){
+                            //alert(result);
+                            //$('#'+dependent).html(result);
+                            location.reload();
+                        }
+                    })
+                    hapus = false;
+                }
+            } else {
+                return false;
+            }
+            
+        });
 
-$(document).ready(function() {
-    $(".users").select2();
-});
-
+} );
 </script>
 @stop
-
 @extends('layouts.app')
 
 @section('content')
-
 <div class="row">
-            <div class="col-md-12 d-flex align-items-stretch grid-margin">
-              <div class="row flex-grow">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <h4 class="card-title">Detail <b>{{$data->nama}}</b></h4>
-                      <form class="forms-sample">
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <img class="product" width="200" height="200" @if($data->user->gambar) src="{{ asset('images/user/'.$data->user->gambar) }}" @endif />
-                            </div>
-                        </div>
 
-                        <div class="form-group{{ $errors->has('nama') ? ' has-error' : '' }}">
-                            <label for="nama" class="col-md-4 control-label">Nama</label>
-                            <div class="col-md-6">
-                                <input id="nama" type="text" class="form-control" name="nama" value="{{ $data->nama }}" readonly>
-                                @if ($errors->has('nama'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('nama') }}</strong>
-                                    </span>
+    <div class="form-group">
+      <a href="{{ url('tiket') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-book"></i> Lihat Data</a>
+      <a href="{{ url('tiket/create') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Data</a>
+    </div>
+</div>
+<div class="row" style="margin-top: 20px;">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Data Tiket</h4>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td width="10%">Kode Tiket</td>
+                            <td width="2%">:</td>
+                            <td>{{ $data[0]->kode_tiket }}</td>
+                            <td width="10%">Layanan</td>
+                            <td width="2%">:</td>
+                            <td>{{ $data[0]->nama_layanan }}</td>
+                        </tr>
+                        <tr>
+                            <td>Service</td>
+                            <td>:</td>
+                            <td>{{ $data[0]->ServiceName }}</td>
+                            <td>Sub Service</td>
+                            <td>:</td>
+                            <td>{{ $data[0]->ServiceSubName }}</td>
+                        </tr>
+                        <tr>
+                            <td>Tanggal Buat</td>
+                            <td>:</td>
+                            <td>{{ date('d-m-Y H:i', strtotime($data[0]->created_at)) }}</td>
+                            <td>UserBy</td>
+                            <td>:</td>
+                            <td>{{ $data[0]->name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Teknisi</td>
+                            <td>:</td>
+                            <td>{{ $data[0]->namaTeknisi }}</td>
+                            <td>Status</td>
+                            <td>:</td>
+                            <td>
+                                @if($data[0]->tiketStatus == '1')
+                                    <label class="badge badge-warning">open</label>
+                                @elseif($data[0]->tiketStatus == '2')
+                                    <label class="badge badge-warning">Diapprove Atasan Unit</label>
+                                @elseif($data[0]->tiketStatus == '3')
+                                    <label class="badge badge-danger">Ditolak Atasan Unit</label>
+                                @elseif($data[0]->tiketStatus == '4')
+                                    <label class="badge badge-success">Disetujui</label>
+                                @elseif($data[0]->tiketStatus == '5')
+                                    <label class="badge badge-danger">Ditolak</label>
+                                @elseif($data[0]->tiketStatus == '6')
+                                    <label class="badge badge-info">Dikerjakan</label>
+                                @elseif($data[0]->tiketStatus == '7')
+                                    <label class="badge badge-primary">Selesai</label>
+                                @elseif($data[0]->tiketStatus == '8')
+                                    <label class="badge badge-dark">Close</label>
+                                @elseif($data[0]->tiketStatus == '9')
+                                    <label class="badge badge-warning">Pending</label>
+                                @elseif($data[0]->tiketStatus == '10')
+                                    <label class="badge badge-danger">Cancle</label>
                                 @endif
-                            </div>
-                        </div>
-                        <div class="form-group{{ $errors->has('npm') ? ' has-error' : '' }}">
-                            <label for="npm" class="col-md-4 control-label">NPM</label>
-                            <div class="col-md-6">
-                                <input id="npm" type="number" class="form-control" name="npm" value="{{ $data->npm }}" maxlength="8" readonly>
-                                @if ($errors->has('npm'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('npm') }}</strong>
-                                    </span>
+                                &nbsp;
+                                @if($data[0]->progresProsen!="")
+                                    
+                                    <label class="badge badge-success">{{ $data[0]->progresProsen }}%</label>
                                 @endif
-                            </div>
-                        </div>
-                        <div class="form-group{{ $errors->has('tempat_lahir') ? ' has-error' : '' }}">
-                            <label for="tempat_lahir" class="col-md-4 control-label">Tempat Lahir</label>
-                            <div class="col-md-6">
-                                <input id="tempat_lahir" type="text" class="form-control" name="tempat_lahir" value="{{ $data->tempat_lahir }}" readonly>
-                                @if ($errors->has('tempat_lahir'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('tempat_lahir') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('tgl_lahir') ? ' has-error' : '' }}">
-                            <label for="tgl_lahir" class="col-md-4 control-label">Tanggal Lahir</label>
-                            <div class="col-md-6">
-                                <input id="tgl_lahir" type="text" class="form-control" name="tgl_lahir" value="{{ date('d F Y', strtotime($data->tgl_lahir)) }}" readonly>
-                                @if ($errors->has('tgl_lahir'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('tgl_lahir') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('level') ? ' has-error' : '' }}">
-                            <label for="level" class="col-md-4 control-label">Jenis Kelamin</label>
-                            <div class="col-md-6">
-                            <select class="form-control" name="jk" required="" disabled="">
-                                <option value=""></option>
-                                <option value="L" {{$data->jk === "L" ? "selected" : ""}}>Laki - Laki</option>
-                                <option value="P" {{$data->jk === "P" ? "selected" : ""}}>Perempuan</option>
-                            </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('prodi') ? ' has-error' : '' }}">
-                            <label for="prodi" class="col-md-4 control-label">Prodi</label>
-                            <div class="col-md-6">
-                            <select class="form-control" name="prodi" required="" disabled="">
-                                <option value=""></option>
-                                <option value="TI" {{$data->prodi === "TI" ? "selected" : ""}} >Teknik Informatika</option>
-                                <option value="SI" {{$data->prodi === "SI" ? "selected" : ""}} >Sistem Informasi</option>
-                                <option value="KM" {{$data->prodi === "KM" ? "selected" : ""}} >Kesehatan Masyarakat</option>
-                            </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }} " style="margin-bottom: 20px;">
-                            <label for="user_id" class="col-md-4 control-label">User Login</label>
-                            <div class="col-md-6">
-                            <input id="tgl_lahir" type="text" class="form-control" name="tgl_lahir" value="{{ $data->user->username }}" readonly="">
-                            </div>
-                        </div>
-                        <a href="{{route('anggota.index')}}" class="btn btn-light pull-right">Back</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Keterangan</td>
+                            <td>:</td>
+                            <td colspan="4">{{ $data[0]->tiketKeterangan}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#detailApproval" role="tab" aria-controls="home" aria-selected="true">Detail Approval Tiket</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Histori Tiket</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <!--Start Detail Approval Tiket -->
+                    <div class="tab-pane fade show active" id="detailApproval" role="tabpanel" aria-labelledby="home-tab">
+                        <p>&nbsp;</p>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td width="10%">Nama Atasan</td>
+                                    <td width="2%">:</td>
+                                    <td>{{ $data[0]->namaAtasan }} - {{ $data[0]->tiketNikAtasan }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Status Approve</td>
+                                    <td>:</td>
+                                    <td>{{ $data[0]->tiketApprove }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tgl Approve</td>
+                                    <td>:</td>
+                                    <td>
+                                        @if($data[0]->tiketTglApprove!="")
+                                            {{ date('d-m-Y H:i', strtotime($data[0]->tiketTglApprove)) }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%">PIC Unit Tujuan</td>
+                                    <td width="2%">:</td>
+                                    <td>{{ $data[0]->namaPIC }} - {{ $data[0]->tiketNikAtasanService }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Status Approve Unit Tujuan</td>
+                                    <td>:</td>
+                                    <td>{{ $data[0]->tiketApproveService }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tgl Approve Unit Tujuan</td>
+                                    <td>:</td>
+                                    <td>
+                                        @if($data[0]->tiketTglApproveService!="")
+                                            {{ date('d-m-Y H:i', strtotime($data[0]->tiketTglApproveService)) }}
+                                        @endif
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                  </div>
+                    <!--End Detail Approval Tiket -->
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
                 </div>
-              </div>
             </div>
-
+        </div>
+    </div>
 </div>
 @endsection

@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/tiket/edit/{id}', 'TiketController@edit');   
     Route::post('/tiket/edit/{id}', 'TiketController@update');
     Route::post('/tiket/delete/{id}', 'TiketController@destroy');
+    Route::get('/tiket/detail/{id}', 'TiketController@show');
     
     Route::get('/approvetiket', 'ApprovetiketController@index');
     Route::patch('/approvetiket/approve/{id}', 'ApprovetiketController@approve');
