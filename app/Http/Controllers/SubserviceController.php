@@ -146,7 +146,10 @@ class SubserviceController extends Controller
 
         $data = Subservice::findOrFail($id);
         $users = User::get();
-        return view('subservice.edit', compact('data', 'users'));
+
+        $service = Service::where(['ServiceStatus'=>'1'])->get();
+
+        return view('subservice.edit', compact('data', 'users','service'));
     }
 
     /**
@@ -162,8 +165,7 @@ class SubserviceController extends Controller
     {
         Subservice::find($id)->update($request->all());
 
-        alert()->success('Berhasil.','Data Sub Service telah diubah!');
-        return redirect()->to('subservice');
+        return redirect('/subservice')->with(['kode'=>'99', 'pesan'=>'Data berhasil diupdate !']);
     }
 
     /**

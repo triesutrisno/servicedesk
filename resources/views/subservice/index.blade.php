@@ -36,9 +36,8 @@
                         <th>No</th>
                         <th>Nama Service</th>
                         <th>Nama Sub Service</th>
-                          <th>
-                            Action
-                          </th>
+                        <th>Status</th>
+                        <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -48,18 +47,19 @@
                           <td class="py-1">{{ $data->ServiceName }}</td>
                           <td class="py-1">{{$data->ServiceSubName}}</td>
                           <td>
+                            @if($data->ServiceSubStatus == '1')
+                            <label class="badge badge-success">Aktif</label>
+                            @elseif($data->ServiceSubStatus == '0')
+                            <label class="badge badge-dark">Tidak Aktif</label>
+                            @endif 
+                          <td>
                            <div class="btn-group dropdown">
                           <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Action
                           </button>
                           <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 30px, 0px);">
                             <a class="dropdown-item" href="{{route('subservice.edit', $data->id)}}"> Edit </a>
-                            <form action="{{ route('subservice.destroy', $data->id) }}" class="pull-left"  method="post">
-                            {{ csrf_field() }}
-                            {{ method_field('delete') }}
-                            <button class="dropdown-item" onclick="return confirm('Anda yakin ingin menghapus data ini?')"> Delete
-                            </button>
-                          </form>
+                            
                            
                           </div>
                         </div>

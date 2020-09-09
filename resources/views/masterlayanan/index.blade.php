@@ -45,6 +45,9 @@
                           <th>
                             Kode Biro
                           </th>
+                          <th>Status
+                          </th>
+
                           <th>
                             Action
                           </th>
@@ -66,6 +69,13 @@
                           </td>
                           <td class="py-1">
                             {{$data->kode_biro}}
+                          </td>
+                          <td>
+                            @if($data->status_layanan == '1')
+                            <label class="badge badge-success">Aktif</label>
+                            @elseif($data->status_layanan == '0')
+                            <label class="badge badge-dark">Tidak Aktif</label>
+                            @endif 
                           </td>
                           <td>
                            <div class="btn-group dropdown">

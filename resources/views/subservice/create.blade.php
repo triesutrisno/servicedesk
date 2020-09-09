@@ -36,9 +36,6 @@ $(document).ready(function() {
                             </div>
                       </div>    
 
-
-
-
                         <div class="form-group{{ $errors->has('ServiceSubName') ? ' has-error' : '' }}">
                             <label for="ServiceSubName" class="col-md-4 control-label">Nama Sub Service</label>
                             <div class="col-md-6">

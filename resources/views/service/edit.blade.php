@@ -29,8 +29,9 @@ $(document).ready(function() {
                             <div class="col-md-6">
                                 <select class="form-control"  required id="id_layanan" name="id_layanan" required>
                                 <option value="">Silakan Pilih</option>
-                            @foreach($sslayanan as $key => $val)
-                                <option value="{{ $val->id }}" {{ $sslayanan[0]['id_layanan'] == $val->id ? 'selected' : '' }}>{{ $val->nama_layanan }}</option>
+                          
+                            @foreach($layanan as $key => $val)
+                                    <option value="{{ $val->id }}" {{ $data->id_layanan == $val->id ? 'selected' : '' }}>{{ $val->nama_layanan }}</option>
                             @endforeach
                                 </select>
                             </div>
@@ -48,7 +49,38 @@ $(document).ready(function() {
                             </div>
                         </div>
 
+                        <div class="form-group">
+                        <label for="min_eselon" class="col-md-4 control-label">Eselon</label>
+                        <div class="col-md-6">
+                            <select class="form-control" required id="min_eselon" name="min_eselon">
+                              <option value="3">Eselon 3</option>
+                              <option value="4">Eselon 4</option>
 
+                            </select>
+                        </div>
+                    </div>
+
+
+                      <div class="form-group{{ $errors->has('keterangan') ? ' has-error' : '' }}">
+                            <label for="keterangan" class="col-md-4 control-label">Keterangan</label>
+                            <div class="col-md-6">
+                                <input id="keterangan" type="text" class="form-control" name="keterangan" value="{{ $data->keterangan }}" required>
+                                @if ($errors->has('keterangan'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('keterangan') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>  
+                      <div class="form-group">
+                        <label for="ServiceStatus" class="col-md-4 control-label">Status</label>
+                        <div class="col-md-6">
+                            <select class="form-control" required id="ServiceStatus" name="ServiceStatus">
+                              <option value="1">Aktif</option>
+                              <option value="0">Tidak Aktif</option>
+                            </select>
+                        </div>
+                    </div>
 
                         <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }} " style="margin-bottom: 20px;">
                             

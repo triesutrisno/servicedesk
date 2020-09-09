@@ -140,8 +140,7 @@ class MasterlayananController extends Controller
     {
         Masterlayanan::find($id)->update($request->all());
 
-       // alert()->success('Berhasil.','Data Master Layanan telah diubah!');
-        return redirect()->to('masterlayanan');
+        return redirect('/masterlayanan')->with(['kode'=>'99', 'pesan'=>'Data berhasil diupdate !']);
     }
 
     /**

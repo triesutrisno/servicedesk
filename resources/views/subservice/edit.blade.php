@@ -24,6 +24,19 @@ $(document).ready(function() {
                     <div class="card-body">
                       <h4 class="card-title">Edit Master Sub Service</h4>
                       
+                      <div class="form-group">
+                        <label for="ServiceIDf" class="col-md-4 control-label">Service</label>
+                            <div class="col-md-6">
+                                <select class="form-control"  required id="ServiceIDf" name="ServiceIDf">
+                                <option value="">Silakan Pilih</option>
+                            @foreach($service as $key => $val)
+                                <option value="{{ $val->id }}" {{ $data->ServiceIDf == $val->id ? 'selected' : '' }}>{{ $val->ServiceName }}</option>
+                            @endforeach
+                                </select>
+                            </div>
+                      </div>
+
+
                         <div class="form-group{{ $errors->has('ServiceSubName') ? ' has-error' : '' }}">
                             <label for="ServiceSubName" class="col-md-4 control-label">Nama Sub Service</label>
                             <div class="col-md-6">
@@ -36,7 +49,15 @@ $(document).ready(function() {
                             </div>
                         </div>
 
-
+                        <div class="form-group">
+                          <label for="ServiceSubStatus" class="col-md-4 control-label">Status</label>
+                          <div class="col-md-6">
+                              <select class="form-control" required id="ServiceSubStatus" name="ServiceSubStatus">
+                                <option value="1">Aktif</option>
+                                <option value="0">Tidak Aktif</option>
+                              </select>
+                          </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('user_id') ? ' has-error' : '' }} " style="margin-bottom: 20px;">
                             

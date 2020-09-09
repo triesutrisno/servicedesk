@@ -36,7 +36,7 @@
                         <th>No</th>
                         <th>Nama Layanan</th>
                           <th>Nama Service</th>
-
+                          <th>Status</th>
                           <th>
                             Action
                           </th>
@@ -49,6 +49,12 @@
                         <td class="py-1">{{$data->nama_layanan}}</td>
                           <td class="py-1">{{$data->ServiceName}}</td>
                           <td>
+                            @if($data->ServiceStatus == '1')
+                            <label class="badge badge-success">Aktif</label>
+                            @elseif($data->ServiceStatus == '0')
+                            <label class="badge badge-dark">Tidak Aktif</label>
+                            @endif 
+                          </td>                          <td>
                            <div class="btn-group dropdown">
                           <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Action

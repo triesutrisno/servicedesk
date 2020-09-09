@@ -43,7 +43,8 @@ class ServiceController extends Controller
                 ->select(
                     'a.id',
                     'a.ServiceName',          
-                    'a.keterangan',    
+                    'a.keterangan', 
+                    'a.ServiceStatus',   
                     'b.nama_layanan'
                 )
                 ->leftjoin('m_layanan as b', 'b.id', '=', 'a.id_layanan')
@@ -54,6 +55,7 @@ class ServiceController extends Controller
                 'a.id',
                 'a.ServiceName',          
                 'a.keterangan',    
+                'a.ServiceStatus',
                 'b.nama_layanan'
             )
             ->leftjoin('m_layanan as b', 'b.id', '=', 'a.id_layanan')
@@ -149,13 +151,8 @@ class ServiceController extends Controller
         $users = User::get();
 
         $layanan = Layanan::where(['status_layanan'=>'1'])->get();
-        $sservice = Service::with(['layanan'])
-        ->where(['id'=>$id])
-        ->get();   
         
-        $sslayanan = Layanan::where(['status_layanan'=>'1', 'id'=>$sservice[0]['id_layanan']])->get();
-
-        return view('service.edit', compact('data','users','layanan','sslayanan'));
+        return view('service.edit', compact('data','users','layanan'));
     }
 
     /**
