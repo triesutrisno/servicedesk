@@ -1,9 +1,16 @@
 
 @section('js')
+<script src="{{asset('bs4/js/bootstrap-confirmation.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.4/umd/popper.min.js" integrity="sha512-eUQ9hGdLjBjY3F41CScH3UX+4JDSI9zXeroz7hJ+RteoCaY+GP/LDoM8AO+Pt+DRFw3nXqsjh9Zsts8hnYv8/A==" crossorigin="anonymous"></script>
 <script type="text/javascript">
   $(document).ready(function() {
     $('#table').DataTable({
       "iDisplayLength": 20
+    });
+    
+    $('[data-toggle=confirmation]').confirmation({
+        rootSelector: '[data-toggle=confirmation]',
+        // other options
     });
     
     $('.hapusKategori').click(function(){
@@ -73,7 +80,7 @@
                     <tr>
                       <th>Action</th>
                       <!--<th>No</th>-->
-                      <th>Kode Ticket</th>                      
+                      <th>Nomer</th>                      
                       <th>Layanan</th>
                       <th>Service</th>
                       <th>Subservice</th>
@@ -102,6 +109,15 @@
                           <a class="btn btn-icons btn-inverse-info hapusKategori" href="#" data-id="{{ $data->tiketId }}" title="Hapus">
                               <i class="fa fa-trash-o icon-lg"></i>
                           </a>
+                          @endif
+                          @if($data->tiketStatus<>'8')
+                          <form action="{{ url('/tiket')}}/close/{{ $data->tiketId }}" method="post" class="d-inline">
+                              @method('post')
+                              @csrf
+                              <button class="btn btn-icons btn-inverse-danger" data-toggle="confirmation" data-singleton="true" data-title="Anda yakin close data ini ?">
+                                  <i class="fa fa-power-off icon-lg"></i>
+                              </button>
+                          </form>
                           @endif
                       </td>
                         <!--<td align="center">{{$loop->iteration}}</td>-->

@@ -89,7 +89,7 @@
                 <table class="table">
                     <tbody>
                         <tr>
-                            <td width="10%">Kode Tiket</td>
+                            <td width="10%">Nomor</td>
                             <td width="2%">:</td>
                             <td>{{ $data[0]->kode_tiket }}</td>
                             <td width="10%">Layanan</td>

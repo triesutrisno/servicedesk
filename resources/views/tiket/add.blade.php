@@ -11,6 +11,13 @@
             $('#tiketEmailAtasanService').val($(this).attr('data_email'));
             $('#myModalAtasanService').modal('hide');
         });
+        
+        $('#tiketFile').bind('change', function() {
+            //this.files[0].size gets the size of your file.
+            alert(this.files[0].size);
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
     });
 </script>
 @stop
@@ -32,7 +39,7 @@
                 <form method="POST" action="{{ url('tiket/create') }}/{{ $id_layanan }}/{{ $id_service }}" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="form-group{{ $errors->has('kode_tiket') ? ' has-error' : '' }}">
-                        <label for="kode_tiket" class="col-md-4 control-label">No Tiket</label>
+                        <label for="kode_tiket" class="col-md-4 control-label">Nomor Tiket</label>
                         <div class="col-md-6">
                             <input id="kode_tiket" type="text" class="form-control" required name="kode_tiket" value="{{ $kode }}" readonly="">
                             @if ($errors->has('kode_tiket'))
@@ -113,10 +120,10 @@
                         </div>
                     </div>
                     <!--
-                    div class="form-group">
-                        <label for="tiketFile" class="col-md-4 control-label">File upload</label>                       
-                        <div class="input-group col-md-6">
-                          <input type="file" id="tiketFile" name="tiketFile" class="file-upload-default">
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="tiketFile" name="tiketFile">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
                     </div>
                     -->

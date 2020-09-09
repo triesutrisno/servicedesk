@@ -31,7 +31,7 @@
                 <form method="POST" action="{{ url('tiket/edit') }}/{{ $tiket[0]['tiketId'] }}" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="form-group{{ $errors->has('kode_tiket') ? ' has-error' : '' }}">
-                        <label for="kode_tiket" class="col-md-4 control-label">No Tiket</label>
+                        <label for="kode_tiket" class="col-md-4 control-label">Nomor Tiket</label>
                         <div class="col-md-6">
                             {{ $tiket[0]['kode_tiket'] }}                           
                         </div>
