@@ -1,11 +1,13 @@
 
 @section('js')
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#table').DataTable({
-      "iDisplayLength": 20
+    $(document).ready(function() {
+        var table = $('#table').DataTable({
+          "iDisplayLength": 20,
+            "order": [[ 7, "asc" ]],  
+        });
+        table.column( 7 ).visible( false );
     });
-} );
 </script>
 @stop
 @extends('layouts.app')
@@ -41,7 +43,6 @@
                   <thead>
                     <tr>
                       <th>Action</th>
-                      <!--<th>No</th>-->
                       <th>Nomor</th>                      
                       <!--<th>Layanan</th>-->
                       <th>Service</th>
@@ -49,6 +50,7 @@
                       <th>Keterangan</th>
                       <th>Tgl Buat</th>
                       <th>Prioritas</th>
+                      <th>KodeStatus</th>
                       <th>Status</th>
                       <th>Progres</th>
                     </tr>
@@ -78,7 +80,7 @@
                         <td>{{ $data->ServiceName }}</td>
                         <td>{{ $data->ServiceSubName }}</td>
                         <td>{{ $data->tiketKeterangan}}</td>
-                        <td>{{ date('d-m-Y H:i', strtotime($data->created_at)) }}</td>                        
+                        <td>{{ date('d-m-Y H:i', strtotime($data->created_at)) }}</td>
                         <td>
                           @if($data->tiketPrioritas == '1')
                               Biasa
@@ -90,6 +92,7 @@
 
                           @endif
                         </td>
+                        <td>{{ $data->tiketStatus }}</td>
                         <td>
                             @if($data->tiketStatus == '1')
                             <label class="badge badge-warning">open</label>

@@ -4,9 +4,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.4/umd/popper.min.js" integrity="sha512-eUQ9hGdLjBjY3F41CScH3UX+4JDSI9zXeroz7hJ+RteoCaY+GP/LDoM8AO+Pt+DRFw3nXqsjh9Zsts8hnYv8/A==" crossorigin="anonymous"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#table').DataTable({
-      "iDisplayLength": 20
+    //$('#table thead th').each( function () {
+    //    var title = $(this).text();
+    //    $(this).html( '<input type="text" placeholder="'+title+'" />' );
+    //} );
+    var table = $('#table').DataTable({
+        "iDisplayLength": 20,
+        //"bSort" : false
+        "order": [[ 9, "asc" ]],      
     });
+    
+    table.column( 9 ).visible( false );
     
     $('[data-toggle=confirmation]').confirmation({
         rootSelector: '[data-toggle=confirmation]',
@@ -88,6 +96,7 @@
                       <th>Tgl Buat</th>
                       <th>UserBy</th>
                       <th>Prioritas</th>
+                      <th>KodeStatus</th>
                       <th>Status</th>
                       <th>Progres</th>
                     </tr>
@@ -139,6 +148,7 @@
 
                           @endif
                         </td>
+                        <td>{{ $data->tiketStatus }}</td>
                         <td>
                             @if($data->tiketStatus == '1')
                                 <label class="badge badge-warning">open</label>
