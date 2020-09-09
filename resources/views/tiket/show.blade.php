@@ -1,4 +1,37 @@
-
+@push('styles')
+<style>
+    ul.timeline {
+        list-style-type: none;
+        position: relative;
+    }
+    ul.timeline:before {
+        content: ' ';
+        background: #d4d9df;
+        display: inline-block;
+        position: absolute;
+        left: 29px;
+        width: 2px;
+        height: 100%;
+        z-index: 400;
+    }
+    ul.timeline > li {
+        margin: 20px 0;
+        padding-left: 20px;
+    }
+    ul.timeline > li:before {
+        content: ' ';
+        background: white;
+        display: inline-block;
+        position: absolute;
+        border-radius: 50%;
+        border: 3px solid #22c0e8;
+        left: 20px;
+        width: 20px;
+        height: 20px;
+        z-index: 400;
+    }
+</style>
+@endpush
 @section('js')
 <script type="text/javascript">
   $(document).ready(function() {
@@ -178,7 +211,28 @@
                         </table>
                     </div>
                     <!--End Detail Approval Tiket -->
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                    <!--Start Histori Tiket -->
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <p>&nbsp;</p>
+                        <div class="col-md-6">
+                            <!--<h4>Latest News</h4>-->
+                            <ul class="timeline">
+                                @foreach($histori as $dtHistori)
+                                <li>
+                                    <a href="#">
+                                        {{ $dtHistori->progresNama }} &nbsp;
+                                        @if($dtHistori->progresProsen!="")                                    
+                                            <label class="badge badge-success">{{ $dtHistori->progresProsen }}%</label>
+                                        @endif
+                                    </a>
+                                    <a href="#" class="float-right">{{ date('d-m-Y H:i', strtotime($dtHistori->created_at)) }}</a>
+                                    <p>{{ $dtHistori->keterangan }}</p>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>                    
+                    <!--End Histori Tiket -->
                 </div>
             </div>
         </div>

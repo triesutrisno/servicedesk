@@ -363,7 +363,23 @@ class TiketController extends Controller
                 ->orderBy('a.kode_tiket', 'asc')
                 ->get();
         //dd($datas);
-        return view('tiket.show',['data'=>$datas]);
+        
+        $histori = DB::table('tb_histori as a')
+                ->select(
+                    'a.tiketDetailId',
+                    'a.progresId',
+                    'a.created_at',                     
+                    'a.keterangan',                    
+                    'c.progresNama',                   
+                    'c.progresProsen'
+                )
+                ->leftjoin('tiket_detail as b', 'b.tiketDetailId', '=', 'a.tiketDetailId')
+                ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
+                ->where(['b.tiketId' => $id])
+                ->orderBy('a.historiId', 'desc')
+                ->get();
+        //dd($histori);
+        return view('tiket.show',['data'=>$datas, 'histori'=>$histori]);
     }
 
     /**
