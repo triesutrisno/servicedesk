@@ -38,7 +38,7 @@
               <li class="nav-item"><a class="nav-link" href="{{ url('user') }}">Data User</a></li>
               <li class="nav-item"><a class="nav-link" href="{{ url('service') }}">Data Service</a></li>
               <li class="nav-item"><a class="nav-link" href="{{ url('subservice') }}">Data Sub Service</a></li>
-              
+              <li class="nav-item"><a class="nav-link" href="{{ url('mprogress') }}">Data Progress</a></li>
           </ul>
       </div>
     </li>
