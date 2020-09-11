@@ -33,7 +33,7 @@
             <div class="auto-form-wrapper">
 
                 <div class="form-group">
-                  <label class="label">Username</label>
+                  <label class="label">Username SISIL</label>
                   <div class="input-group">
                     <input id="email" type="text" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
                     <div class="input-group-append">
@@ -44,7 +44,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="label">Password</label>
+                  <label class="label">Password SISIL</label>
                   <div class="input-group">
                     <input id="password" type="password" class="form-control" name="password" required>
                     <div class="input-group-append">
