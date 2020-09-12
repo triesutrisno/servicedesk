@@ -99,7 +99,7 @@ class PersetujuantiketController extends Controller
             $isiEmail="<html>";
             $isiEmail.="<html>";
             $isiEmail.="<body>";           
-            $isiEmail.="Saat ini ada diminta untuk mengerjakan tiket dengan: <br />";
+            $isiEmail.="Saat ini anda diminta untuk mengerjakan tiket dengan: <br />";
             $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
             $isiEmail.="<tr>";
             $isiEmail.="<td width=\"40\">Nomer</td>";
