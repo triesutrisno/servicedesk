@@ -67,8 +67,8 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:20|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            //'email' => 'required|string|email|max:255|unique:users',
+            //'password' => 'required|string|min:6|confirmed',
             
         ]);
 
@@ -87,9 +87,9 @@ class UserController extends Controller
         User::create([
             'name' => $request->input('name'),
             'username' => $request->input('username'),
-            'email' => $request->input('email'),
+            //'email' => $request->input('email'),
             'level' => $request->input('level'),
-            'password' => bcrypt(($request->input('password'))),
+            //'password' => bcrypt(($request->input('password'))),
             'gambar' => $gambar
         ]);
 
@@ -157,15 +157,15 @@ class UserController extends Controller
         }
 
         $user_data->name = $request->input('name');
-        $user_data->email = $request->input('email');
-        if($request->input('password')) {
+        //$user_data->email = $request->input('email');
+        //if($request->input('password')) {
         $user_data->level = $request->input('level');
-        }
+        //}
 
-        if($request->input('password')) {
-            $user_data->password= bcrypt(($request->input('password')));
+        //if($request->input('password')) {
+        //    $user_data->password= bcrypt(($request->input('password')));
         
-        }
+        //}
 
         $user_data->update();
 
