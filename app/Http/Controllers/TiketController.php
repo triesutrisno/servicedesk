@@ -207,7 +207,7 @@ class TiketController extends Controller
             $request->request->add(['biro'=>session('infoUser')['BIROBU']]);
             $request->request->add(['nikUser'=>session('infoUser')['NIK']]);
             $request->request->add(['tiketEmail'=>session('infoUser')['EMAIL']]);
-            if(session('infoUser')['AL_NIK'] !=""){
+            if(session('infoUser')['AL_NIK'] !="" && session('infoUser')['ESELON']!='12'){
                 $request->request->add(['tiketApprove'=>'W']);
                 $request->request->add(['tiketNikAtasan'=> session('infoUser')['AL_NIK']]);
                 $request->request->add(['tiketEmailAtasan'=> session('infoUser')['AL_EMAIL']]);

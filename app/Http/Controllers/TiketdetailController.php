@@ -60,6 +60,8 @@ class TiketdetailController extends Controller
             ->leftjoin('m_progres as f', 'f.progresId', '=', 'a.progresId')
             ->leftjoin('users as g', 'g.username', '=', 'b.nikUser')
             ->where(['nikTeknisi'=>session('infoUser')['NIK']])
+            ->orWhere(['tiketNikAtasan'=>session('infoUser')['NIK']])
+            ->orWhere(['tiketNikAtasanService'=>session('infoUser')['NIK']])
             ->orderBy('b.tiketStatus', 'asc')
             ->orderBy('b.kode_tiket', 'asc')
             ->get();
@@ -132,136 +134,140 @@ class TiketdetailController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $id)
-    {
+    {        
         $tktDetail = Tiketdetail::with(['tiket'])
                 ->where(['tiketDetailId'=>$id])
                 ->get();
         
-        if($request->progres=='12'){ // Ketika tiket di pending
-            Tiketdetail::where('tiketDetailId', $id)
-                    ->update([
-                        'keterangan' => $request->keterangan,
-                        'progresId' => $request->progres,
-                        'namaAkun' => $request->namaAkun,
-                        'passwordAkun' => $request->passwordAkun,
-                        'tglWawancara' => $request->tglWawancara,
-                        'tglMulaiMengerjakan' => $request->tglMulaiMengerjakan,
-                        'tglSelesaiMengerjakan' => $request->tglSelesaiMengerjakan,
-                        'tglImplementasi' => $request->tglImplementasi,
-                        'tglPelatihan' => $request->tglPelatihan,
-                        'tglRTL' => $request->tglRTL,
-                        'tiketDetailStatus' => '3', // status dipending
-                ]);
+        if(session('infoUser')['NIK']==$tktDetail[0]['nikTekisi']){
+            if($request->progres=='12'){ // Ketika tiket di pending
+                Tiketdetail::where('tiketDetailId', $id)
+                        ->update([
+                            'keterangan' => $request->keterangan,
+                            'progresId' => $request->progres,
+                            'namaAkun' => $request->namaAkun,
+                            'passwordAkun' => $request->passwordAkun,
+                            'tglWawancara' => $request->tglWawancara,
+                            'tglMulaiMengerjakan' => $request->tglMulaiMengerjakan,
+                            'tglSelesaiMengerjakan' => $request->tglSelesaiMengerjakan,
+                            'tglImplementasi' => $request->tglImplementasi,
+                            'tglPelatihan' => $request->tglPelatihan,
+                            'tglRTL' => $request->tglRTL,
+                            'tiketDetailStatus' => '3', // status dipending
+                    ]);
 
-                Tiket::where('tiketId', $tktDetail[0]['tiketId'])
-                    ->update(['tiketStatus' => '9']);
-        }elseif($request->progres=='13'){ // Ketika tiket di cancel
-            Tiketdetail::where('tiketDetailId', $id)
-                    ->update([
-                        'keterangan' => $request->keterangan,
-                        'progresId' => $request->progres,
-                        'namaAkun' => $request->namaAkun,
-                        'passwordAkun' => $request->passwordAkun,
-                        'tglWawancara' => $request->tglWawancara,
-                        'tglMulaiMengerjakan' => $request->tglMulaiMengerjakan,
-                        'tglSelesaiMengerjakan' => $request->tglSelesaiMengerjakan,
-                        'tglImplementasi' => $request->tglImplementasi,
-                        'tglPelatihan' => $request->tglPelatihan,
-                        'tglRTL' => $request->tglRTL,
-                        'tiketDetailStatus' => '4', // status dicancel
-                ]);
+                    Tiket::where('tiketId', $tktDetail[0]['tiketId'])
+                        ->update(['tiketStatus' => '9']);
+            }elseif($request->progres=='13'){ // Ketika tiket di cancel
+                Tiketdetail::where('tiketDetailId', $id)
+                        ->update([
+                            'keterangan' => $request->keterangan,
+                            'progresId' => $request->progres,
+                            'namaAkun' => $request->namaAkun,
+                            'passwordAkun' => $request->passwordAkun,
+                            'tglWawancara' => $request->tglWawancara,
+                            'tglMulaiMengerjakan' => $request->tglMulaiMengerjakan,
+                            'tglSelesaiMengerjakan' => $request->tglSelesaiMengerjakan,
+                            'tglImplementasi' => $request->tglImplementasi,
+                            'tglPelatihan' => $request->tglPelatihan,
+                            'tglRTL' => $request->tglRTL,
+                            'tiketDetailStatus' => '4', // status dicancel
+                    ]);
 
-                Tiket::where('tiketId', $tktDetail[0]['tiketId'])
-                    ->update(['tiketStatus' => '10']);
-        }elseif(in_array($request->progres,array('11','19'))){ // Ketika tiket di statusnya Go Live dan Finish Pengerjaan
-            Tiketdetail::where('tiketDetailId', $id)
-                    ->update([
-                        'keterangan' => $request->keterangan,
-                        'progresId' => $request->progres,
-                        'namaAkun' => $request->namaAkun,
-                        'passwordAkun' => $request->passwordAkun,
-                        'tglWawancara' => $request->tglWawancara,
-                        'tglMulaiMengerjakan' => $request->tglMulaiMengerjakan,
-                        'tglSelesaiMengerjakan' => $request->tglSelesaiMengerjakan,
-                        'tglImplementasi' => $request->tglImplementasi,
-                        'tglPelatihan' => $request->tglPelatihan,
-                        'tglRTL' => $request->tglRTL,
-                        'tiketDetailStatus' => '5', // status selesai dikerjakan
-                ]);
+                    Tiket::where('tiketId', $tktDetail[0]['tiketId'])
+                        ->update(['tiketStatus' => '10']);
+            }elseif(in_array($request->progres,array('11','19'))){ // Ketika tiket di statusnya Go Live dan Finish Pengerjaan
+                Tiketdetail::where('tiketDetailId', $id)
+                        ->update([
+                            'keterangan' => $request->keterangan,
+                            'progresId' => $request->progres,
+                            'namaAkun' => $request->namaAkun,
+                            'passwordAkun' => $request->passwordAkun,
+                            'tglWawancara' => $request->tglWawancara,
+                            'tglMulaiMengerjakan' => $request->tglMulaiMengerjakan,
+                            'tglSelesaiMengerjakan' => $request->tglSelesaiMengerjakan,
+                            'tglImplementasi' => $request->tglImplementasi,
+                            'tglPelatihan' => $request->tglPelatihan,
+                            'tglRTL' => $request->tglRTL,
+                            'tiketDetailStatus' => '5', // status selesai dikerjakan
+                    ]);
 
-                Tiket::where('tiketId', $tktDetail[0]['tiketId'])
-                    ->update(['tiketStatus' => '7']);
-                
-                if($tktDetail[0]['tiket'][0]['tiketEmail']!=""){
-                    $isiEmail="<html>";
-                    $isiEmail.="<html>";
-                    $isiEmail.="<body>";           
-                    $isiEmail.="Permintaan tiket anda dengan: <br />";
-                    $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
-                    $isiEmail.="<tr>";
-                    $isiEmail.="<td width=\"40\">Nomer</td>";
-                    $isiEmail.="<td width=\"10\">:</td>";
-                    $isiEmail.="<td>".$tktDetail[0]['tiket'][0]['kode_tiket']."</td>";
-                    $isiEmail.="</tr>";
-                    $isiEmail.="<tr>";
-                    $isiEmail.="<td>Keterangan</td>";
-                    $isiEmail.="<td>:</td>";
-                    $isiEmail.="<td>".$tktDetail[0]['tiket'][0]['tiketKeterangan']."</td>";
-                    $isiEmail.="</tr>";            
-                    $isiEmail.="</table><br />";
-                    $isiEmail.="Sudah selesai dikerjakan, silakan cek kembali serta lakukan close tiket anda di tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
-                    $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
-                    $isiEmail.= "</body>";
-                    $isiEmail.="</html>";
-                    $urle = env('API_BASE_URL')."/sendEmail.php";
-                    $response = Http::withHeaders([
-                                    'Content-Type' => 'application/json',
-                                    'token' => 'tiketing.silog.co.id'
-                                ])
-                                ->post($urle,[
-                                    'tanggal' => date("Y-m-d H:i:s"),
-                                    'recipients' => $tktDetail[0]['tiket'][0]['tiketEmail'],
-                                    #'recipients' => 'triesutrisno@gmail.com',
-                                    'cc' => '',
-                                    'subjectEmail' => 'Informasi Penyelesaian Tiket',
-                                    'isiEmail' => addslashes($isiEmail),
-                                    'status' => 'outbox',
-                                    'password' => 'sistem2017',
-                                    'contentEmail' => '0',
-                                    'sistem' => 'tiketSilog',
-                            ]);
-                    #$dtAPi = json_decode($response->getBody()->getContents(),true);  
-                    #$responStatus = $response->getStatusCode();
-                    //dd($dtAPi);
-                }
+                    Tiket::where('tiketId', $tktDetail[0]['tiketId'])
+                        ->update(['tiketStatus' => '7']);
+
+                    if($tktDetail[0]['tiket'][0]['tiketEmail']!=""){
+                        $isiEmail="<html>";
+                        $isiEmail.="<html>";
+                        $isiEmail.="<body>";           
+                        $isiEmail.="Permintaan tiket anda dengan: <br />";
+                        $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
+                        $isiEmail.="<tr>";
+                        $isiEmail.="<td width=\"40\">Nomer</td>";
+                        $isiEmail.="<td width=\"10\">:</td>";
+                        $isiEmail.="<td>".$tktDetail[0]['tiket'][0]['kode_tiket']."</td>";
+                        $isiEmail.="</tr>";
+                        $isiEmail.="<tr>";
+                        $isiEmail.="<td>Keterangan</td>";
+                        $isiEmail.="<td>:</td>";
+                        $isiEmail.="<td>".$tktDetail[0]['tiket'][0]['tiketKeterangan']."</td>";
+                        $isiEmail.="</tr>";            
+                        $isiEmail.="</table><br />";
+                        $isiEmail.="Sudah selesai dikerjakan, silakan cek kembali serta lakukan close tiket anda di tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
+                        $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
+                        $isiEmail.= "</body>";
+                        $isiEmail.="</html>";
+                        $urle = env('API_BASE_URL')."/sendEmail.php";
+                        $response = Http::withHeaders([
+                                        'Content-Type' => 'application/json',
+                                        'token' => 'tiketing.silog.co.id'
+                                    ])
+                                    ->post($urle,[
+                                        'tanggal' => date("Y-m-d H:i:s"),
+                                        'recipients' => $tktDetail[0]['tiket'][0]['tiketEmail'],
+                                        #'recipients' => 'triesutrisno@gmail.com',
+                                        'cc' => '',
+                                        'subjectEmail' => 'Informasi Penyelesaian Tiket',
+                                        'isiEmail' => addslashes($isiEmail),
+                                        'status' => 'outbox',
+                                        'password' => 'sistem2017',
+                                        'contentEmail' => '0',
+                                        'sistem' => 'tiketSilog',
+                                ]);
+                        #$dtAPi = json_decode($response->getBody()->getContents(),true);  
+                        #$responStatus = $response->getStatusCode();
+                        //dd($dtAPi);
+                    }
+            }else{
+                Tiketdetail::where('tiketDetailId', $id)
+                        ->update([
+                            'keterangan' => $request->keterangan,
+                            'progresId' => $request->progres,
+                            'namaAkun' => $request->namaAkun,
+                            'passwordAkun' => $request->passwordAkun,
+                            'tglWawancara' => $request->tglWawancara,
+                            'tglMulaiMengerjakan' => $request->tglMulaiMengerjakan,
+                            'tglSelesaiMengerjakan' => $request->tglSelesaiMengerjakan,
+                            'tglImplementasi' => $request->tglImplementasi,
+                            'tglPelatihan' => $request->tglPelatihan,
+                            'tglRTL' => $request->tglRTL,
+                            'tiketDetailStatus' => '2', // status dikerjakan
+                    ]);
+
+                    Tiket::where('tiketId', $tktDetail[0]['tiketId'])
+                        ->update(['tiketStatus' => '6']);
+            }
+
+            $histori = new Histori();
+            $histori->keterangan    = $request->keterangan;
+            $histori->progresId     = $request->progres;
+            $histori->tglRTL        = $request->tglRTL;
+            $histori->tiketDetailId = $id;
+            $histori->save();
+
+            return redirect('/tugasku')->with(['kode'=>'99', 'pesan'=>'solusi berhasil ditambahkan !']); 
         }else{
-            Tiketdetail::where('tiketDetailId', $id)
-                    ->update([
-                        'keterangan' => $request->keterangan,
-                        'progresId' => $request->progres,
-                        'namaAkun' => $request->namaAkun,
-                        'passwordAkun' => $request->passwordAkun,
-                        'tglWawancara' => $request->tglWawancara,
-                        'tglMulaiMengerjakan' => $request->tglMulaiMengerjakan,
-                        'tglSelesaiMengerjakan' => $request->tglSelesaiMengerjakan,
-                        'tglImplementasi' => $request->tglImplementasi,
-                        'tglPelatihan' => $request->tglPelatihan,
-                        'tglRTL' => $request->tglRTL,
-                        'tiketDetailStatus' => '2', // status dikerjakan
-                ]);
-
-                Tiket::where('tiketId', $tktDetail[0]['tiketId'])
-                    ->update(['tiketStatus' => '6']);
+            return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket nomer '.$datas[0]->kode_tiket.' tidak ditugaskan ke anda !']);
         }
-        
-        $histori = new Histori();
-        $histori->keterangan    = $request->keterangan;
-        $histori->progresId     = $request->progres;
-        $histori->tglRTL        = $request->tglRTL;
-        $histori->tiketDetailId = $id;
-        $histori->save();
-        
-        return redirect('/tugasku')->with(['kode'=>'99', 'pesan'=>'solusi berhasil ditambahkan !']);
     }
 
     /**
