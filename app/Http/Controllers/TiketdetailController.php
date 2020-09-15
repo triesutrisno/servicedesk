@@ -293,7 +293,7 @@ class TiketdetailController extends Controller
 
             return redirect('/tugasku')->with(['kode'=>'99', 'pesan'=>'solusi berhasil ditambahkan !']); 
         }else{
-            return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket nomer '.$datas[0]->kode_tiket.' tidak ditugaskan ke anda !']);
+            return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket nomer '.$tktDetail[0]->kode_tiket.' tidak ditugaskan ke anda !']);
         }
     }
 
