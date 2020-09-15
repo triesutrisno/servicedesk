@@ -3,10 +3,11 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var table = $('#table').DataTable({
-          "iDisplayLength": 20,
-            "order": [[ 7, "asc" ]],  
+            "iDisplayLength": 20,
+            "searching": false,
+            "order": [[ 9, "asc" ]],  
         });
-        table.column( 7 ).visible( false );
+        table.column( 9 ).visible( false );
     });
 </script>
 @stop
@@ -24,6 +25,39 @@
         <div class="card">
             <div class="card-body">
               <h4 class="card-title">Data Tugasku</h4>
+                <form action="tugasku" method="post">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input type="text" name="nomer" id="nomer" class="form-control" placeholder="Nomer Tiket" value="{{ $nomor }}">
+                        </div>
+                        <!--<div class="col-md-3">
+                            <input type="text" name="service" class="form-control" placeholder="Service">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" name="subservice" class="form-control" placeholder="Sub Service">
+                        </div>-->
+                        <div class="col-md-2">                          
+                            <select class="form-control" name="status" placeholder="Status">
+                                <option value="">Pilih Status</option>
+                                <option value="1"{{ $status=='1' ? 'selected' : '' }}>Open</option>
+                                <option value="2"{{ $status=='2' ? 'selected' : '' }}>Diapprove Atasan Unit</option>
+                                <option value="3"{{ $status=='3' ? 'selected' : '' }}>Ditolak Atasan Unit</option>
+                                <option value="4"{{ $status=='4' ? 'selected' : '' }}>Disetujui</option>
+                                <option value="5"{{ $status=='5' ? 'selected' : '' }}>Ditolak</option>
+                                <option value="6"{{ $status=='6' ? 'selected' : '' }}>Dikerjakan</option>
+                                <option value="7"{{ $status=='7' ? 'selected' : '' }}>Selesai</option>
+                                <option value="8"{{ $status=='8' ? 'selected' : '' }}>Close</option>
+                                <option value="9"{{ $status=='9' ? 'selected' : '' }}>Pending</option>
+                                <option value="10"{{ $status=='10' ? 'selected' : '' }}>Cancle</option>                              
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success mr-2">Cari</button>
+                        </div>
+                    </div>
+                </form>
+              <br />
               @if (session('pesan'))
                     @if (session('kode')=='99')
                         <div class="alert alert-success">
@@ -50,6 +84,8 @@
                       <th>Keterangan</th>
                       <th>Tgl Buat</th>
                       <th>Prioritas</th>
+                      <th>UserBy</th>
+                      <th>Teknisi</th>
                       <th>KodeStatus</th>
                       <th>Status</th>
                       <th>Progres</th>
@@ -92,6 +128,8 @@
 
                           @endif
                         </td>
+                        <td>{{ $data->userBy }}</td>
+                        <td>{{ $data->namaTeknisi }}</td>
                         <td>{{ $data->tiketStatus }}</td>
                         <td>
                             @if($data->tiketStatus == '1')

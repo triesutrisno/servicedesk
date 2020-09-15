@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/persetujuantiket/detail/{id}', 'PersetujuantiketController@show');
     
     Route::get('/tugasku', 'TiketdetailController@index');
+    Route::post('/tugasku', 'TiketdetailController@index');
     Route::get('/tugasku/solusi/{id}', 'TiketdetailController@create');
     Route::post('/tugasku/solusi/{id}', 'TiketdetailController@store');
     Route::get('/tugasku/forward/{id}', 'TiketdetailController@forward');

@@ -17,13 +17,27 @@ class TiketdetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $nomer = $request->nomer != NULL ? $request->nomer : "";
+        $service = $request->service != NULL ? $request->service : "";
+        $subService = $request->subservice != NULL ? $request->subservice : "";
+        $status = $request->status != NULL ? $request->status : "";
+        $where= "";
+        //if($nomer!=""){
+        //    $where.="'kode_tiket'=>$nomer";
+        //}
+        
+        //if($status!=""){
+        //    $where.="'tiketStatus'=>$status";
+       //}
+        
         $datas = DB::table('tiket_detail as a')
             ->select(
                 'a.tiketDetailId',
                 'a.tiketId',
                 'a.nikTeknisi',
+                'h.name as namaTeknisi',
                 'a.keterangan',
                 'a.tiketDetailStatus',
                 'a.namaAkun',                
@@ -37,7 +51,8 @@ class TiketdetailController extends Controller
                 'b.kode_tiket',          
                 'b.comp',          
                 'b.unit',          
-                'b.nikUser',          
+                'b.nikUser', 
+                'g.name as userBy',         
                 'b.layananId',         
                 'c.nama_layanan',          
                 'b.serviceId',             
@@ -59,14 +74,26 @@ class TiketdetailController extends Controller
             ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'b.subServiceId')
             ->leftjoin('m_progres as f', 'f.progresId', '=', 'a.progresId')
             ->leftjoin('users as g', 'g.username', '=', 'b.nikUser')
-            ->where(['nikTeknisi'=>session('infoUser')['NIK']])
-            ->orWhere(['tiketNikAtasan'=>session('infoUser')['NIK']])
-            ->orWhere(['tiketNikAtasanService'=>session('infoUser')['NIK']])
+            ->leftjoin('users as h', 'h.username', '=', 'a.nikTeknisi')
+            #->where(['nikTeknisi'=>session('infoUser')['NIK']])
+            ->where(function($query){
+                $query->orWhere(['tiketNikAtasan'=>session('infoUser')['NIK']])
+                      ->orWhere(['tiketNikAtasanService'=>session('infoUser')['NIK']])
+                      ->orWhere(['nikTeknisi'=>session('infoUser')['NIK']]);
+            })
+            #->orWhere(['tiketNikAtasan'=>session('infoUser')['NIK']])
+            #->orWhere(['tiketNikAtasanService'=>session('infoUser')['NIK']])            
+            ->when($nomer, function ($query, $nomer) {
+                    return $query->where('kode_tiket', $nomer);
+                })
+            ->when($status, function ($query, $status) {
+                    return $query->where('tiketStatus', $status);
+                })
             ->orderBy('b.tiketStatus', 'asc')
             ->orderBy('b.kode_tiket', 'asc')
             ->get();
         
-        return view('tiket_detail.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'']);
+        return view('tiket_detail.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'', 'nomor'=>$nomer, 'status'=>$status]);
     }
 
     /**
