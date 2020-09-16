@@ -166,7 +166,8 @@ class TiketdetailController extends Controller
                 ->where(['tiketDetailId'=>$id])
                 ->get();
         
-        if(session('infoUser')['NIK']==$tktDetail[0]['nikTekisi']){
+        dd($tktDetail[0]['nikTeknisi']);
+        if(session('infoUser')['NIK']==$tktDetail[0]['nikTeknisi']){
             if($request->progres=='12'){ // Ketika tiket di pending
                 Tiketdetail::where('tiketDetailId', $id)
                         ->update([
@@ -293,7 +294,7 @@ class TiketdetailController extends Controller
 
             return redirect('/tugasku')->with(['kode'=>'99', 'pesan'=>'solusi berhasil ditambahkan !']); 
         }else{
-            return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket nomer '.$tktDetail[0]->kode_tiket.' tidak ditugaskan ke anda !']);
+            return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket ini tidak ditugaskan ke anda !']);
         }
     }
 

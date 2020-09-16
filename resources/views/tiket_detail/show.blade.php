@@ -1,5 +1,12 @@
 @push('styles')
 <style>
+    .table td, .table th {
+        vertical-align: middle;
+        font-size: 13px;
+        line-height: 1;
+        white-space: normal !important;
+    }
+    
     ul.timeline {
         list-style-type: none;
         position: relative;
@@ -55,8 +62,8 @@ $(document).ready(function() {
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Data Tiket</h4>
-                <table class="table">
-                    <tbody>
+                <div class="table-responsive-sm">
+                    <table class="table">
                         <tr>
                             <td width="10%">Nomor</td>
                             <td width="2%">:</td>
@@ -119,10 +126,10 @@ $(document).ready(function() {
                         <tr>
                             <td>Keterangan</td>
                             <td>:</td>
-                            <td colspan="4">{{ $data[0]->tiketKeterangan}}</td>
+                            <td colspan="4" class="datae">{{ $data[0]->tiketKeterangan}}</td>
                         </tr>
-                    </tbody>
                 </table>
+                </div>
                 <br />
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
