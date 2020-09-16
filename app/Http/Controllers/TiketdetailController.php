@@ -166,7 +166,7 @@ class TiketdetailController extends Controller
                 ->where(['tiketDetailId'=>$id])
                 ->get();
         
-        dd($tktDetail[0]['nikTeknisi']);
+        //dd($tktDetail[0]['nikTeknisi']);
         if(session('infoUser')['NIK']==$tktDetail[0]['nikTeknisi']){
             if($request->progres=='12'){ // Ketika tiket di pending
                 Tiketdetail::where('tiketDetailId', $id)
