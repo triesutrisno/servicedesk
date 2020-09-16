@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Tiket;
 use DB;
+use App\User;
 
 class ApprovetiketController extends Controller
 {
@@ -124,6 +125,26 @@ class ApprovetiketController extends Controller
                                 'contentEmail' => '0',
                                 'sistem' => 'tiketSilog',
                         ]);
+            }
+            $users = User::where(['username'=>$tiket[0]['tiketNikAtasanService']])->get(); 
+            if($users[0]['idTelegram']!=""){
+                $isiTelegram="Saat ini ada mendapatkan permintaan tiket dengan: \n";
+                $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";
+                $isiTelegram.="Layanan : ".$tiket[0]['layanan'][0]['nama_layanan']." \n";
+                $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
+                $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['serviceSubName']." \n";
+                $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
+                $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
+
+                $urle2 = env('API_BASE_URL')."/sendTelegram.php";
+                $response2 = Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                        'token' => 'tiketing.silog.co.id'
+                    ])
+                    ->post($urle2,[
+                        'idTelegram' => $users[0]['idTelegram'],
+                        'pesan' => $isiTelegram,
+                ]);
             }
             return redirect('/approvetiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil diapprove !']);
         }else{

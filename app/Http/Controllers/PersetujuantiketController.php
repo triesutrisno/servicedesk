@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use App\Tiket;
 use App\Tiketdetail;
 use DB;
+use App\User;
 
 class PersetujuantiketController extends Controller
 {
@@ -119,7 +120,7 @@ class PersetujuantiketController extends Controller
             $isiEmail.="<tr>";
             $isiEmail.="<td>Subservice</td>";
             $isiEmail.="<td>:</td>";
-            $isiEmail.="<td>".$tiket[0]['subService'][0]['serviceSubName']."</td>";
+            $isiEmail.="<td>".$tiket[0]['subService'][0]['ServiceSubName']."</td>";
             $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Keterangan</td>";
@@ -149,6 +150,27 @@ class PersetujuantiketController extends Controller
                             'contentEmail' => '0',
                             'sistem' => 'tiketSilog',
                     ]);
+            
+            $users = User::where(['username'=>$request->nikTeknisi])->get(); 
+            if($users[0]['idTelegram']!=""){
+                $isiTelegram="Saat ini anda diminta untuk mengerjakan tiket dengan: \n";
+                $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";
+                $isiTelegram.="Layanan : ".$tiket[0]['layanan'][0]['nama_layanan']." \n";
+                $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
+                $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['ServiceSubName']." \n";
+                $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
+                $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
+
+                $urle2 = env('API_BASE_URL')."/sendTelegram.php";
+                $response2 = Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                        'token' => 'tiketing.silog.co.id'
+                    ])
+                    ->post($urle2,[
+                        'idTelegram' => $users[0]['idTelegram'],
+                        'pesan' => $isiTelegram,
+                ]);
+            }
             return redirect('/persetujuantiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil disetujui !']);
         }else{
             return redirect('/persetujuantiket')->with(['kode'=>'90', 'pesan'=>'Data tidak bisa disetujui !']);

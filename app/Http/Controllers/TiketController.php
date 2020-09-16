@@ -15,6 +15,7 @@ use App\Layanan;
 use App\Transaksiot;
 use App\Service;
 use App\Subservice;
+use App\User;
 
 class TiketController extends Controller
 {
@@ -265,6 +266,24 @@ class TiketController extends Controller
                     #$dtAPi = json_decode($response->getBody()->getContents(),true);  
                     #$responStatus = $response->getStatusCode();
                     //dd($dtAPi);
+                    
+                    $users = User::where(['username'=>session('infoUser')['AL_NIK']])->get(); 
+                    if($users[0]['idTelegram']!=""){
+                        $isiTelegram="Mohon untuk segera diapprove permintaan tiket dengan: \n";
+                        $isiTelegram.="Nomer : ".$request->kode_tiket." \n";
+                        $isiTelegram.="Keterangan : ".$request->tiketKeterangan." \n";
+                        $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
+                        
+                        $urle2 = env('API_BASE_URL')."/sendTelegram.php";
+                        $response2 = Http::withHeaders([
+                                'Content-Type' => 'application/json',
+                                'token' => 'tiketing.silog.co.id'
+                            ])
+                            ->post($urle2,[
+                                'idTelegram' => $users[0]['idTelegram'],
+                                'pesan' => $isiTelegram,
+                        ]);
+                    }
                 }
             }else{
                 $isiEmail="<html>";
@@ -307,9 +326,27 @@ class TiketController extends Controller
                                     'sistem' => 'tiketSilog',
                             ]);
                 }
+                
+                $users = User::where(['username'=>$request->tiketNikAtasanService])->get(); 
+                if($users[0]['idTelegram']!=""){
+                    $isiTelegram="Mohon untuk segera diapprove permintaan tiket dengan: \n";
+                    $isiTelegram.="Nomer : ".$request->kode_tiket." \n";
+                    $isiTelegram.="Keterangan : ".$request->tiketKeterangan." \n";
+                    $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
+
+                    $urle2 = env('API_BASE_URL')."/sendTelegram.php";
+                    $response2 = Http::withHeaders([
+                            'Content-Type' => 'application/json',
+                            'token' => 'tiketing.silog.co.id'
+                        ])
+                        ->post($urle2,[
+                            'idTelegram' => $users[0]['idTelegram'],
+                            'pesan' => $isiTelegram,
+                    ]);
+                }
             }
             
-            return redirect('/tiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil disampan !']);
+            return redirect('/tiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil disimpan !']);
         }else{
             return redirect('/tiket')->with(['kode'=>'90', 'pesan'=>'Data sudah ada !']);
         }

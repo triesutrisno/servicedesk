@@ -9,6 +9,7 @@ use DB;
 use App\Progres;
 use App\Tiket;
 use App\Histori;
+use App\User;
 
 class TiketdetailController extends Controller
 {
@@ -264,6 +265,23 @@ class TiketdetailController extends Controller
                         #$dtAPi = json_decode($response->getBody()->getContents(),true);  
                         #$responStatus = $response->getStatusCode();
                         //dd($dtAPi);
+                    }
+                    $users = User::where(['username'=>$tktDetail[0]['tiket'][0]['nikUser']])->get(); 
+                    if($users[0]['idTelegram']!=""){
+                        $isiTelegram="Permintaan tiket anda dengan: \n";
+                        $isiTelegram.="Nomer : ".$tktDetail[0]['tiket'][0]['kode_tiket']." \n";
+                        $isiTelegram.="Keterangan : ".$tktDetail[0]['tiket'][0]['tiketKeterangan']." \n";
+                        $isiTelegram.="Sudah selesai dikerjakan, silakan cek kembali serta lakukan close tiket anda di tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
+
+                        $urle2 = env('API_BASE_URL')."/sendTelegram.php";
+                        $response2 = Http::withHeaders([
+                                'Content-Type' => 'application/json',
+                                'token' => 'tiketing.silog.co.id'
+                            ])
+                            ->post($urle2,[
+                                'idTelegram' => $users[0]['idTelegram'],
+                                'pesan' => $isiTelegram,
+                        ]);
                     }
             }else{
                 Tiketdetail::where('tiketDetailId', $id)
