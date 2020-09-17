@@ -22,7 +22,7 @@
                     <div class="float-right">
                       <p class="mb-0 text-right">Ticket Masih Open</p>
                       <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0"></h3>
+                        <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('tiketStatus','<',7)->count()}}</h3>
                       </div>
                     </div>
                   </div>
@@ -42,7 +42,7 @@
                     <div class="float-right">
                       <p class="mb-0 text-right">Tiket Selesai</p>
                       <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0"></h3>
+                        <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('tiketStatus', '7')->count()}}</h3>
                       </div>
                     </div>
                   </div>
@@ -62,7 +62,7 @@
                     <div class="float-right">
                       <p class="mb-0 text-right">Ticket Masuk</p>
                       <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0"></h3>
+                        <h3 class="font-weight-medium text-right mb-0">{{$tikets->count()}}</h3>
                       </div>
                     </div>
                   </div>
@@ -80,14 +80,14 @@
                       <i class="mdi mdi-account-location text-info icon-lg"></i>
                     </div>
                     <div class="float-right">
-                      <p class="mb-0 text-right">Anggota</p>
+                      <p class="mb-0 text-right">Ticket Close</p>
                       <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0"></h3>
+                        <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('tiketStatus','8')->count()}}</h3>
                       </div>
                     </div>
                   </div>
                   <p class="text-muted mt-3 mb-0">
-                    <i class="mdi mdi-account mr-1" aria-hidden="true"></i> Total seluruh anggota
+                    <i class="mdi mdi-account mr-1" aria-hidden="true"></i> Ticket yang sudah Close user
                   </p>
                 </div>
               </div>
