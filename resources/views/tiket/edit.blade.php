@@ -10,6 +10,29 @@
             $('#namaAtasanService').text($(this).attr('data_nama'));
             $('#myModalAtasanService').modal('hide');
         });
+        
+        $('#tiketFile').bind('change', function() {
+            //this.files[0].size gets the size of your file.
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            //alert(this.files[0].size/1024);
+            var filesize = parseFloat(this.files[0].size / 1024 ).toFixed(2); // dalam KB
+            var filetype = $(this).val().split('.').pop().toLowerCase();
+            //if($.inArray(filetype, ['xlsx', 'xls', 'docx', 'doc'] == -1){
+            
+            //}
+            //alert(filesize);
+            if(filesize > 100){
+                alert('Maaf size file yang anda masukan melebihi kapasitas. Size file maximal 1Mb');
+                $("#simpan").removeClass('btn-success');
+                $("#simpan").addClass('btn-secondary');
+                $("#simpan").prop('disabled', true);
+            }else{                
+                $("#simpan").removeClass('btn-secondary');
+                $("#simpan").addClass('btn-success');
+                $("#simpan").prop('disabled', false);
+            }
+        });
     });
 </script>
 @stop
@@ -100,16 +123,14 @@
                             <textarea class="form-control" required id="tiketKeterangan" name="tiketKeterangan" rows="6">{{ trim($tiket[0]['tiketKeterangan']) }}</textarea>                            
                         </div>
                     </div>
-                    <!--
-                    div class="form-group">
-                        <label for="tiketFile" class="col-md-4 control-label">File upload</label>                       
-                        <div class="input-group col-md-6">
-                          <input type="file" id="tiketFile" name="tiketFile" class="file-upload-default">
+                    <div class="form-group col-md-6">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="tiketFile" name="tiketFile">
+                            <label class="custom-file-label" for="customFile">Pilih File, size maximal 1Mb</label>
                         </div>
                     </div>
-                    -->
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success mr-2">Simpan</button>
+                        <button type="submit" class="btn btn-success mr-2" id="simpan">Simpan</button>
                     </div>
                 </form>                
             </div>

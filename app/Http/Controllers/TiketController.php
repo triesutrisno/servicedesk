@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Http;
 use Auth;
 use DB;
+use Carbon\Carbon;
 use App\Tiket;
 use App\Tiketdetail;
 use App\Histori;
@@ -193,6 +194,18 @@ class TiketController extends Controller
     public function store(Request $request,$layananId,$serviceId)
     {
         //dd($request->all());
+        if($request->file('tiketFile') == '') {
+            $gambar = NULL;
+        } else {
+            $file = $request->file('tiketFile');
+            $dt = Carbon::now();
+            $acak  = $file->getClientOriginalExtension();
+            $fileName = $dt->format('YmdHis')."-".rand(11111,99999).'.'.$acak; 
+            //dd($fileName);
+            $request->file('tiketFile')->move("images/fileTiket", $fileName);
+            $gambar = $fileName;
+        }
+        
         if (Tiket::where([
                 'layananId'=>$layananId, 
                 'serviceId'=>$serviceId, 
@@ -207,7 +220,8 @@ class TiketController extends Controller
             $request->request->add(['unit'=>session('infoUser')['UNIT']]);
             $request->request->add(['biro'=>session('infoUser')['BIROBU']]);
             $request->request->add(['nikUser'=>session('infoUser')['NIK']]);
-            $request->request->add(['tiketEmail'=>session('infoUser')['EMAIL']]);
+            $request->request->add(['tiketEmail'=>session('infoUser')['EMAIL']]);            
+            $request->request->add(['file'=>$gambar]);
             if(session('infoUser')['AL_NIK'] !="" && session('infoUser')['ESELON']!='12'){
                 $request->request->add(['tiketApprove'=>'W']);
                 $request->request->add(['tiketNikAtasan'=> session('infoUser')['AL_NIK']]);
@@ -482,14 +496,35 @@ class TiketController extends Controller
                 ['nikUser', '=', session('infoUser')['NIK']],
                 ['tiketStatus', '=', '1'],
                 ['tiketId', '!=', $id]
-        ])->doesntExist()) { // Cek data apakah sudah ada atau belum di database            
-            Tiket::where('tiketId', $id)
-              ->update([
-                  'tiketKeterangan' => $request->tiketKeterangan,
-                  'subServiceId' => $request->subServiceId,
-                  'tiketPrioritas' => $request->tiketPrioritas,
-                  'tiketNikAtasanService' => $request->tiketNikAtasanService,
-            ]);
+        ])->doesntExist()) { // Cek data apakah sudah ada atau belum di database   
+            if($request->file('tiketFile') == '') {
+                $gambar = NULL;
+                Tiket::where('tiketId', $id)
+                    ->update([
+                        'tiketKeterangan' => $request->tiketKeterangan,
+                        'subServiceId' => $request->subServiceId,
+                        'tiketPrioritas' => $request->tiketPrioritas,
+                        'tiketNikAtasanService' => $request->tiketNikAtasanService,
+                  ]);
+            } else {
+                $file = $request->file('tiketFile');
+                $dt = Carbon::now();
+                $acak  = $file->getClientOriginalExtension();
+                $fileName = $dt->format('YmdHis')."-".rand(11111,99999).'.'.$acak; 
+                //dd($fileName);
+                $request->file('tiketFile')->move("images/fileTiket", $fileName);
+                $gambar = $fileName;
+                
+                Tiket::where('tiketId', $id)
+                    ->update([
+                        'tiketKeterangan' => $request->tiketKeterangan,
+                        'subServiceId' => $request->subServiceId,
+                        'tiketPrioritas' => $request->tiketPrioritas,
+                        'tiketNikAtasanService' => $request->tiketNikAtasanService,
+                        'file' => $gambar,
+                  ]);
+            }
+            
             return redirect('/tiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil diubah !']);
         }else{
             return redirect('/tiket')->with(['kode'=>'90', 'pesan'=>'Data sudah ada !']);

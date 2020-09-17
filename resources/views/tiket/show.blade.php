@@ -152,6 +152,15 @@
                             <td>:</td>
                             <td colspan="4">{{ $data[0]->tiketKeterangan}}</td>
                         </tr>
+                        <tr>
+                            <td>File</td>
+                            <td>:</td>
+                            <td colspan="4">
+                                @if($data[0]->file!="")
+                                    <a href="{{ url('/images/fileTiket') }}/{{$data[0]->file}}">Lampiran</a>
+                                @endif
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
                 <br />
