@@ -79,7 +79,9 @@ class HomeController extends Controller
                 ->orderBy('a.kode_tiket', 'asc')
                 ->get();
         //dd($datas);
-        return view('home', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'']);
+        $tikets = Tiket::get();
+        
+        return view('home', ['datas'=>$datas,'tikets'=>$tikets, 'kode'=>'', 'pesan'=>'']);
     }
 
     /**
