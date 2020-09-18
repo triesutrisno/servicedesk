@@ -108,7 +108,7 @@
             <div class="card-body">
                 <div class="clearfix">
                     <div class="float-left">
-                        <i class="mdi mdi-book text-success icon-lg" style="width: 40px;height: 40px;"></i>
+                        <i class="mdi mdi-cloud-upload text-warning icon-lg" style="width: 40px;height: 40px;"></i>
                     </div>
                     <div class="float-right">
                         <p class="mb-0 text-right">Ticket Masuk Bulan Ini</p>
@@ -130,7 +130,7 @@
             <div class="card-body">
                 <div class="clearfix">
                     <div class="float-left">
-                        <i class="mdi mdi-receipt text-warning icon-lg"></i>
+                        <i class="mdi mdi-clipboard-arrow-down text-info icon-lg"></i>
                     </div>
                     <div class="float-right">
                         <p class="mb-0 text-right">Tiket Selesai Bulan Ini</p>
@@ -152,7 +152,7 @@
             <div class="card-body">
                 <div class="clearfix">
                     <div class="float-left">
-                        <i class="mdi mdi-account-location text-info icon-lg"></i>
+                        <i class="mdi mdi-close-circle text-danger icon-lg"></i>
                     </div>
                     <div class="float-right">
                         <p class="mb-0 text-right">Ticket Close Bulan Ini</p>
@@ -174,7 +174,7 @@
             <div class="card-body">
               <div class="clearfix">
                 <div class="float-left">
-                  <i class="mdi mdi-poll-box text-danger icon-lg"></i>
+                  <i class="mdi mdi-houzz-box text-success icon-lg"></i>
                 </div>
                 <div class="float-right">
                     <p class="mb-0 text-right">Ticket Open Bulan Ini</p>
@@ -197,7 +197,7 @@
             <div class="card-body">
                 <div class="clearfix">
                     <div class="float-left">
-                        <i class="mdi mdi-book text-success icon-lg" style="width: 40px;height: 40px;"></i>
+                        <i class="mdi mdi-database-plus text-info icon-lg" style="width: 40px;height: 40px;"></i>
                     </div>
                     <div class="float-right">
                         <p class="mb-0 text-right">Ticket Masuk Tahun Ini</p>
@@ -219,7 +219,7 @@
             <div class="card-body">
                 <div class="clearfix">
                     <div class="float-left">
-                        <i class="mdi mdi-receipt text-warning icon-lg"></i>
+                        <i class="mdi mdi-receipt text-danger icon-lg"></i>
                     </div>
                     <div class="float-right">
                         <p class="mb-0 text-right">Tiket Selesai Tahun Ini</p>
@@ -241,7 +241,7 @@
             <div class="card-body">
                 <div class="clearfix">
                     <div class="float-left">
-                        <i class="mdi mdi-account-location text-info icon-lg"></i>
+                        <i class="mdi mdi-account-location text-success icon-lg"></i>
                     </div>
                     <div class="float-right">
                         <p class="mb-0 text-right">Ticket Close Tahun Ini</p>
@@ -263,7 +263,7 @@
             <div class="card-body">
               <div class="clearfix">
                 <div class="float-left">
-                  <i class="mdi mdi-poll-box text-danger icon-lg"></i>
+                  <i class="mdi mdi-poll-box text-warning icon-lg"></i>
                 </div>
                 <div class="float-right">
                     <p class="mb-0 text-right">Ticket Open Tahun</p>
