@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout','LoginController@logout');
 
     Route::get('home', 'HomeController@index');
+    Route::get('home/detail/{id}', 'HomeController@detail');
     Route::resource('user', 'UserController');
     Route::resource('subservice', 'SubserviceController');
     Route::resource('service', 'ServiceController');

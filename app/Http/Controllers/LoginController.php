@@ -55,7 +55,7 @@ class LoginController extends Controller
                         $dtAPi['data']['LEVEL'] = $getUser->level;
                         //dd($dtAPi);
                         $request->session()->put('infoUser', $dtAPi['data']);
-                        return redirect('/');
+                        return redirect('/home');
                     }
                 }else{
                     return redirect('/')->with('pesan', $dtAPi['ResponseMessage']);
