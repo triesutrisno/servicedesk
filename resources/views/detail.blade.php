@@ -22,7 +22,7 @@
         <div class="card">
 
             <div class="card-body">
-                <h4 class="card-title">Status Open Ticket sampai dengan hari ini</h4>
+                <h4 class="card-title">Data Tiket</h4>
 
                 <div class="table-responsive">
                     <table class="table table-striped" id="table">
