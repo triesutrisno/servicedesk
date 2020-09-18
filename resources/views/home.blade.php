@@ -124,6 +124,7 @@
                             <th>Tgl Approve Atasan IT</th>
                             <th>Tgl Mulai</th>
                             <th>Tgl Selesai</th>
+                            <th>Tgl Close</th>
                             <th>User</th>
                             <th>Progress (%)</th>
                             <th>Status</th>
@@ -144,6 +145,7 @@
                             <td>{{$data->tiketTglApproveService}}</td>
                             <td> {{$data->tglMulaiMengerjakan}}   </td>
                             <td> {{$data->tglSelesaiMengerjakan}}   </td>
+                            <td> {{$data->tglClose}}   </td>
                             <td>  {{$data->name}}      </td>
                             <td>  {{$data->progresProsen}}% </td>
                             <td>
