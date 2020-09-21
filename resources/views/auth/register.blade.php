@@ -72,7 +72,6 @@ var check = function() {
                                 @endif
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="email" class="col-md-4 control-label">Gambar</label>
                             <div class="col-md-6">
@@ -80,8 +79,6 @@ var check = function() {
                                 <input type="file" class="uploads form-control" style="margin-top: 20px;" name="gambar">
                             </div>
                         </div>
-
-
                         <div class="form-group{{ $errors->has('level') ? ' has-error' : '' }}">
                             <label for="level" class="col-md-4 control-label">Level</label>
                             <div class="col-md-6">
@@ -90,6 +87,12 @@ var check = function() {
                                 <option value="admin">Admin</option>
                                 <option value="user">User</option>
                             </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="col-md-4 control-label">Id Telegram</label>
+                            <div class="col-md-6">
+                                <input id="username" type="text" class="form-control" name="idTelegram" value="{{ old('idTelegram') }}">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary" id="submit">

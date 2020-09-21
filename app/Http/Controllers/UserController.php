@@ -90,7 +90,8 @@ class UserController extends Controller
             //'email' => $request->input('email'),
             'level' => $request->input('level'),
             //'password' => bcrypt(($request->input('password'))),
-            'gambar' => $gambar
+            'gambar' => $gambar,
+            'idTelegram'=>$request->idTelegram
         ]);
 
         Session::flash('message', 'Berhasil ditambahkan!');
@@ -159,7 +160,9 @@ class UserController extends Controller
         $user_data->name = $request->input('name');
         //$user_data->email = $request->input('email');
         //if($request->input('password')) {
-        $user_data->level = $request->input('level');
+        $user_data->level = $request->input('level');        
+        $user_data->idTelegram = $request->input('idTelegram');
+        
         //}
 
         //if($request->input('password')) {

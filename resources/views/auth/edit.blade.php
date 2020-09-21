@@ -91,7 +91,13 @@ var check = function() {
                             </select>
                             </div>
                         </div>
-                        @endif
+                        @endif                        
+                        <div class="form-group">
+                            <label for="username" class="col-md-4 control-label">Id Telegram</label>
+                            <div class="col-md-6">
+                                <input id="username" type="text" class="form-control" name="idTelegram" value="{{ $data->idTelegram }}">
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-primary" id="submit">
                                     Update
                         </button>
