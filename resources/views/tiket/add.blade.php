@@ -111,7 +111,7 @@
                     <div class="form-group">
                         <label for="tiketNikAtasanService" class="col-md-4 control-label">Tujuan</label>
                         <div class="input-group col-md-6">
-                            <input type="text" name="tiketNikAtasanService" id="tiketNikAtasanService" class="form-control" required>
+                            <input type="text" name="tiketNikAtasanService" id="tiketNikAtasanService" class="form-control" required readonly="true">
                             <input type="hidden" name="tiketEmailAtasanService" id="tiketEmailAtasanService" class="form-control" required readonly="true">
                             <a href="#" data-toggle="modal" data-target="#myModalAtasanService" style="text-decoration:none">
                             <div class="input-group-append bg-primary border-primary">
@@ -141,6 +141,20 @@
                             <label class="custom-file-label" for="customFile">Pilih File, size maximal 1Mb</label>
                         </div>
                     </div>
+                    @if($id_service=='5')
+                    <div class="form-group">
+                        <label for="namaLengkap" class="col-md-4 control-label">Nama Lengkap</label>
+                        <div class="input-group col-md-6">
+                            <input type="text" name="namaLengkap" id="namaLengkap" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nikLengkap" class="col-md-4 control-label">NIK Lengkap</label>
+                        <div class="input-group col-md-6">
+                            <input type="text" name="nikLengkap" id="nikLengkap" class="form-control">
+                        </div>
+                    </div>
+                    @endif
                     <div class="form-group">
                         <button type="submit" class="btn btn-success mr-2" id="simpan">Simpan</button>
                         <button type='reset' class="btn btn-light">Reset</button>

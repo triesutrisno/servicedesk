@@ -29,7 +29,9 @@ class Tiket extends Model
         'tiketNikAtasanService',
         'tiketEmailAtasanService',
         'tiketPrioritas',
-        'tiketStatus'
+        'tiketStatus',
+        'namaLengkap',
+        'nikLengkap'
     ];
     
     public function layanan()

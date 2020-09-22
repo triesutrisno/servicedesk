@@ -205,6 +205,66 @@ class TiketdetailController extends Controller
 
                     Tiket::where('tiketId', $tktDetail[0]['tiketId'])
                         ->update(['tiketStatus' => '10']);
+                    
+                    if($tktDetail[0]['tiket'][0]['tiketEmail']!=""){
+                        $isiEmail="<html>";
+                        $isiEmail.="<html>";
+                        $isiEmail.="<body>";           
+                        $isiEmail.="Permintaan tiket anda dengan: <br />";
+                        $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
+                        $isiEmail.="<tr>";
+                        $isiEmail.="<td width=\"40\">Nomer</td>";
+                        $isiEmail.="<td width=\"10\">:</td>";
+                        $isiEmail.="<td>".$tktDetail[0]['tiket'][0]['kode_tiket']."</td>";
+                        $isiEmail.="</tr>";
+                        $isiEmail.="<tr>";
+                        $isiEmail.="<td>Keterangan</td>";
+                        $isiEmail.="<td>:</td>";
+                        $isiEmail.="<td>".$tktDetail[0]['tiket'][0]['tiketKeterangan']."</td>";
+                        $isiEmail.="</tr>";            
+                        $isiEmail.="</table><br />";
+                        $isiEmail.="dicancel karena ".$request->keterangan." <br />";
+                        $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
+                        $isiEmail.= "</body>";
+                        $isiEmail.="</html>";
+                        $urle = env('API_BASE_URL')."/sendEmail.php";
+                        $response = Http::withHeaders([
+                                        'Content-Type' => 'application/json',
+                                        'token' => 'tiketing.silog.co.id'
+                                    ])
+                                    ->post($urle,[
+                                        'tanggal' => date("Y-m-d H:i:s"),
+                                        'recipients' => $tktDetail[0]['tiket'][0]['tiketEmail'],
+                                        #'recipients' => 'triesutrisno@gmail.com',
+                                        'cc' => $tktDetail[0]['tiket'][0]['tiketEmailAtasan'],
+                                        'subjectEmail' => 'Informasi Penyelesaian Tiket',
+                                        'isiEmail' => addslashes($isiEmail),
+                                        'status' => 'outbox',
+                                        'password' => 'sistem2017',
+                                        'contentEmail' => '0',
+                                        'sistem' => 'tiketSilog',
+                                ]);
+                        #$dtAPi = json_decode($response->getBody()->getContents(),true);  
+                        #$responStatus = $response->getStatusCode();
+                        //dd($dtAPi);
+                    }
+                    $users = User::where(['username'=>$tktDetail[0]['tiket'][0]['nikUser']])->get(); 
+                    if($users[0]['idTelegram']!=""){
+                        $isiTelegram="Permintaan tiket anda dengan: \n";
+                        $isiTelegram.="Nomer : ".$tktDetail[0]['tiket'][0]['kode_tiket']." \n";
+                        $isiTelegram.="Keterangan : ".$tktDetail[0]['tiket'][0]['tiketKeterangan']." \n";
+                        $isiTelegram.="dicancel karena ".$request->keterangan." \n";
+
+                        $urle2 = env('API_BASE_URL')."/sendTelegram.php";
+                        $response2 = Http::withHeaders([
+                                'Content-Type' => 'application/json',
+                                'token' => 'tiketing.silog.co.id'
+                            ])
+                            ->post($urle2,[
+                                'idTelegram' => $users[0]['idTelegram'],
+                                'pesan' => $isiTelegram,
+                        ]);
+                    }
             }elseif(in_array($request->progres,array('11','19'))){ // Ketika tiket di statusnya Go Live dan Finish Pengerjaan
                 Tiketdetail::where('tiketDetailId', $id)
                         ->update([
@@ -254,7 +314,7 @@ class TiketdetailController extends Controller
                                         'tanggal' => date("Y-m-d H:i:s"),
                                         'recipients' => $tktDetail[0]['tiket'][0]['tiketEmail'],
                                         #'recipients' => 'triesutrisno@gmail.com',
-                                        'cc' => '',
+                                        'cc' => $tktDetail[0]['tiket'][0]['tiketEmailAtasan'],
                                         'subjectEmail' => 'Informasi Penyelesaian Tiket',
                                         'isiEmail' => addslashes($isiEmail),
                                         'status' => 'outbox',
