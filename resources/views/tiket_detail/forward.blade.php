@@ -5,14 +5,13 @@
           "iDisplayLength": 50
         });
         
-        //$('#tglWawancara').datetimepicker({
-        //    autoclose: true,
-        //    format: 'yyyy-mm-dd',
-            //todayHighlight: true,
-            //format: "mm-yyyy",
-            //viewMode: "months", 
-            //minViewMode: "months"
-        //});
+        $('.pilihTeknisi').click( function(){
+            $('#nikTeknisi').val($(this).attr('data_nik'));
+            $('#namaTeknisi').val($(this).attr('data_nama'));            
+            $('#namaTeknisi2').text($(this).attr('data_nama'));
+            $('#emailTeknisi').val($(this).attr('data_email'));
+            $('#myModalTeknisi').modal('hide');
+        });
     });
 </script>
 @stop
@@ -29,8 +28,8 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Tambah Data Solusi Tiket</h4>                                  
-                <form method="POST" action="{{ url('tugasku/solusi') }}/{{ $datas[0]->tiketDetailId }}" enctype="multipart/form-data">
+                <h4 class="card-title">Forward Tiket</h4>                                  
+                <form method="POST" action="{{ url('tugasku/forward') }}/{{ $datas[0]->tiketDetailId }}/{{ $datas[0]->tiketId }}" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="row form-group">
                         <div class="col-md-4">
@@ -98,13 +97,13 @@
                                     <label class="badge badge-info">Dikerjakan</label>
                                 @elseif($datas[0]->tiketStatus=='7')
                                     <label class="badge badge-primary">Selesai</label>
-                                @elseif($data[0]->tiketStatus == '8')
+                                @elseif($datas[0]->tiketStatus == '8')
                                     <label class="badge badge-dark">Close</label>
-                                @elseif($data[0]->tiketStatus == '9')
+                                @elseif($datas[0]->tiketStatus == '9')
                                     <label class="badge badge-warning">Pending</label>
-                                @elseif($data[0]->tiketStatus == '10')
+                                @elseif($datas[0]->tiketStatus == '10')
                                     <label class="badge badge-danger">Cancle</label>
-                                @elseif($data[0]->tiketStatus == '11')
+                                @elseif($datas[0]->tiketStatus == '11')
                                     <label class="badge badge-warning">Forward</label>
                                @endif
                             </div>
@@ -114,78 +113,84 @@
                         <label for="tiketKeterangan" class="col-md-4 control-label">Deskripsi Tiket</label>
                         <div class="col-md-6">{{ $datas[0]->tiketKeterangan }}</div>
                     </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="tiketNikTeknisi" class="col-md-4 control-label">Teknisi</label>
+                            <div class="input-group col-md-6">
+                                <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required>
+                                <input type="hidden" name="namaTeknisi" id="namaTeknisi" class="form-control" required>
+                                <input type="hidden" name="emailTeknisi" id="emailTeknisi" readonly="true" class="form-control" required>
+                                <a href="#" data-toggle="modal" data-target="#myModalTeknisi" style="text-decoration:none">
+                                <div class="input-group-append bg-primary border-primary">
+                                    <span class="input-group-text bg-transparent">                                    
+                                        <i class="fa fa-search text-white"></i>
+                                    </span>
+                                </div>
+                                </a>
+                            </div>
+                            <div class="col-md-6" id="namaTeknisi2"></div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="keterangan" class="col-md-4 control-label">Keterangan *</label>
                         <div class="col-md-6">
-                            <textarea class="form-control" required id="keterangan" name="keterangan" rows="6">{{ $datas[0]->keterangan }}</textarea>                            
+                            <textarea class="form-control" required id="keterangan" name="keterangan" rows="6"></textarea>                            
                         </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="subServiceId" class="col-md-4 control-label">Progres *</label>
-                      <div class="col-md-6">
-                        <select class="form-control"  required id="progres" name="progres">
-                            <option value="">Silakan Pilih</option>
-                            @foreach($progres as $key => $value)
-                                <option value="{{ $value->progresId }}"{{ $datas[0]->progresId == $value->progresId ? 'selected' : '' }}>{{ $value->progresNama }} - {{ $value->progresProsen}} %</option>
-                            @endforeach                          
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="namaAkun" class="col-md-4 control-label">Nama Akun</label>                       
-                        <div class="input-group col-md-6">
-                          <input type="text" id="namaAkun" name="namaAkun" class="form-control" value="{{ $datas[0]->namaAkun }}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="passwordAkun" class="col-md-4 control-label">Password Akun</label>                       
-                        <div class="input-group col-md-6">
-                          <input type="text" id="passwordAkun" name="passwordAkun" class="form-control" value="{{ $datas[0]->passwordAkun }}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="tglWawancara" class="col-md-4 control-label">Tanggal Wawancara</label>                       
-                        <div class="input-group col-md-6">
-                          <input type="date" id="tglWawancara" name="tglWawancara" class="form-control" value="{{ $datas[0]->tglWawancara }}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="tglMulaiMengerjakan" class="col-md-4 control-label">Tanggal Mulai Mengerjakan</label>                       
-                        <div class="input-group col-md-6">
-                          <input type="date" id="tglMulaiMengerjakan" name="tglMulaiMengerjakan" class="form-control" value="{{ $datas[0]->tglMulaiMengerjakan }}">
-                        </div>
-                    </div>
-                    @if($datas[0]->tiketDetailStatus=='1')
-                    <div class="form-group">
-                        <label for="tglSelesaiMengerjakan" class="col-md-4 control-label">Tanggal Target Selesai *</label>                       
-                        <div class="input-group col-md-6">
-                            <input type="date" id="tglSelesaiMengerjakan" name="tglSelesaiMengerjakan" class="form-control" required value="{{ $datas[0]->tglSelesaiMengerjakan }}">
-                        </div>
-                    </div>
-                    @endif
-                    <div class="form-group">
-                        <label for="tglRTL" class="col-md-4 control-label">Tanggal RTL</label>                       
-                        <div class="input-group col-md-6">
-                            <input type="date" id="tglRTL" name="tglRTL" class="form-control" value="{{ $datas[0]->tglRTL }}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="tglImplementasi" class="col-md-4 control-label">Tanggal Implementasi</label>                       
-                        <div class="input-group col-md-6">
-                          <input type="date" id="tglImplementasi" name="tglImplementasi" class="form-control" value="{{ $datas[0]->tglImplementasi }}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="tglPelatihan" class="col-md-4 control-label">Tanggal Pelatihan</label>                       
-                        <div class="input-group col-md-6">
-                          <input type="date" id="tglPelatihan" name="tglPelatihan" class="form-control" value="{{ $datas[0]->tglPelatihan }}">
-                        </div>
-                    </div>
+                    </div>                    
                     <div class="form-group">
                         <button type="submit" class="btn btn-success mr-2">Simpan</button>
                         <button type='reset' class="btn btn-light">Reset</button>
                     </div>
                 </form>                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalTeknisi" tabindex="-1" role="dialog" aria-labelledby="myModalTeknisi" aria-hidden="true" >
+    <div class="modal-dialog modal-lg" role="document" >
+        <div class="modal-content" style="background: #fff;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Forward Ke</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table class="table table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>NIK</th>
+                                                <th>NAMA</th>
+                                                <th>JABATAN</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                            $nik = $nikLama = "";
+                                            foreach($dtAtasanService as $data){
+                                                $nik = $data['NIK'];
+                                                if($nik!=$nikLama){
+                                                @endphp
+                                                <tr class="pilihTeknisi" data_nik="{{ $data['NIK'] }}" data_nama="{{ $data['NAMA'] }}" data_email="{{ $data['EMAIL'] }}">
+                                                    <td><a href="#" style="text-decoration:none">{{$data['NIK']}}</a></td>
+                                                    <td>{{$data['NAMA']}}</td>
+                                                    <td>{{$data['URAIAN_JAB']}}</td>
+                                                </tr>
+                                                @php
+                                                $nikLama = $data['NIK'];
+                                                }
+                                            }
+                                            @endphp
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </div>

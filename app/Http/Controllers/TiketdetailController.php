@@ -10,6 +10,7 @@ use App\Progres;
 use App\Tiket;
 use App\Histori;
 use App\User;
+use App\Forward;
 
 class TiketdetailController extends Controller
 {
@@ -420,7 +421,9 @@ class TiketdetailController extends Controller
                     'b.tglImplementasi',
                     'b.tglPelatihan',
                     'h.name as namaTeknisi',
-                    'f.progresProsen'
+                    'f.progresProsen',
+                    'a.namaLengkap',
+                    'a.nikLengkap'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
@@ -462,8 +465,167 @@ class TiketdetailController extends Controller
      * @param  \App\Tiketdetail  $tiketdetail
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tiketdetail $tiketdetail)
+    public function forward($id)
     {
-        //
+        $datas = DB::table('tiket_detail as a')
+            ->select(
+                'a.tiketDetailId',
+                'a.tiketId',
+                'a.progresId',
+                'a.nikTeknisi',
+                'a.keterangan',
+                'a.tiketDetailStatus',
+                'a.namaAkun',                
+                'a.passwordAkun',           
+                'a.tglWawancara',           
+                'a.tglMulaiMengerjakan',           
+                'a.tglSelesaiMengerjakan',          
+                'a.tglImplementasi',          
+                'a.tglPelatihan',              
+                'a.tglRTL',          
+                'b.kode_tiket',          
+                'b.comp',          
+                'b.unit',          
+                'b.nikUser',          
+                'b.layananId',         
+                'c.nama_layanan',          
+                'b.serviceId',             
+                'd.ServiceName',          
+                'b.subServiceId',            
+                'e.ServiceSubName',           
+                'b.tiketKeterangan',          
+                'b.file',          
+                'b.tiketApprove',          
+                'b.tiketTglApprove',          
+                'b.tiketNikAtasan',          
+                'b.tiketPrioritas',          
+                'b.tiketStatus',          
+                'b.created_at'
+            )
+            ->join('tiket as b', 'b.tiketId', '=', 'a.tiketId')
+            ->leftjoin('m_layanan as c', 'c.id', '=', 'b.layananId')
+            ->leftjoin('ticket_service as d', 'd.id', '=', 'b.serviceId')
+            ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'b.subServiceId')
+            ->where(['tiketDetailId'=>$id])
+            ->get();
+        //dd($datas);
+        
+        if($datas[0]->nikTeknisi == session('infoUser')['NIK']){
+            $urle = env('API_BASE_URL')."/getTeman.php";
+            $response = Http::withHeaders([
+                            'Content-Type' => 'application/json',
+                            'token' => 'tiketing.silog.co.id'
+                        ])
+                        ->post($urle,[
+                            //'nikAtasan' => session('infoUser')['AL_NIK'],
+                            'kodeBiro' => session('infoUser')['BIROBU'],
+                    ]);
+            $dtAPi = json_decode($response->getBody()->getContents(),true);  
+            $responStatus = $response->getStatusCode();
+            //dd(session('infoUser')['KODEPARENTUNIT']);
+            if($responStatus=='200'){
+                $dtAtasanService = $dtAPi["data"];
+            }else{
+                $dtAtasanService = $dtAPi["data"];
+            }
+            return view('tiket_detail.forward', ['datas'=>$datas, 'dtAtasanService'=>$dtAtasanService]);
+        }else{
+            return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket nomer '.$datas[0]->kode_tiket.' tidak ditugaskan ke anda !']);
+        }
+    }
+    
+    public function saveforward(Request $request, $tiketDetailId,$tiketId)
+    {        
+        $tktDetail = Tiketdetail::with(['tiket'])
+                ->where(['tiketDetailId'=>$tiketDetailId])
+                ->get();
+        
+        $addKet = "Diforward ke ".$request->namaTeknisi;
+        if(session('infoUser')['NIK']==$tktDetail[0]['nikTeknisi']){
+            Tiketdetail::where('tiketDetailId', $tiketDetailId)
+                    ->update([
+                        'keterangan' => $addKet.". ".$request->keterangan,
+                        'progresId' => "21",
+                        'nikTeknisi' => $request->nikTeknisi,
+                        //'tiketDetailStatus' => '7', // status dipending
+                        'flagForward' => '1', // flag forward
+                ]);
+
+            Tiket::where('tiketId', $tiketId)
+                ->update(['tiketStatus' => '11']);
+            
+            $forward = New Forward();
+            $forward->tiketId       = $tiketId;
+            $forward->tiketDetailId = $tiketDetailId;
+            $forward->nik           = $request->nikTeknisi;
+            $forward->save();
+            
+            $histori = new Histori();
+            $histori->keterangan    = $addKet.". ".$request->keterangan;
+            $histori->progresId     = "21";
+            $histori->tiketDetailId = $tiketDetailId;
+            $histori->save();
+            
+            $isiEmail="<html>";
+            $isiEmail.="<html>";
+            $isiEmail.="<body>";           
+            $isiEmail.="Saat ini anda diminta untuk mengerjakan tiket dengan: <br />";
+            $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
+            $isiEmail.="<tr>";
+            $isiEmail.="<td width=\"40\">Nomer</td>";
+            $isiEmail.="<td width=\"10\">:</td>";
+            $isiEmail.="<td>".$tktDetail[0]['tiket'][0]['kode_tiket']."</td>";
+            $isiEmail.="</tr>";
+            $isiEmail.="<tr>";
+            $isiEmail.="<td>Keterangan</td>";
+            $isiEmail.="<td>:</td>";
+            $isiEmail.="<td>".$tktDetail[0]['tiket'][0]['tiketKeterangan']."</td>";
+            $isiEmail.="</tr>";            
+            $isiEmail.="</table><br />";
+            $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
+            $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
+            $isiEmail.= "</body>";
+            $isiEmail.="</html>";
+
+            $urle = env('API_BASE_URL')."/sendEmail.php";
+            $response = Http::withHeaders([
+                           'Content-Type' => 'application/json',
+                           'token' => 'tiketing.silog.co.id'
+                       ])
+                        ->post($urle,[
+                            'tanggal' => date("Y-m-d H:i:s"),
+                            'recipients' => $request->emailTeknisi,
+                            #'recipients' => 'triesutrisno@gmail.com',
+                            'cc' => '',
+                            'subjectEmail' => 'Info Pengerjaan Tiket',
+                            'isiEmail' => addslashes($isiEmail),
+                            'status' => 'outbox',
+                            'password' => 'sistem2017',
+                            'contentEmail' => '0',
+                            'sistem' => 'tiketSilog',
+                    ]);
+            
+            $users = User::where(['username'=>$request->nikTeknisi])->get(); 
+            if($users[0]['idTelegram']!=""){
+                $isiTelegram="Saat ini anda diminta untuk mengerjakan tiket dengan: \n";
+                $isiTelegram.="Nomer : ".$tktDetail[0]['tiket'][0]['kode_tiket']." \n";
+                $isiTelegram.="Keterangan : ".$tktDetail[0]['tiket'][0]['tiketKeterangan']." \n";
+                $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
+
+                $urle2 = env('API_BASE_URL')."/sendTelegram.php";
+                $response2 = Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                        'token' => 'tiketing.silog.co.id'
+                    ])
+                    ->post($urle2,[
+                        'idTelegram' => $users[0]['idTelegram'],
+                        'pesan' => $isiTelegram,
+                ]);
+            }
+            
+            return redirect('/tugasku')->with(['kode'=>'99', 'pesan'=>'forward tiket berhasil ditambahkan !']); 
+        }else{
+            return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket ini tidak ditugaskan ke anda !']);
+        }
     }
 }

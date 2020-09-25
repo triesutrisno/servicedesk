@@ -28,6 +28,7 @@ class CreateTiketDetailTable extends Migration
             $table->date('tglImplementasi')->nullable();
             $table->date('tglPelatihan')->nullable();
             $table->date('tglRTL')->nullable();
+            $table->string('flagForward',1)->nullable();
             $table->timestamps();
         });
     }

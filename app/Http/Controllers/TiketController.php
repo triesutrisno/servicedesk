@@ -410,7 +410,9 @@ class TiketController extends Controller
                     'b.tglSelesaiMengerjakan',
                     'b.tglImplementasi',
                     'b.tglPelatihan',
-                    'f.progresProsen'
+                    'f.progresProsen',
+                    'a.namaLengkap',
+                    'a.nikLengkap'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')

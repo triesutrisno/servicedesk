@@ -143,13 +143,13 @@
                     </div>
                     @if($id_service=='5')
                     <div class="form-group">
-                        <label for="namaLengkap" class="col-md-4 control-label">Nama Lengkap</label>
+                        <label for="namaLengkap" class="col-md-4 control-label">Nama Lengkap User Yang Diminta</label>
                         <div class="input-group col-md-6">
                             <input type="text" name="namaLengkap" id="namaLengkap" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="nikLengkap" class="col-md-4 control-label">NIK Lengkap</label>
+                        <label for="nikLengkap" class="col-md-4 control-label">NIK Lengkap User Yang Diminta</label>
                         <div class="input-group col-md-6">
                             <input type="text" name="nikLengkap" id="nikLengkap" class="form-control">
                         </div>

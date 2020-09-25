@@ -105,10 +105,9 @@
                             <a href="{{ url('/tugasku')}}/solusi/{{ $data->tiketDetailId }}" class="btn btn-icons btn-inverse-warning" title="Solusi">
                                 <i class="fa fa-send-o icon-lg"></i>
                             </a>
-                            <!--
                             <a href="{{ url('/tugasku')}}/forward/{{ $data->tiketDetailId }}" class="btn btn-icons btn-inverse-info" title="Forward">
                                 <i class="fa fa-share icon-lg"></i>
-                            </a>-->
+                            </a>
                             @endif
                         </td>                        
                         <td class="py-1">{{$data->kode_tiket }}</td>
@@ -152,6 +151,8 @@
                                 <label class="badge badge-warning">Pending</label>
                             @elseif($data->tiketStatus == '10')
                                 <label class="badge badge-danger">Cancle</label>
+                            @elseif($data->tiketStatus == '11')
+                                <label class="badge badge-warning">Diforward</label>
                             @endif
                         </td>
                         <td>

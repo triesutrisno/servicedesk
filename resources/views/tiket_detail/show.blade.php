@@ -115,6 +115,8 @@ $(document).ready(function() {
                                     <label class="badge badge-warning">Pending</label>
                                 @elseif($data[0]->tiketStatus == '10')
                                     <label class="badge badge-danger">Cancle</label>
+                                @elseif($data[0]->tiketStatus == '11')
+                                    <label class="badge badge-warning">Forward</label>
                                 @endif
                                 &nbsp;
                                 @if($data[0]->progresProsen!="")
@@ -274,6 +276,17 @@ $(document).ready(function() {
                                             {{ date('d-m-Y H:i', strtotime($data[0]->tglImplementasi)) }}
                                         @endif
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td>Nama Lengkap User Yang Diminta</td>
+                                    <td>:</td>
+                                    <td>{{ $data[0]->namaLengkap }}</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>NIK Lengkap User Yang Diminta</td>
+                                    <td>:</td>
+                                    <td>{{ $data[0]->nikLengkap }}</td>
                                 </tr>
                             </tbody>
                         </table>

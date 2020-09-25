@@ -170,6 +170,8 @@
                                 <label class="badge badge-warning">Pending</label>
                             @elseif($data->tiketStatus == '10')
                                 <label class="badge badge-danger">Cancle</label>
+                            @elseif($data->tiketStatus == '11')
+                                <label class="badge badge-warning">Diforward</label>
                             @endif
                         </td>
                         <td>

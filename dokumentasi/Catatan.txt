@@ -9,6 +9,7 @@ Status Tiket
 8 => Close
 9 => Pending
 10 => Cancle
+11 => Diforward
 
 Status Detail Tiket
 1 => Baru
