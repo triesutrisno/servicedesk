@@ -120,7 +120,7 @@ class TiketController extends Controller
     
     public function created($id)
     {        
-        $service = Service::where(['ServiceStatus'=>'1', 'id_layanan'=>$id])->get();
+        $service = Service::where(['ServiceStatus'=>'1', 'id_layanan'=>$id])->orderBy('min_eselon', 'desc')->get();
         //dd($service);
         return view('tiket.created', ['service'=>$service]);
     }
