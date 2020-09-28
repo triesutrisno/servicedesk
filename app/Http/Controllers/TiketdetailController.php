@@ -596,7 +596,7 @@ class TiketdetailController extends Controller
                             'tanggal' => date("Y-m-d H:i:s"),
                             'recipients' => $request->emailTeknisi,
                             #'recipients' => 'triesutrisno@gmail.com',
-                            'cc' => '',
+                            'cc' => $request->tiketEmailAtasanService,
                             'subjectEmail' => 'Info Pengerjaan Tiket',
                             'isiEmail' => addslashes($isiEmail),
                             'status' => 'outbox',
