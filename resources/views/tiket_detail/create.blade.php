@@ -98,13 +98,13 @@
                                     <label class="badge badge-info">Dikerjakan</label>
                                 @elseif($datas[0]->tiketStatus=='7')
                                     <label class="badge badge-primary">Selesai</label>
-                                @elseif($data[0]->tiketStatus == '8')
+                                @elseif($datas[0]->tiketStatus == '8')
                                     <label class="badge badge-dark">Close</label>
-                                @elseif($data[0]->tiketStatus == '9')
+                                @elseif($datas[0]->tiketStatus == '9')
                                     <label class="badge badge-warning">Pending</label>
-                                @elseif($data[0]->tiketStatus == '10')
+                                @elseif($datas[0]->tiketStatus == '10')
                                     <label class="badge badge-danger">Cancle</label>
-                                @elseif($data[0]->tiketStatus == '11')
+                                @elseif($datas[0]->tiketStatus == '11')
                                     <label class="badge badge-warning">Forward</label>
                                @endif
                             </div>
