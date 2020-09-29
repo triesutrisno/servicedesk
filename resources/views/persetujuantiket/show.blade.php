@@ -38,35 +38,6 @@
     $('#table').DataTable({
       "iDisplayLength": 20
     });
-    
-    $('.hapusKategori').click(function(){
-            var jawab = confirm("Anda yakin akan menghapus data ini ?");
-            if (jawab === true) {
-//            kita set hapus false untuk mencegah duplicate request
-                var hapus = false;
-                if (!hapus) {
-                    hapus = true;
-                    //$.post('hapus.php', {id: $(this).attr('data-id')},
-                    var idne = $(this).attr('data-id');
-                    var _token = $('input[name="_token"]').val();
-                    //alert(idne);
-                    $.ajax({
-                        url : "{{ url('/tiket/delete') }}/"+idne,
-                        method : "POST",
-                        data : {_token:_token},
-                        success : function(result){
-                            //alert(result);
-                            //$('#'+dependent).html(result);
-                            location.reload();
-                        }
-                    })
-                    hapus = false;
-                }
-            } else {
-                return false;
-            }
-            
-        });
 
 } );
 </script>
@@ -77,8 +48,7 @@
 <div class="row">
 
     <div class="form-group">
-      <a href="{{ url('tiket') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-book"></i> Lihat Data</a>
-      <a href="{{ url('tiket/create') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Data</a>
+      <a href="{{ url('persetujuantiket') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-book"></i> Lihat Data</a>
     </div>
 </div>
 <div class="row" style="margin-top: 20px;">
@@ -138,7 +108,9 @@
                                 @elseif($data[0]->tiketStatus == '9')
                                     <label class="badge badge-warning">Pending</label>
                                 @elseif($data[0]->tiketStatus == '10')
-                                    <label class="badge badge-danger">Cancle</label>
+                                    <label class="badge badge-danger">Cancel</label>
+                                @elseif($data[0]->tiketStatus == '11')
+                                    <label class="badge badge-warning">Forward</label>
                                 @endif
                                 &nbsp;
                                 @if($data[0]->progresProsen!="")
@@ -289,6 +261,17 @@
                                             {{ date('d-m-Y H:i', strtotime($data[0]->tglImplementasi)) }}
                                         @endif
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td>Nama Lengkap User Yang Diminta</td>
+                                    <td>:</td>
+                                    <td>{{ $data[0]->namaLengkap }}</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>NIK Lengkap User Yang Diminta</td>
+                                    <td>:</td>
+                                    <td>{{ $data[0]->nikLengkap }}</td>
                                 </tr>
                             </tbody>
                         </table>

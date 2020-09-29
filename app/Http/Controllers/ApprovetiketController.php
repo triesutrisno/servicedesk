@@ -61,7 +61,7 @@ class ApprovetiketController extends Controller
         $tiket = Tiket::with(['layanan', 'service', 'subService'])
                     ->where(['tiketId'=>$id])
                     ->get(); 
-        //dd($tiket[0]['kode_tiket']);
+        //dd($tiket[0]['subService'][0]['ServiceSubName']);
         if($tiket[0]['tiketStatus']==1){
             Tiket::where('tiketId', $id)
                 ->update([
@@ -94,7 +94,7 @@ class ApprovetiketController extends Controller
             $isiEmail.="<tr>";
             $isiEmail.="<td>Subservice</td>";
             $isiEmail.="<td>:</td>";
-            $isiEmail.="<td>".$tiket[0]['subService'][0]['serviceSubName']."</td>";
+            $isiEmail.="<td>".$tiket[0]['subService'][0]['ServiceSubName']."</td>";
             $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Keterangan</td>";
@@ -132,7 +132,7 @@ class ApprovetiketController extends Controller
                 $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";
                 $isiTelegram.="Layanan : ".$tiket[0]['layanan'][0]['nama_layanan']." \n";
                 $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
-                $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['serviceSubName']." \n";
+                $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['ServiceSubName']." \n";
                 $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
                 $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
 
@@ -203,7 +203,9 @@ class ApprovetiketController extends Controller
                     'b.tglSelesaiMengerjakan',
                     'b.tglImplementasi',
                     'b.tglPelatihan',
-                    'f.progresProsen'
+                    'f.progresProsen',
+                    'a.namaLengkap',
+                    'a.nikLengkap'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
@@ -236,6 +238,6 @@ class ApprovetiketController extends Controller
                 ->orderBy('a.historiId', 'desc')
                 ->get();
         //dd($histori);
-        return view('tiket.show',['data'=>$datas, 'histori'=>$histori]);
+        return view('approvetiket.show',['data'=>$datas, 'histori'=>$histori]);
     }
 }

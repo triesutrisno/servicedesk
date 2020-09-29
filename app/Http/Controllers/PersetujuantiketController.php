@@ -227,7 +227,9 @@ class PersetujuantiketController extends Controller
                     'b.tglSelesaiMengerjakan',
                     'b.tglImplementasi',
                     'b.tglPelatihan',
-                    'f.progresProsen'
+                    'f.progresProsen',
+                    'a.namaLengkap',
+                    'a.nikLengkap'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
@@ -260,6 +262,6 @@ class PersetujuantiketController extends Controller
                 ->orderBy('a.historiId', 'desc')
                 ->get();
         //dd($histori);
-        return view('tiket.show',['data'=>$datas, 'histori'=>$histori]);
+        return view('persetujuantiket.show',['data'=>$datas, 'histori'=>$histori]);
     }
 }
