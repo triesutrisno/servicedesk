@@ -22,6 +22,10 @@ Route::get('/', function () {
 
 Route::get('/','LoginController@index')->name('login'); 
 Route::post('/login','LoginController@login');
+
+Route::get('/approve/{kode}', 'HomeController@approve');
+Route::get('/reject/{kode}', 'HomeController@reject');
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout','LoginController@logout');
 
