@@ -52,4 +52,8 @@ class Tiket extends Model
     public function tiketDetail(){
         return $this->hasOne('App\Tiketdetail','tiketId','tiketId');
     }
+    
+    public function userBy(){
+        return $this->hasOne('App\Users','username','nikUser');
+    }
 }

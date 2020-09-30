@@ -58,7 +58,7 @@ class ApprovetiketController extends Controller
 
     public function approve($id)
     {
-        $tiket = Tiket::with(['layanan', 'service', 'subService'])
+        $tiket = Tiket::with(['layanan', 'service', 'subService', 'userBy'])
                     ->where(['tiketId'=>$id])
                     ->get(); 
         //dd($tiket[0]['subService'][0]['ServiceSubName']);
@@ -100,6 +100,11 @@ class ApprovetiketController extends Controller
             $isiEmail.="<td>Keterangan</td>";
             $isiEmail.="<td>:</td>";
             $isiEmail.="<td>".$tiket[0]['tiketKeterangan']."</td>";
+            $isiEmail.="</tr>";
+            $isiEmail.="<tr>";
+            $isiEmail.="<td>UserBy</td>";
+            $isiEmail.="<td>:</td>";
+            $isiEmail.="<td>".$tiket[0]['userBy'][0]['name']."</td>";
             $isiEmail.="</tr>";            
             $isiEmail.="</table><br />";
             $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
@@ -134,6 +139,7 @@ class ApprovetiketController extends Controller
                 $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
                 $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['ServiceSubName']." \n";
                 $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
+                $isiTelegram.="UserBy : ".$tiket[0]['userBy'][0]['name']." \n\n";
                 $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
 
                 $urle2 = env('API_BASE_URL')."/sendTelegram.php";
