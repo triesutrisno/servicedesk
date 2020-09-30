@@ -131,7 +131,6 @@ class HomeController extends Controller
                             ->orderBy('a.tiketStatus', 'asc')
                             ->orderBy('a.kode_tiket', 'asc')
                             ->get();
-        #dd($result);
         
         return view('detail', ['datas'=>$result]);
     }
