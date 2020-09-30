@@ -193,6 +193,9 @@ class TiketController extends Controller
      */
     public function store(Request $request,$layananId,$serviceId)
     {
+        $request->validate([
+               'tiketNikAtasanService' => 'required',
+        ]);
         //dd($request->all());
         if($request->file('tiketFile') == '') {
             $gambar = NULL;

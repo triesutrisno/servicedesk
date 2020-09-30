@@ -111,7 +111,7 @@
                     <div class="form-group">
                         <label for="tiketNikAtasanService" class="col-md-4 control-label">Tujuan</label>
                         <div class="input-group col-md-6">
-                            <input type="text" name="tiketNikAtasanService" id="tiketNikAtasanService" class="form-control" required readonly="true">
+                            <input type="text" name="tiketNikAtasanService" id="tiketNikAtasanService" class="form-control @error('tiketNikAtasanService') is-invalid @enderror" readonly="true">                            
                             <input type="hidden" name="tiketEmailAtasanService" id="tiketEmailAtasanService" class="form-control" required readonly="true">
                             <a href="#" data-toggle="modal" data-target="#myModalAtasanService" style="text-decoration:none">
                             <div class="input-group-append bg-primary border-primary">
@@ -120,6 +120,9 @@
                                 </span>
                             </div>
                             </a>
+                            @error('tiketNikAtasanService')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
 
                         </div>
                         <div class="col-md-6" id="namaAtasanService"></div>
