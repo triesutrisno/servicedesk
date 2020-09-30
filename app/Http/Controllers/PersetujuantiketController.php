@@ -82,7 +82,7 @@ class PersetujuantiketController extends Controller
         $tiket = Tiket::with(['layanan', 'service', 'subService'])
                     ->where(['tiketId'=>$request->tiketId])
                     ->get(); 
-        //dd($tiket[0]['kode_tiket']);
+        //dd($tiket);
         if($tiket[0]['tiketStatus']==2){
             Tiket::where('tiketId', $tiket[0]['tiketId'])
                 ->update([
@@ -152,6 +152,7 @@ class PersetujuantiketController extends Controller
                     ]);
             
             $users = User::where(['username'=>$request->nikTeknisi])->get(); 
+            //dd($users);
             if($users[0]['idTelegram']!=""){
                 $isiTelegram="Saat ini anda diminta untuk mengerjakan tiket dengan: \n";
                 $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";

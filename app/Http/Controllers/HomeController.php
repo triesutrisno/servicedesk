@@ -104,7 +104,7 @@ class HomeController extends Controller
             if($id=='1'){
                 $datas->where('a.created_at', '>=', date("Y-m-d"));
             }elseif($id=='2'){
-                $datas->where('a.updated_at', '>=', date("Y-m-d"))->where('tiketStatus', '=', '7');
+                $datas->where('a.updated_at', '>=', date("Y-m-d"))->where('tiketStatus', '=', '7')->orWhere('tiketStatus', '=', '10');
             }elseif($id=='3'){
                 $datas->where('a.updated_at', '>=', date("Y-m-d"))->where('tiketStatus', '=', '8');
             }elseif($id=='4'){
@@ -116,7 +116,7 @@ class HomeController extends Controller
             }elseif($id=='7'){
                 $datas->where('a.updated_at', '>=', date("Y-m-01"))->where('tiketStatus', '=', '8');
             }elseif($id=='8'){
-                $datas->where('a.updated_at', '>=', date("Y-m-01"))->where('tiketStatus', '<', '7');//->where('tiketStatus', '!=', '10');
+                $datas->where('a.updated_at', '>=', date("Y-m-01"))->where('tiketStatus', '<', '7');
             }elseif($id=='9'){
                 $datas->where('a.created_at', '>=', date("Y-01-01"));
             }elseif($id=='10'){

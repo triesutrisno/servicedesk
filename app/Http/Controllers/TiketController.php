@@ -152,7 +152,7 @@ class TiketController extends Controller
          
         $service = Service::with(['layanan'])
                 ->where(['ServiceStatus'=>'1', 'id'=>$id2, 'id_layanan'=>$id])->get();
-        $subService = Subservice::where(['ServiceSubStatus'=>'1', 'ServiceIDf'=>$id2])->get();
+        $subService = Subservice::where(['ServiceSubStatus'=>'1', 'ServiceIDf'=>$id2])->orderBy('urutan', 'asc')->get();
         
         $urle = env('API_BASE_URL')."/getKepala.php";
         $response = Http::withHeaders([
