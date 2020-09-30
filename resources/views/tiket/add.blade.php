@@ -23,7 +23,7 @@
             
             //}
             //alert(filesize);
-            if(filesize > 100){
+            if(filesize > 1000){
                 alert('Maaf size file yang anda masukan melebihi kapasitas. Size file maximal 1Mb');
                 $("#simpan").removeClass('btn-success');
                 $("#simpan").addClass('btn-secondary');
