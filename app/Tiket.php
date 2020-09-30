@@ -54,6 +54,6 @@ class Tiket extends Model
     }
     
     public function userBy(){
-        return $this->hasOne('App\Users','username','nikUser');
+        return $this->hasOne('App\Infouser','username','nikUser');
     }
 }

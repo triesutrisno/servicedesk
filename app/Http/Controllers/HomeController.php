@@ -15,7 +15,7 @@ use App\Layanan;
 use App\Transaksiot;
 use App\Service;
 use App\Subservice;
-use App\User;
+use App\Infouser;
 use Illuminate\Support\Facades\Http;
 
 use DB;
@@ -222,7 +222,7 @@ class HomeController extends Controller
                                         'sistem' => 'tiketSilog',
                                 ]);
                     }
-                    $users = User::where(['username'=>$tiket[0]['tiketNikAtasanService']])->get(); 
+                    $users = Infouser::where(['username'=>$tiket[0]['tiketNikAtasanService']])->get(); 
                     if($users[0]['idTelegram']!=""){
                         $isiTelegram="Saat ini ada mendapatkan permintaan tiket dengan: \n";
                         $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";
@@ -385,7 +385,7 @@ class HomeController extends Controller
                                     'sistem' => 'tiketSilog',
                             ]);
 
-                    $users = User::where(['username'=>$cekKode[0]->nikTeknisi])->get(); 
+                    $users = Infouser::where(['username'=>$cekKode[0]->nikTeknisi])->get(); 
                     //dd($users);
                     if($users[0]['idTelegram']!=""){
                         $isiTelegram="Saat ini anda diminta untuk mengerjakan tiket dengan: \n";
