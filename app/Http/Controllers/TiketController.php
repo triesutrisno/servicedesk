@@ -334,7 +334,7 @@ class TiketController extends Controller
                         $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
                         $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['ServiceSubName']." \n";
                         $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
-                        $isiTelegram.="UserBy : ".$tiket[0]['userBy']['name']." \n\n";
+                        $isiTelegram.="UserBy : ".$tiket[0]['userBy']['name']." \n";
                         $isiTelegram2="\n \n Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
                         
                         $urle2 = env('API_BASE_URL')."/sendTelegram.php";
@@ -346,9 +346,9 @@ class TiketController extends Controller
                                 'idTelegram' => $users[0]['idTelegram'],
                                 #'idTelegram' => '939753653',
                                 'pesan' => $isiTelegram.'
-                                - <a href="http://tiket.silog.co.id/ap1/approve/'.$kode.'">Approve</a> 
+    - <a href="http://tiket.silog.co.id/ap1/approve/'.$kode.'">Approve</a> 
 
-                                - <a href="http://tiket.silog.co.id/ap1/reject/'.$kode.'">Reject</a>'.$isiTelegram2,
+    - <a href="http://tiket.silog.co.id/ap1/reject/'.$kode.'">Reject</a>'.$isiTelegram2,
                                 'parse_mode'=>'html'
                         ]);
                     }
