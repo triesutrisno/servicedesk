@@ -68,7 +68,8 @@ class TiketdetailController extends Controller
                 'b.tiketNikAtasan',          
                 'b.tiketPrioritas',          
                 'b.tiketStatus',          
-                'b.created_at'
+                'b.created_at',
+                'b.noHp'
             )
             ->join('tiket as b', 'b.tiketId', '=', 'a.tiketId')
             ->leftjoin('m_layanan as c', 'c.id', '=', 'b.layananId')
@@ -423,7 +424,8 @@ class TiketdetailController extends Controller
                     'h.name as namaTeknisi',
                     'f.progresProsen',
                     'a.namaLengkap',
-                    'a.nikLengkap'
+                    'a.nikLengkap',
+                    'a.noHp'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')

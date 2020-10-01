@@ -84,9 +84,21 @@ $(document).ready(function() {
                             <td>Tanggal Buat</td>
                             <td>:</td>
                             <td>{{ date('d-m-Y H:i', strtotime($data[0]->created_at)) }}</td>
+                            <td>File</td>
+                            <td>:</td>
+                            <td>
+                                @if($data[0]->file!="")
+                                    <a href="{{ url('/images/fileTiket') }}/{{$data[0]->file}}">Lampiran</a>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
                             <td>UserBy</td>
                             <td>:</td>
                             <td>{{ $data[0]->name}}</td>
+                            <td>No Hp</td>
+                            <td>:</td>
+                            <td>{{ $data[0]->noHp}}</td>
                         </tr>
                         <tr>
                             <td>Teknisi</td>
@@ -129,15 +141,6 @@ $(document).ready(function() {
                             <td>Keterangan</td>
                             <td>:</td>
                             <td colspan="4" class="datae">{{ $data[0]->tiketKeterangan}}</td>
-                        </tr>
-                        <tr>
-                            <td>File</td>
-                            <td>:</td>
-                            <td colspan="4">
-                                @if($data[0]->file!="")
-                                    <a href="{{ url('/images/fileTiket') }}/{{$data[0]->file}}">Lampiran</a>
-                                @endif
-                            </td>
                         </tr>
                 </table>
                 </div>

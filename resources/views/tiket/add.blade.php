@@ -138,6 +138,12 @@
                             @endif
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="noHp" class="col-md-4 control-label">No HP</label>
+                        <div class="input-group col-md-6">
+                            <input type="text" name="noHp" id="noHp" class="form-control" value="{{session('infoUser')['TELPON']}}">
+                        </div>
+                    </div>
                     <div class="form-group col-md-6">
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="tiketFile" name="tiketFile">

@@ -17,6 +17,8 @@ use App\Transaksiot;
 use App\Service;
 use App\Subservice;
 use App\User;
+use App\Tbapprove;
+use DateTime;
 
 class TiketController extends Controller
 {
@@ -213,7 +215,8 @@ class TiketController extends Controller
                 'layananId'=>$layananId, 
                 'serviceId'=>$serviceId, 
                 'nikUser'=>session('infoUser')['NIK'], 
-                'subServiceId'=>$request->subServiceId, 
+                'subServiceId'=>$request->subServiceId,  
+                'tiketKeterangan'=>$request->tiketKeterangan, 
                 'tiketStatus'=>'1'
             ])->where('created_at', '>=', date("Y-m-d"))->doesntExist()) { // Cek data apakah sudah ada atau belum di database 
             
@@ -240,6 +243,12 @@ class TiketController extends Controller
             }
             Tiket::create($request->all());
             
+            $tiket = Tiket::with(['layanan', 'service', 'subService', 'userBy'])
+                    ->where(['kode_tiket'=>$request->kode_tiket])
+                    ->get(); 
+            
+            $kode = rand(11111, 99999);
+            
             if(session('infoUser')['AL_NIK'] !=""){
                 $isiEmail="<html>";
                 $isiEmail.="<html>";
@@ -252,10 +261,30 @@ class TiketController extends Controller
                 $isiEmail.="<td>".$request->kode_tiket."</td>";
                 $isiEmail.="</tr>";
                 $isiEmail.="<tr>";
+                $isiEmail.="<td>Layanan</td>";
+                $isiEmail.="<td>:</td>";
+                $isiEmail.="<td>".$tiket[0]['layanan'][0]['nama_layanan']."</td>";
+                $isiEmail.="</tr>";
+                $isiEmail.="<tr>";
+                $isiEmail.="<td>Service</td>";
+                $isiEmail.="<td>:</td>";
+                $isiEmail.="<td>".$tiket[0]['service'][0]['ServiceName']."</td>";
+                $isiEmail.="</tr>";
+                $isiEmail.="<tr>";
+                $isiEmail.="<td>Subservice</td>";
+                $isiEmail.="<td>:</td>";
+                $isiEmail.="<td>".$tiket[0]['subService'][0]['ServiceSubName']."</td>";
+                $isiEmail.="</tr>";
+                $isiEmail.="<tr>";
                 $isiEmail.="<td>Keterangan</td>";
                 $isiEmail.="<td>:</td>";
-                $isiEmail.="<td>".$request->tiketKeterangan."</td>";
-                $isiEmail.="</tr>";            
+                $isiEmail.="<td>".$tiket[0]['tiketKeterangan']."</td>";
+                $isiEmail.="</tr>";
+                $isiEmail.="<tr>";
+                $isiEmail.="<td>UserBy</td>";
+                $isiEmail.="<td>:</td>";
+                $isiEmail.="<td>".$tiket[0]['userBy']['name']."</td>";
+                $isiEmail.="</tr>";     
                 $isiEmail.="</table><br />";
                 $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
                 $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
@@ -271,7 +300,7 @@ class TiketController extends Controller
                                 ->post($urle,[
                                     'tanggal' => date("Y-m-d H:i:s"),
                                     'recipients' => session('infoUser')['AL_EMAIL'],
-                                    #'recipients' => 'triesutrisno@gmail.com',
+                                    #'recipients' => 'triesutrisno@silog.co.id',
                                     'cc' => '',
                                     'subjectEmail' => 'Permintaan Approve Tiket',
                                     'isiEmail' => addslashes($isiEmail),
@@ -282,14 +311,31 @@ class TiketController extends Controller
                             ]);
                     #$dtAPi = json_decode($response->getBody()->getContents(),true);  
                     #$responStatus = $response->getStatusCode();
-                    //dd($dtAPi);
+                    //dd($dtAPi);                    
                     
-                    $users = User::where(['username'=>session('infoUser')['AL_NIK']])->get(); 
+                    $users = User::where(['username'=>session('infoUser')['AL_NIK']])->get();
                     if($users[0]['idTelegram']!=""){
+                        $cekApp = Tbapprove::where(['kunci'=>$kode, 'flag'=>'1'])->get();
+                        $jmlCek = count($cekApp);
+                        if($jmlCek==0){
+                            $aktifSampai = date('Y-m-d H:i:s',strtotime('+1 hour',strtotime(date("Y-m-d H:i:s"))));
+                            $del = DB::table('tb_approve')->where('tiketId', '=', $tiket[0]['tiketId'])->where('flag', '=', 1)->delete();
+                            $app                = new Tbapprove();
+                            $app->tiketId       = $tiket[0]['tiketId'];
+                            $app->kunci         = $kode;
+                            $app->idTelegram    = $users[0]['idTelegram'];
+                            $app->aktif_sampai  = $aktifSampai;
+                            $app->flag          = "1";
+                            $app->save();
+                        }
                         $isiTelegram="Mohon untuk segera diapprove permintaan tiket dengan: \n";
                         $isiTelegram.="Nomer : ".$request->kode_tiket." \n";
-                        $isiTelegram.="Keterangan : ".$request->tiketKeterangan." \n";
-                        $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
+                        $isiTelegram.="Layanan : ".$tiket[0]['layanan'][0]['nama_layanan']." \n";
+                        $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
+                        $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['ServiceSubName']." \n";
+                        $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
+                        $isiTelegram.="UserBy : ".$tiket[0]['userBy']['name']." \n\n";
+                        $isiTelegram2="\n \n Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
                         
                         $urle2 = env('API_BASE_URL')."/sendTelegram.php";
                         $response2 = Http::withHeaders([
@@ -298,7 +344,12 @@ class TiketController extends Controller
                             ])
                             ->post($urle2,[
                                 'idTelegram' => $users[0]['idTelegram'],
-                                'pesan' => $isiTelegram,
+                                #'idTelegram' => '939753653',
+                                'pesan' => $isiTelegram.'
+                                - <a href="http://tiket.silog.co.id/ap1/approve/'.$kode.'">Approve</a> 
+
+                                - <a href="http://tiket.silog.co.id/ap1/reject/'.$kode.'">Reject</a>'.$isiTelegram2,
+                                'parse_mode'=>'html'
                         ]);
                     }
                 }
@@ -314,10 +365,30 @@ class TiketController extends Controller
                 $isiEmail.="<td>".$request->kode_tiket."</td>";
                 $isiEmail.="</tr>";
                 $isiEmail.="<tr>";
+                $isiEmail.="<td>Layanan</td>";
+                $isiEmail.="<td>:</td>";
+                $isiEmail.="<td>".$tiket[0]['layanan'][0]['nama_layanan']."</td>";
+                $isiEmail.="</tr>";
+                $isiEmail.="<tr>";
+                $isiEmail.="<td>Service</td>";
+                $isiEmail.="<td>:</td>";
+                $isiEmail.="<td>".$tiket[0]['service'][0]['ServiceName']."</td>";
+                $isiEmail.="</tr>";
+                $isiEmail.="<tr>";
+                $isiEmail.="<td>Subservice</td>";
+                $isiEmail.="<td>:</td>";
+                $isiEmail.="<td>".$tiket[0]['subService'][0]['ServiceSubName']."</td>";
+                $isiEmail.="</tr>";
+                $isiEmail.="<tr>";
                 $isiEmail.="<td>Keterangan</td>";
                 $isiEmail.="<td>:</td>";
-                $isiEmail.="<td>".$request->tiketKeterangan."</td>";
-                $isiEmail.="</tr>";            
+                $isiEmail.="<td>".$tiket[0]['tiketKeterangan']."</td>";
+                $isiEmail.="</tr>";
+                $isiEmail.="<tr>";
+                $isiEmail.="<td>UserBy</td>";
+                $isiEmail.="<td>:</td>";
+                $isiEmail.="<td>".$tiket[0]['userBy']['name']."</td>";
+                $isiEmail.="</tr>";              
                 $isiEmail.="</table><br />";
                 $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
                 $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
@@ -342,13 +413,17 @@ class TiketController extends Controller
                                     'contentEmail' => '0',
                                     'sistem' => 'tiketSilog',
                             ]);
-                }
+                }                
                 
                 $users = User::where(['username'=>$request->tiketNikAtasanService])->get(); 
                 if($users[0]['idTelegram']!=""){
                     $isiTelegram="Mohon untuk segera diapprove permintaan tiket dengan: \n";
                     $isiTelegram.="Nomer : ".$request->kode_tiket." \n";
-                    $isiTelegram.="Keterangan : ".$request->tiketKeterangan." \n";
+                    $isiTelegram.="Layanan : ".$tiket[0]['layanan'][0]['nama_layanan']." \n";
+                    $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
+                    $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['ServiceSubName']." \n";
+                    $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
+                    $isiTelegram.="UserBy : ".$tiket[0]['userBy']['name']." \n\n";
                     $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
 
                     $urle2 = env('API_BASE_URL')."/sendTelegram.php";
