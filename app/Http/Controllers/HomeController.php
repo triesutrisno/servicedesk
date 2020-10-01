@@ -146,7 +146,7 @@ class HomeController extends Controller
         $datetime1 = new DateTime($cekKode[0]->created_at);
         $datetime2 = new DateTime(date("Y-m-d H:i:s"));
         $difference = $datetime1->diff($datetime2);
-        if($difference->s<=5){
+        if($difference->s<=53){
             return 'Mohon maaf, untuk sementera approve belum bisa dilakukan';
         }
         $jml = count($cekKode);
@@ -272,7 +272,7 @@ class HomeController extends Controller
         $datetime1 = new DateTime($cekKode[0]->created_at);
         $datetime2 = new DateTime(date("Y-m-d H:i:s"));
         $difference = $datetime1->diff($datetime2);
-        if($difference->s<=5){
+        if($difference->s<=53){
             return 'Mohon maaf, untuk sementera Reject belum bisa dilakukan';
         }
         $jml = count($cekKode);
@@ -317,7 +317,7 @@ class HomeController extends Controller
         $datetime1 = new DateTime($cekKode[0]->created_at);
         $datetime2 = new DateTime(date("Y-m-d H:i:s"));
         $difference = $datetime1->diff($datetime2);
-        if($difference->s<=5){
+        if($difference->s<=53){
             return 'Mohon maaf, untuk sementera Approve belum bisa dilakukan';
         }
         $jml = count($cekKode);
@@ -448,7 +448,7 @@ class HomeController extends Controller
         $datetime1 = new DateTime($cekKode[0]->created_at);
         $datetime2 = new DateTime(date("Y-m-d H:i:s"));
         $difference = $datetime1->diff($datetime2);
-        if($difference->s<=5){
+        if($difference->s<=53){
             return 'Mohon maaf, untuk sementera Reject belum bisa dilakukan';
         }
         $jml = count($cekKode);
