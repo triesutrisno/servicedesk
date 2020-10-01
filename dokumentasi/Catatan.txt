@@ -18,3 +18,8 @@ Status Detail Tiket
 4 => Cancle
 5 => Selesai dikerjakan
 6 => Close
+
+Flag Tb_approve
+1 => Baru
+2 => Approve
+3 => Reject

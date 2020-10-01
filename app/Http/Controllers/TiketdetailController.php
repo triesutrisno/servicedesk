@@ -147,8 +147,11 @@ class TiketdetailController extends Controller
             ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'b.subServiceId')
             ->where(['tiketDetailId'=>$id])
             ->get();
-        //dd($datas);
+        //dd($datas[0]->tiketStatus);
         
+        if($datas[0]->tiketStatus=='8'){
+            return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket ini sudah diclose !']);
+        }
         if($datas[0]->nikTeknisi == session('infoUser')['NIK']){
             $progres = Progres::where(['progresStatus'=>'1',])->where('progresId','<>','20')->get();
             return view('tiket_detail.create', ['datas'=>$datas, 'progres'=>$progres]);
@@ -170,6 +173,9 @@ class TiketdetailController extends Controller
                 ->get();
         
         //dd($tktDetail[0]['nikTeknisi']);
+        if($tktDetail[0]['tiket'][0]['tiketStatus']=='8'){
+            return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket ini sudah diclose !']);
+        }
         if(session('infoUser')['NIK']==$tktDetail[0]['nikTeknisi']){
             if($request->progres=='12'){ // Ketika tiket di pending
                 Tiketdetail::where('tiketDetailId', $id)
