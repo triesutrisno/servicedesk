@@ -143,6 +143,12 @@ class HomeController extends Controller
             ->select('*')
             ->where('kunci', '=', $kode)
             ->get();
+        $datetime1 = new DateTime($cekKode[0]->created_at);
+        $datetime2 = new DateTime(date("Y-m-d H:i:s"));
+        $difference = $datetime1->diff($datetime2);
+        if($difference->s<3){
+            return;
+        }
         $jml = count($cekKode);
         if($jml>0){ // Jika Kode ada
             $date = date("Y-m-d H:i:s");
