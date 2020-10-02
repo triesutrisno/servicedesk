@@ -211,7 +211,8 @@ class ApprovetiketController extends Controller
                     'b.tglPelatihan',
                     'f.progresProsen',
                     'a.namaLengkap',
-                    'a.nikLengkap'
+                    'a.nikLengkap',
+                    'a.noHp'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')

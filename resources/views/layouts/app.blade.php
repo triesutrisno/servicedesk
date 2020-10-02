@@ -29,7 +29,7 @@
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-        <a class="navbar-brand brand-logo" href="index.html" style="color: #2d2d2d">
+        <a class="navbar-brand brand-logo" href="{{ url('/home')}}" style="color: #2d2d2d">
           ServiceDesk
         </a>
            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -79,7 +79,7 @@
         <footer class="footer">
           <div class="container-fluid clearfix">
             <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © {{date('Y')}}
-            <a href="https://sidistributor.com/" target="_blank">Servicedesk Silog Group</a>. All rights reserved.</span>
+            <a href="https://tiket.silog.co.id/" target="_blank">Servicedesk Silog Group</a>. All rights reserved.</span>
           </div>
         </footer>
         <!-- partial -->
