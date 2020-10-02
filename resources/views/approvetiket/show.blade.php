@@ -45,8 +45,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row">
-
+<div class="flex-row">
     <div class="form-group">
       <a href="{{ url('approvetiket') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-book"></i> Lihat Data</a>
     </div>
