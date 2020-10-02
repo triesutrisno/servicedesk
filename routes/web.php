@@ -27,6 +27,8 @@ Route::get('/ap1/approve/{kode}', 'HomeController@approve');
 Route::get('/ap1/reject/{kode}', 'HomeController@reject');
 Route::get('/ap2/approve/{kode}', 'HomeController@approve2');
 Route::get('/ap2/reject/{kode}', 'HomeController@reject2');
+Route::get('/ap3/approve/{kode}', 'HomeController@approve3');
+Route::get('/ap3/reject/{kode}', 'HomeController@reject3');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout','LoginController@logout');

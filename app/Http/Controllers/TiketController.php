@@ -346,9 +346,9 @@ class TiketController extends Controller
                                 'idTelegram' => $users[0]['idTelegram'],
                                 #'idTelegram' => '939753653',
                                 'pesan' => $isiTelegram.'
-    - <a href="http://tiket.silog.co.id/ap1/approve/'.$kode.'">Approve</a> 
+    - <a href="http://tiket.silog.co.id/ap3/approve/'.$kode.'">Approve</a> 
 
-    - <a href="http://tiket.silog.co.id/ap1/reject/'.$kode.'">Reject</a>'.$isiTelegram2,
+    - <a href="http://tiket.silog.co.id/ap3/reject/'.$kode.'">Reject</a>'.$isiTelegram2,
                                 'parse_mode'=>'html'
                         ]);
                     }
