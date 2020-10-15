@@ -48,7 +48,7 @@ class ApprovetiketController extends Controller
                 ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'a.subServiceId')
                 ->leftjoin('m_progres as f', 'f.progresId', '=', 'b.progresId')
                 ->leftjoin('users as g', 'g.username', '=', 'a.nikUser')
-                ->where(['a.tiketNikAtasan' => session('infoUser')['NIK'], 'a.tiketApprove'=>'W'])
+                ->where(['a.tiketNikAtasan' => session('infoUser')['NIK'], 'a.tiketApprove'=>'W', 'a.tiketStatus'=>'1'])
                 ->orderBy('a.tiketStatus', 'asc')
                 ->orderBy('a.kode_tiket', 'asc')
                 ->get();
