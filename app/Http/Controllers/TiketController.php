@@ -236,6 +236,7 @@ class TiketController extends Controller
                 $request->request->add(['tiketStatus'=>'1']);
             }else{
                 $request->request->add(['tiketApprove'=>'A']);
+                $request->request->add(['tiketTglApprove'=>date("Y-m-d H:i:s")]);
                 $request->request->add(['tiketNikAtasan'=> '']);
                 $request->request->add(['tiketEmailAtasan'=> '']);
                 $request->request->add(['tiketApproveService'=>'W']);
