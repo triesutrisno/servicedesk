@@ -52,9 +52,10 @@ $(document).ready(function() {
                         <div class="form-group">
                         <label for="min_eselon" class="col-md-4 control-label">Eselon</label>
                         <div class="col-md-6">
-                            <select class="form-control" required id="min_eselon" name="min_eselon">
-                              <option value="3">Eselon 3</option>
-                              <option value="4">Eselon 4</option>
+                            <select class="form-control" required id="min_eselon" name="min_eselon">                             
+                              <option value="2" {{ $data->min_eselon == '2' ? 'selected' : '' }}>Eselon 2</option>
+                              <option value="3" {{ $data->min_eselon == '3' ? 'selected' : '' }}>Eselon 3</option>
+                              <option value="4" {{ $data->min_eselon == '4' ? 'selected' : '' }}>Eselon 4</option>
 
                             </select>
                         </div>

@@ -52,7 +52,8 @@ $(document).ready(function() {
                         <label for="min_eselon" class="col-md-4 control-label">Eselon</label>
                         <div class="col-md-6">
                             <select class="form-control" required id="min_eselon" name="min_eselon">
-                              <option value="">Silakan Pilih</option>
+                              <option value="">Silakan Pilih</option>                              
+                              <option value="2">Eselon 2</option>
                               <option value="3">Eselon 3</option>
                               <option value="4">Eselon 4</option>
 
