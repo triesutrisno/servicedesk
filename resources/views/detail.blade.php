@@ -29,6 +29,9 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Status</th>
+                                <th>Progress (%)</th>
+                                <th>User</th>
                                 <th>Nomor</th>
                                 <th>Layanan</th>
                                 <th>Service</th>
@@ -40,28 +43,12 @@
                                 <th>Tgl Mulai</th>
                                 <th>Tgl Selesai</th>
                                 <th>Tgl Close</th>
-                                <th>User</th>
-                                <th>Progress (%)</th>
-                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach($datas as $data)
                             <tr>
                                 <td class="py-1">{{$loop->iteration}}</td>
-                                <td class="py-1">{{$data->kode_tiket}}</td>
-                                <td class="py-1">{{$data->nama_layanan}}</td>
-                                <td class="py-1">{{$data->ServiceName}}</td>
-                                <td>{{$data->ServiceSubName}}</td>
-                                <td>{{$data->tiketKeterangan}}</td>
-                                <td>{{$data->created_at}}</td>
-                                <td>{{$data->tiketTglApprove}}</td>
-                                <td>{{$data->tiketTglApproveService}}</td>
-                                <td>{{$data->tglMulaiMengerjakan}}   </td>
-                                <td>{{$data->tglSelesaiMengerjakan}}   </td>
-                                <td>{{$data->tglClose}}</td>
-                                <td>{{$data->name}}</td>
-                                <td>{{$data->progresProsen}}% </td>
                                 <td>
                                     @if($data->tiketStatus == '1')
                                         <label class="badge badge-warning">open</label>
@@ -87,6 +74,19 @@
                                         <label class="badge badge-warning">Forward</label>
                                     @endif
                                 </td>
+                                <td>@if($data->progresProsen!="") {{$data->progresProsen}} % @endif</td>
+                                <td>{{$data->name}}</td>
+                                <td class="py-1">{{$data->kode_tiket}}</td>
+                                <td class="py-1">{{$data->nama_layanan}}</td>
+                                <td class="py-1">{{$data->ServiceName}}</td>
+                                <td>{{$data->ServiceSubName}}</td>
+                                <td>{{$data->tiketKeterangan}}</td>
+                                <td>{{$data->created_at}}</td>
+                                <td>{{$data->tiketTglApprove}}</td>
+                                <td>{{$data->tiketTglApproveService}}</td>
+                                <td>{{$data->tglMulaiMengerjakan}}   </td>
+                                <td>{{$data->tglSelesaiMengerjakan}}   </td>
+                                <td>{{$data->tglClose}}</td>
                             </tr>
                           @endforeach
                         </tbody>

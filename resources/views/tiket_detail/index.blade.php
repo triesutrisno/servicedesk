@@ -5,9 +5,9 @@
         var table = $('#table').DataTable({
             "iDisplayLength": 20,
             "searching": false,
-            "order": [[ 9, "asc" ]],  
+            "order": [[ 11, "asc" ]],  
         });
-        table.column( 9 ).visible( false );
+        table.column( 11 ).visible( false );
     });
 </script>
 @stop
@@ -76,23 +76,22 @@
                   <thead>
                     <tr>
                       <th>Action</th>
-                      <th>Nomor</th>                      
+                      <th>Status</th>
+                      <th>Progres</th>
+                      <th>UserBy</th>
+                      <th>Nomor</th>
+                      <th>Tgl Buat</th>                
                       <!--<th>Layanan</th>-->
                       <th>Service</th>
                       <th>Subservice</th>
                       <th>Keterangan</th>
-                      <th>Tgl Buat</th>
                       <th>Prioritas</th>
-                      <th>UserBy</th>
                       <th>Teknisi</th>
                       <th>KodeStatus</th>
-                      <th>Status</th>
-                      <th>Progres</th>
                     </tr>
                   </thead>
                   <tbody>
-                  @foreach($datas as $data)
-                  
+                  @foreach($datas as $data)                  
                  
                     <tr>                        
                         <td>
@@ -108,27 +107,7 @@
                                 <i class="fa fa-share icon-lg"></i>
                             </a>
                             @endif
-                        </td>                        
-                        <td class="py-1">{{$data->kode_tiket }}</td>
-                        <!--<td>{{ $data->nama_layanan }}</td>-->
-                        <td>{{ $data->ServiceName }}</td>
-                        <td>{{ $data->ServiceSubName }}</td>
-                        <td>{{ $data->tiketKeterangan}}</td>
-                        <td>{{ date('d-m-Y H:i', strtotime($data->created_at)) }}</td>
-                        <td>
-                          @if($data->tiketPrioritas == '1')
-                              Biasa
-                          @elseif($data->tiketPrioritas == '2')
-                              Segera
-                          @elseif($data->tiketPrioritas == '3')
-                              Prioritas dan Penting
-                          @else
-
-                          @endif
                         </td>
-                        <td>{{ $data->userBy }}</td>
-                        <td>{{ $data->namaTeknisi }}</td>
-                        <td>{{ $data->tiketStatus }}</td>
                         <td>
                             @if($data->tiketStatus == '1')
                             <label class="badge badge-warning">open</label>
@@ -159,6 +138,26 @@
                                 {{ $data->progresProsen }} %
                             @endif
                         </td>
+                        <td>{{ $data->userBy }}</td>
+                        <td class="py-1">{{$data->kode_tiket }}</td>
+                        <!--<td>{{ $data->nama_layanan }}</td>-->
+                        <td>{{ date('d-m-Y H:i', strtotime($data->created_at)) }}</td>
+                        <td>{{ $data->ServiceName }}</td>
+                        <td>{{ $data->ServiceSubName }}</td>
+                        <td>{{ $data->tiketKeterangan}}</td>
+                        <td>
+                          @if($data->tiketPrioritas == '1')
+                              Biasa
+                          @elseif($data->tiketPrioritas == '2')
+                              Segera
+                          @elseif($data->tiketPrioritas == '3')
+                              Prioritas dan Penting
+                          @else
+
+                          @endif
+                        </td>
+                        <td>{{ $data->namaTeknisi }}</td>
+                        <td>{{ $data->tiketStatus }}</td>
                     </tr>
                   @endforeach
                   </tbody>

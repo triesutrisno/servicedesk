@@ -11,10 +11,10 @@
     var table = $('#table').DataTable({
         "iDisplayLength": 20,
         //"bSort" : false
-        "order": [[ 9, "asc" ]],      
+        "order": [[ 11, "asc" ]],      
     });
     
-    table.column( 9 ).visible( false );
+    table.column( 11 ).visible( false );
     
     $('[data-toggle=confirmation]').confirmation({
         rootSelector: '[data-toggle=confirmation]',
@@ -87,17 +87,17 @@
                     <tr>
                       <th>Action</th>
                       <!--<th>No</th>-->
+                      <th>Status</th>
+                      <th>Progres</th>
+                      <th>UserBy</th>
                       <th>Nomer</th>                      
                       <th>Layanan</th>
                       <th>Service</th>
                       <th>Subservice</th>
                       <th>Keterangan</th>
                       <th>Tgl Buat</th>
-                      <th>UserBy</th>
                       <th>Prioritas</th>
                       <th>KodeStatus</th>
-                      <th>Status</th>
-                      <th>Progres</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -128,26 +128,6 @@
                           </form>
                           @endif
                       </td>
-                        <!--<td align="center">{{$loop->iteration}}</td>-->
-                        <td class="py-1">{{$data->kode_tiket }}</td>
-                        <td>{{ $data->nama_layanan }}</td>
-                        <td>{{ $data->ServiceName }}</td>
-                        <td>{{ $data->ServiceSubName }}</td>
-                        <td>{{ $data->tiketKeterangan}}</td>
-                        <td>{{ date('d-m-Y H:i', strtotime($data->created_at)) }}</td>   
-                        <td>{{ $data->name}}</td>                     
-                        <td>
-                          @if($data->tiketPrioritas == '1')
-                              Biasa
-                          @elseif($data->tiketPrioritas == '2')
-                              Segera
-                          @elseif($data->tiketPrioritas == '3')
-                              Prioritas dan Penting
-                          @else
-
-                          @endif
-                        </td>
-                        <td>{{ $data->tiketStatus }}</td>
                         <td>
                             @if($data->tiketStatus == '1')
                                 <label class="badge badge-warning">open</label>
@@ -177,7 +157,27 @@
                             @if($data->progresProsen!="")
                                 {{ $data->progresProsen }} %
                             @endif
+                        </td> 
+                        <td>{{ $data->name}}</td>
+                        <!--<td align="center">{{$loop->iteration}}</td>-->
+                        <td class="py-1">{{$data->kode_tiket }}</td>
+                        <td>{{ $data->nama_layanan }}</td>
+                        <td>{{ $data->ServiceName }}</td>
+                        <td>{{ $data->ServiceSubName }}</td>
+                        <td>{{ $data->tiketKeterangan}}</td>
+                        <td>{{ date('d-m-Y H:i', strtotime($data->created_at)) }}</td>  
+                        <td>
+                          @if($data->tiketPrioritas == '1')
+                              Biasa
+                          @elseif($data->tiketPrioritas == '2')
+                              Segera
+                          @elseif($data->tiketPrioritas == '3')
+                              Prioritas dan Penting
+                          @else
+
+                          @endif
                         </td>
+                        <td>{{ $data->tiketStatus }}</td>
                     </tr>
                   @endforeach
                   </tbody>
