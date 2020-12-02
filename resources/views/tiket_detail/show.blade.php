@@ -54,6 +54,10 @@ $(document).ready(function() {
 <div class="flex-row">
     <div class="form-group">
         <a href="{{ url('tugasku') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-book"></i> Lihat Data</a>
+        @if($data[0]->tiketDetailStatus<'6' && $data[0]->nikTeknisi==session('infoUser')['NIK'])            
+            <a href="{{ url('/tugasku')}}/solusi/{{ $data[0]->tiketDetailId }}" class="btn btn-warning btn-rounded btn-fw"><i class="fa fa-send-o icon-lg"></i> Solusi</a>
+            <a href="{{ url('/tugasku')}}/forward/{{ $data[0]->tiketDetailId }}" class="btn btn-info btn-rounded btn-fw"><i class="fa fa-share icon-lg"></i> Forward</a>
+        @endif
     </div>
 </div>
 <div class="row" style="margin-top: 20px;">

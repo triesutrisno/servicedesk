@@ -431,7 +431,9 @@ class TiketdetailController extends Controller
                     'f.progresProsen',
                     'a.namaLengkap',
                     'a.nikLengkap',
-                    'a.noHp'
+                    'a.noHp',
+                    'b.tiketDetailStatus',
+                    'b.tiketDetailId'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
