@@ -264,6 +264,24 @@ class PersetujuantiketController extends Controller
                 ->orderBy('a.historiId', 'desc')
                 ->get();
         //dd($histori);
-        return view('persetujuantiket.show',['data'=>$datas, 'histori'=>$histori]);
+        
+        $urle = env('API_BASE_URL')."/getAnakBuah.php";
+        $response = Http::withHeaders([
+                        'Content-Type' => 'application/json',
+                        'token' => 'tiketing.silog.co.id'
+                    ])
+                    ->post($urle,[
+                        'idPegawai' => session('infoUser')['IDE'],
+                        'parentId' => session('infoUser')['PROFIT_CTR_ID']
+                ]);
+        $dtAPi = json_decode($response->getBody()->getContents(),true);  
+        $responStatus = $response->getStatusCode();
+        //dd($dtAPi["data"]);
+        if($responStatus=='200'){
+            $dtAtasanService = $dtAPi["data"];
+        }else{
+            $dtAtasanService = $dtAPi["data"];
+        }
+        return view('persetujuantiket.show',['data'=>$datas, 'dtAtasanService'=>$dtAtasanService, 'histori'=>$histori]);
     }
 }

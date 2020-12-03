@@ -38,16 +38,37 @@
     $('#table').DataTable({
       "iDisplayLength": 20
     });
-
+    $('[data-toggle=confirmation]').confirmation({
+            rootSelector: '[data-toggle=confirmation]',
+            // other options
+    });
 } );
 </script>
+<script src="{{asset('bs4/js/bootstrap-confirmation.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.4/umd/popper.min.js" integrity="sha512-eUQ9hGdLjBjY3F41CScH3UX+4JDSI9zXeroz7hJ+RteoCaY+GP/LDoM8AO+Pt+DRFw3nXqsjh9Zsts8hnYv8/A==" crossorigin="anonymous"></script>
 @stop
 @extends('layouts.app')
 
 @section('content')
 <div class="flex-row">
     <div class="form-group">
-      <a href="{{ url('approvetiket') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-book"></i> Lihat Data</a>
+        <a href="{{ url('approvetiket') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-book"></i> Lihat Data</a>
+        @if($data[0]->tiketStatus=='1')
+            <form action="{{ url('approvetiket/approve') }}/{{ $data[0]->tiketId }}" method="post" class="d-inline">
+              @method('patch')
+              @csrf
+              <button class="btn btn-info btn-rounded btn-fw" data-toggle="confirmation" data-singleton="true" data-title="Anda yakin approve data ini ?">
+                  <i class="fa fa-check-square icon-lg"></i> Approve
+              </button>
+            </form>
+            <form action="{{ url('approvetiket/reject') }}/{{ $data[0]->tiketId }}" method="post" class="d-inline">
+              @method('patch')
+              @csrf
+              <button class="btn btn-danger btn-rounded btn-fw" data-toggle="confirmation" data-singleton="true" data-title="Anda yakin mereject data ini ?">
+                  <i class="fa fa fa-times-rectangle-o icon-lg"></i> Reject
+              </button>
+            </form>
+        @endif
     </div>
 </div>
 <div class="row" style="margin-top: 20px;">
