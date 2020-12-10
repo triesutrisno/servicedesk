@@ -456,17 +456,32 @@ class TiketdetailController extends Controller
                     'a.progresId',
                     'a.created_at',                     
                     'a.keterangan',
-                    'a.tglRTL',
+                    'a.tglRTL',                   
                     'c.progresNama',                   
                     'c.progresProsen'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketDetailId', '=', 'a.tiketDetailId')
                 ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
-                ->where(['b.tiketDetailId' => $id])
-                ->orderBy('a.historiId', 'desc')
+                ->where(['b.tiketId' => $id]);
+        
+        $histori2 = DB::table('tb_histori as a')
+                ->select(
+                    'a.tiketId as tiketDetailId',
+                    'a.progresId',
+                    'a.created_at',                     
+                    'a.keterangan',
+                    'a.tglRTL',                   
+                    'c.progresNama',                   
+                    'c.progresProsen'
+                )
+                ->leftjoin('tiket as b', 'b.tiketId', '=', 'a.tiketId')
+                ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
+                ->where(['b.tiketId' => $id])
+                ->union($histori)
+                #->orderBy('a.historiId', 'desc')
                 ->get();
         //dd($histori);
-        return view('tiket_detail.show',['data'=>$datas, 'histori'=>$histori]);
+        return view('tiket_detail.show',['data'=>$datas, 'histori'=>$histori2]);
     }
 
     /**
@@ -527,8 +542,8 @@ class TiketdetailController extends Controller
                             'token' => 'tiketing.silog.co.id'
                         ])
                         ->post($urle,[
-                            //'nikAtasan' => session('infoUser')['AL_NIK'],
-                            'kodeBiro' => session('infoUser')['BIROBU'],
+                            'nikAtasan' => session('infoUser')['AL_NIK'],
+                            //'kodeBiro' => session('infoUser')['BIROBU'],
                     ]);
             $dtAPi = json_decode($response->getBody()->getContents(),true);  
             $responStatus = $response->getStatusCode();

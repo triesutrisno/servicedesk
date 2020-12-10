@@ -65,7 +65,7 @@
     <div class="form-group">
         <a href="{{ url('persetujuantiket') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-book"></i> Lihat Data</a>
         @if($data[0]->tiketStatus=='2')
-          <a href="#" class="btn btn-info btn-rounded btn-fw pilihSetuju" data-tiket_id="{{ $data[0]->tiketId }}" title="Setuju" data-toggle="modal" data-target="#myModalApprove">
+          <a href="#" class="btn btn-warning btn-rounded btn-fw pilihSetuju" data-tiket_id="{{ $data[0]->tiketId }}" title="Setuju" data-toggle="modal" data-target="#myModalApprove">
               <i class="fa fa-check-square icon-lg"></i> Setuju
           </a> 
           <form action="{{ url('persetujuantiket/reject') }}/{{ $data[0]->tiketId }}" method="post" class="d-inline">
@@ -75,6 +75,9 @@
                   <i class="fa fa fa-times-rectangle-o icon-lg"></i> Tidak Setuju
               </button>
           </form>
+         <a href="{{ url('/persetujuantiket')}}/forward/{{ $data[0]->tiketId }}" class="btn btn-info btn-rounded btn-fw">
+             <i class="fa fa-share icon-lg"></i> Forward
+         </a>
         @endif
     </div>
 </div>

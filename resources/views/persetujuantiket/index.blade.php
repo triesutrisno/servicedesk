@@ -80,7 +80,7 @@
                           <a href="{{ url('/persetujuantiket')}}/detail/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-warning" title="Detail">
                               <i class="fa fa-search icon-lg"></i>
                           </a>
-                          @if($data->tiketStatus=='2')
+                          @if($data->tiketStatus=='2' || $data->tiketStatus=='11')
                           <a href="#" class="btn btn-icons btn-inverse-primary pilihSetuju" data-tiket_id="{{ $data->tiketId }}" title="Setuju" data-toggle="modal" data-target="#myModalApprove">
                               <i class="fa fa-check-square icon-lg"></i>
                           </a> 
@@ -91,6 +91,9 @@
                                   <i class="fa fa fa-times-rectangle-o icon-lg"></i>
                               </button>
                           </form>
+                          <a href="{{ url('/persetujuantiket')}}/forward/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-info" title="Forward">
+                                <i class="fa fa-share icon-lg"></i>
+                          </a>
                           @endif
                       </td>
                         <!--<td align="center">{{$loop->iteration}}</td>-->
@@ -133,7 +136,7 @@
                                 <label class="badge badge-warning">Pending</label>
                             @elseif($data->tiketStatus == '10')
                                 <label class="badge badge-danger">Cancel</label>
-                            @elseif($data[0]->tiketStatus == '11')
+                            @elseif($data->tiketStatus == '11')
                                     <label class="badge badge-warning">Forward</label>
                             @endif
                         </td>

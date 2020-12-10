@@ -113,23 +113,21 @@
                         <label for="tiketKeterangan" class="col-md-4 control-label">Deskripsi Tiket</label>
                         <div class="col-md-6">{{ $datas[0]->tiketKeterangan }}</div>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="tiketNikTeknisi" class="col-md-4 control-label">Teknisi</label>
-                            <div class="input-group col-md-6">
-                                <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required>
-                                <input type="hidden" name="namaTeknisi" id="namaTeknisi" class="form-control" required>
-                                <input type="hidden" name="emailTeknisi" id="emailTeknisi" readonly="true" class="form-control" required>
-                                <a href="#" data-toggle="modal" data-target="#myModalTeknisi" style="text-decoration:none">
-                                <div class="input-group-append bg-primary border-primary">
-                                    <span class="input-group-text bg-transparent">                                    
-                                        <i class="fa fa-search text-white"></i>
-                                    </span>
-                                </div>
-                                </a>
+                    <div class="form-group">
+                        <label for="tiketNikTeknisi" class="col-md-4 control-label">Teknisi</label>
+                        <div class="input-group col-md-6">
+                            <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required>
+                            <input type="hidden" name="namaTeknisi" id="namaTeknisi" readonly="true" class="form-control" required>
+                            <input type="hidden" name="emailTeknisi" id="emailTeknisi" readonly="true" class="form-control" required>
+                            <a href="#" data-toggle="modal" data-target="#myModalTeknisi" style="text-decoration:none">
+                            <div class="input-group-append bg-primary border-primary">
+                                <span class="input-group-text bg-transparent">                                    
+                                    <i class="fa fa-search text-white"></i>
+                                </span>
                             </div>
-                            <div class="col-md-6" id="namaTeknisi2"></div>
+                            </a>
                         </div>
+                        <div class="col-md-6" id="namaTeknisi2"></div>
                     </div>
                     <div class="form-group">
                         <label for="keterangan" class="col-md-4 control-label">Keterangan *</label>

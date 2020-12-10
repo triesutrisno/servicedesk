@@ -521,11 +521,26 @@ class TiketController extends Controller
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketDetailId', '=', 'a.tiketDetailId')
                 ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
+                ->where(['b.tiketId' => $id]);
+        
+        $histori2 = DB::table('tb_histori as a')
+                ->select(
+                    'a.tiketId as tiketDetailId',
+                    'a.progresId',
+                    'a.created_at',                     
+                    'a.keterangan',
+                    'a.tglRTL',                   
+                    'c.progresNama',                   
+                    'c.progresProsen'
+                )
+                ->leftjoin('tiket as b', 'b.tiketId', '=', 'a.tiketId')
+                ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
                 ->where(['b.tiketId' => $id])
-                ->orderBy('a.historiId', 'desc')
+                ->union($histori)
+                #->orderBy('a.historiId', 'desc')
                 ->get();
         //dd($histori);
-        return view('tiket.show',['data'=>$datas, 'histori'=>$histori]);
+        return view('tiket.show',['data'=>$datas, 'histori'=>$histori2]);
     }
 
     /**
