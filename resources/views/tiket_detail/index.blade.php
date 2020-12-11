@@ -96,7 +96,7 @@
                     <tr>                        
                         <td>
                             @csrf                          
-                            <a href="{{ url('/tugasku')}}/detail/{{ $data->tiketDetailId }}" class="btn btn-icons btn-inverse-primary" title="Detail">
+                            <a href="{{ url('/tugasku')}}/detail/{{ $data->tiketDetailId }}/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-primary" title="Detail">
                                 <i class="fa fa-search icon-lg"></i>
                             </a>
                             @if($data->tiketDetailStatus<'6' && $data->nikTeknisi==session('infoUser')['NIK'])

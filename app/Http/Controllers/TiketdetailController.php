@@ -390,7 +390,7 @@ class TiketdetailController extends Controller
      * @param  \App\Tiketdetail  $tiketdetail
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,$idTiket)
     {
         $datas = DB::table('tiket as a')
                 ->select(
@@ -452,6 +452,7 @@ class TiketdetailController extends Controller
         
         $histori = DB::table('tb_histori as a')
                 ->select(
+                    'a.historiId',
                     'a.tiketDetailId',
                     'a.progresId',
                     'a.created_at',                     
@@ -462,10 +463,11 @@ class TiketdetailController extends Controller
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketDetailId', '=', 'a.tiketDetailId')
                 ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
-                ->where(['b.tiketId' => $id]);
+                ->where(['b.tiketDetailId' => $id]);
         
         $histori2 = DB::table('tb_histori as a')
                 ->select(
+                    'a.historiId',
                     'a.tiketId as tiketDetailId',
                     'a.progresId',
                     'a.created_at',                     
@@ -476,11 +478,11 @@ class TiketdetailController extends Controller
                 )
                 ->leftjoin('tiket as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
-                ->where(['b.tiketId' => $id])
+                ->where(['b.tiketId' => $idTiket])
                 ->union($histori)
                 #->orderBy('a.historiId', 'desc')
                 ->get();
-        //dd($histori);
+        #dd($histori2);
         return view('tiket_detail.show',['data'=>$datas, 'histori'=>$histori2]);
     }
 

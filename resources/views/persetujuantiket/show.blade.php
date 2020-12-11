@@ -64,7 +64,7 @@
 <div class="flex-row">
     <div class="form-group">
         <a href="{{ url('persetujuantiket') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-book"></i> Lihat Data</a>
-        @if($data[0]->tiketStatus=='2')
+        @if($data[0]->tiketStatus=='2' || $data[0]->tiketStatus=='11')
           <a href="#" class="btn btn-warning btn-rounded btn-fw pilihSetuju" data-tiket_id="{{ $data[0]->tiketId }}" title="Setuju" data-toggle="modal" data-target="#myModalApprove">
               <i class="fa fa-check-square icon-lg"></i> Setuju
           </a> 
