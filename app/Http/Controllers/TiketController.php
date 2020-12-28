@@ -56,7 +56,8 @@ class TiketController extends Controller
                     'a.tiketStatus',          
                     'a.created_at',
                     'b.nikTeknisi',
-                    'f.progresProsen'
+                    'f.progresProsen',
+                    'a.flagFeedback'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
@@ -554,7 +555,7 @@ class TiketController extends Controller
         $tiket = Tiket::with(['layanan', 'service', 'subService'])
                     ->where(['tiketId'=>$id])
                     ->get();        
-        if($tiket[0]['tiketStatus']=='1'){
+        if($tiket[0]['tiketStatus']=='1' || $tiket[0]['flagFeedback']=='1'){
             $subService = Subservice::where(['ServiceSubStatus'=>'1', 'ServiceIDf'=>$tiket[0]['serviceId']])->get();
             
             $urle = env('API_BASE_URL')."/getKepala.php";
@@ -602,6 +603,7 @@ class TiketController extends Controller
                         'subServiceId' => $request->subServiceId,
                         'tiketPrioritas' => $request->tiketPrioritas,
                         'tiketNikAtasanService' => $request->tiketNikAtasanService,
+                        'flagFeedback' => $request->flagFeedback,
                   ]);
             } else {
                 $file = $request->file('tiketFile');
@@ -618,6 +620,7 @@ class TiketController extends Controller
                         'subServiceId' => $request->subServiceId,
                         'tiketPrioritas' => $request->tiketPrioritas,
                         'tiketNikAtasanService' => $request->tiketNikAtasanService,
+                        'flagFeedback' => $request->flagFeedback,
                         'file' => $gambar,
                   ]);
             }

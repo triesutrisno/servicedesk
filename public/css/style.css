@@ -8633,12 +8633,29 @@ pre {
 
 .table-responsive {
   display: block;
-  width: 100%;
+  width: 100%;  
+  font-family: "Poppins", sans-serif;   
+  font-size: 13px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar; }
   .table-responsive > .table-bordered {
     border: 0; }
+
+
+  .table-responsive th,
+  .table-responsive td {
+    padding: 15px 10px;
+    vertical-align: top;
+    border-top: 1px solid #f2f2f2; }
+  .table-responsive thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #f2f2f2; }
+  .table-responsive tbody + tbody {
+    border-top: 2px solid #f2f2f2; }
+  .table-responsive .table {
+    background-color: #fff; }
+
 
 .form-control {
   display: block;

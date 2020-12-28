@@ -17,6 +17,10 @@
             $('#tiketId').val($(this).attr('data-tiket_id'));
         });
         
+        $('.pilihFeedback').click( function(){
+            $('#idTiket').val($(this).attr('data-tiket_id'));
+        });
+        
         $('.pilihTeknisi').click( function(){
             $('#nikTeknisi').val($(this).attr('data_nik'));
             $('#namaTeknisi').text($(this).attr('data_nama'));
@@ -80,17 +84,22 @@
                           <a href="{{ url('/persetujuantiket')}}/detail/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-warning" title="Detail">
                               <i class="fa fa-search icon-lg"></i>
                           </a>
-                          @if($data->tiketStatus=='2' || $data->tiketStatus=='11')
-                          <a href="#" class="btn btn-icons btn-inverse-primary pilihSetuju" data-tiket_id="{{ $data->tiketId }}" title="Setuju" data-toggle="modal" data-target="#myModalApprove">
-                              <i class="fa fa-check-square icon-lg"></i>
-                          </a> 
-                          <form action="{{ url('persetujuantiket/reject') }}/{{ $data->tiketId }}" method="post" class="d-inline">
-                              @method('patch')
-                              @csrf
-                              <button class="btn btn-icons btn-inverse-danger" data-toggle="confirmation" data-singleton="true" data-title="Anda yakin mereject data ini ?">
-                                  <i class="fa fa fa-times-rectangle-o icon-lg"></i>
-                              </button>
-                          </form>
+                          @if($data->tiketStatus=='2')
+                            <!--@if($data->flagFeedback=='' || $data->flagFeedback=='2')-->
+                              <a href="#" class="btn btn-icons btn-inverse-primary pilihSetuju" data-tiket_id="{{ $data->tiketId }}" title="Setuju" data-toggle="modal" data-target="#myModalApprove">
+                                  <i class="fa fa-check-square icon-lg"></i>
+                              </a>
+                              <form action="{{ url('persetujuantiket/reject') }}/{{ $data->tiketId }}" method="post" class="d-inline">
+                                  @method('patch')
+                                  @csrf
+                                  <button class="btn btn-icons btn-inverse-danger" data-toggle="confirmation" data-singleton="true" data-title="Anda yakin mereject data ini ?">
+                                      <i class="fa fa-times-rectangle-o icon-lg"></i>
+                                  </button>
+                              </form>
+                            <!-- @endif -->
+                          <a href="#" class="btn btn-icons btn-inverse-dark pilihFeedback" data-tiket_id="{{ $data->tiketId }}" title="Feedback" data-toggle="modal" data-target="#myModalFeedback">
+                              <i class="fa fa-sign-out"></i>
+                          </a>
                           <a href="{{ url('/persetujuantiket')}}/forward/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-info" title="Forward">
                                 <i class="fa fa-share icon-lg"></i>
                           </a>
@@ -183,6 +192,35 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
         <input type="submit" name="Setuju" value="Setuju" class="btn btn-primary">
+      </div>      
+     </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade bd-example-modal-lg" id="myModalFeedback" tabindex="-1" role="dialog" aria-labelledby="myModalFeedback" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Feedback Tiket</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>      
+      <form action="{{ url('persetujuantiket/feedback') }}" method="post">
+        @method('patch')
+        @csrf
+      <div class="modal-body">
+          <div class="form-group">
+              <label for="remark" class="col-md-4 control-label">Remark</label>
+              <div class="input-group col-md-6">
+                  <input type="text" name="remark" id="remark" class="form-control" required>
+                  <input type="hidden" name="tiketId" id="idTiket" readonly="true" class="form-control" required>
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <input type="submit" name="feedback" value="Feedback" class="btn btn-primary">
       </div>      
      </form>
     </div>

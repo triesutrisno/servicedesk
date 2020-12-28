@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Tiket;
 use DB;
+use App\Histori;
 use App\User;
 
 class ApprovetiketController extends Controller
@@ -70,6 +71,12 @@ class ApprovetiketController extends Controller
                     'tiketApproveService' => "W",
                     'tiketStatus' => "2",
             ]);
+            
+            $histori = new Histori();
+            $histori->keterangan    = "Approve atasan Unit";
+            $histori->progresId     = '0';
+            $histori->tiketId = $id;
+            $histori->save();
 
             $isiEmail="<html>";
             $isiEmail.="<html>";
@@ -161,14 +168,29 @@ class ApprovetiketController extends Controller
     
     public function reject($id)
     {
-        Tiket::where('tiketId', $id)
-          ->update([
-              'tiketApprove' => "R",
-              'tiketTglApprove' => date("Y-m-d H:i:s"),
-              'tiketApproveService' => "N",
-              'tiketStatus' => "3",
-        ]);
-        return redirect('/approvetiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil reject !']);
+        $tiket = Tiket::with(['layanan', 'service', 'subService', 'userBy'])
+                    ->where(['tiketId'=>$id])
+                    ->get(); 
+        //dd($tiket[0]['subService'][0]['ServiceSubName']);
+        if($tiket[0]['tiketStatus']==1){
+            Tiket::where('tiketId', $id)
+              ->update([
+                  'tiketApprove' => "R",
+                  'tiketTglApprove' => date("Y-m-d H:i:s"),
+                  'tiketApproveService' => "N",
+                  'tiketStatus' => "3",
+            ]);
+            
+            $histori = new Histori();
+            $histori->keterangan    = "Reject atasan Unit";
+            $histori->progresId     = '0';
+            $histori->tiketId = $id;
+            $histori->save();
+            
+            return redirect('/approvetiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil reject !']);
+        }else{
+            return redirect('/approvetiket')->with(['kode'=>'90', 'pesan'=>'Data tidak bisa diapprove !']);
+        } 
     }
     
     public function show($id)
@@ -241,10 +263,25 @@ class ApprovetiketController extends Controller
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketDetailId', '=', 'a.tiketDetailId')
                 ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
+                ->where(['b.tiketId' => $id]);
+        
+        $histori2 = DB::table('tb_histori as a')
+                ->select(
+                    'a.tiketId as tiketDetailId',
+                    'a.progresId',
+                    'a.created_at',                     
+                    'a.keterangan',
+                    'a.tglRTL',                   
+                    'c.progresNama',                   
+                    'c.progresProsen'
+                )
+                ->leftjoin('tiket as b', 'b.tiketId', '=', 'a.tiketId')
+                ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
                 ->where(['b.tiketId' => $id])
-                ->orderBy('a.historiId', 'desc')
+                ->union($histori)
+                #->orderBy('a.historiId', 'desc')
                 ->get();
         //dd($histori);
-        return view('approvetiket.show',['data'=>$datas, 'histori'=>$histori]);
+        return view('approvetiket.show',['data'=>$datas, 'histori'=>$histori2]);
     }
 }

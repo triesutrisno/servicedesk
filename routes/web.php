@@ -65,7 +65,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/persetujuantiket/reject/{id}', 'PersetujuantiketController@reject');
     Route::get('/persetujuantiket/detail/{id}', 'PersetujuantiketController@show');
     Route::get('/persetujuantiket/forward/{id}', 'PersetujuantiketController@forward');    
-    Route::post('/persetujuantiket/forward/{idTiket}', 'PersetujuantiketController@saveforward');
+    Route::post('/persetujuantiket/forward/{idTiket}', 'PersetujuantiketController@saveforward');  
+    Route::patch('/persetujuantiket/feedback', 'PersetujuantiketController@feedback');
     
     Route::get('/tugasku', 'TiketdetailController@index');
     Route::post('/tugasku', 'TiketdetailController@index');

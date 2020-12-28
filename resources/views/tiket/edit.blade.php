@@ -53,6 +53,7 @@
                 <h4 class="card-title">Ubah Data Tiket</h4>                                  
                 <form method="POST" action="{{ url('tiket/edit') }}/{{ $tiket[0]['tiketId'] }}" enctype="multipart/form-data">
                     {{ csrf_field() }}
+                    <input type="hidden" name="flagFeedback" id="flagFeedback" value="{{ $tiket[0]['flagFeedback'] !="" ? $tiket[0]['flagFeedback']+1 : '' }}" class="form-control">
                     <div class="form-group{{ $errors->has('kode_tiket') ? ' has-error' : '' }}">
                         <label for="kode_tiket" class="col-md-4 control-label">Nomor Tiket</label>
                         <div class="col-md-6">

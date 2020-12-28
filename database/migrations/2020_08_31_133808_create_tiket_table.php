@@ -36,6 +36,12 @@ class CreateTiketTable extends Migration
             $table->string('tiketEmailAtasanService',256)->nullable();
             $table->string('tiketPrioritas',3)->nullable();
             $table->string('tiketStatus',3)->nullable();
+            $table->string('namaLengkap',100)->nullable();
+            $table->string('nikLengkap',10)->nullable();
+            $table->string('noHp',20)->nullable();
+            $table->string('flagForward',1)->nullable();
+            $table->string('flagFeedback',1)->nullable();
+            $table->string('remarkFeedback',256)->nullable();
             $table->timestamps();
         });
     }

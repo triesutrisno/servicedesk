@@ -1945,6 +1945,8 @@ pre code {
 .table-responsive {
   display: block;
   width: 100%;
+  font-family: sans-serif;
+  font-size: 13px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;

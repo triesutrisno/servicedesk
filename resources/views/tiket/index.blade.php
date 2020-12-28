@@ -103,7 +103,7 @@
                   <tbody>
                   @foreach($datas as $data)
                   
-                 
+                  
                     <tr>                        
                       <td>
                           @csrf                          
