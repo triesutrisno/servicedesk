@@ -76,7 +76,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Data Tiket</h4>
-                <table class="table">
+                <table class="table-responsive">
                     <tbody>
                         <tr>
                             <td width="10%">Nomor</td>
