@@ -84,7 +84,7 @@
                           <a href="{{ url('/persetujuantiket')}}/detail/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-warning" title="Detail">
                               <i class="fa fa-search icon-lg"></i>
                           </a>
-                          @if($data->tiketStatus=='2')
+                          @if($data->tiketStatus=='2' || $data->tiketStatus=='11')
                             <!--@if($data->flagFeedback=='' || $data->flagFeedback=='2')-->
                               <a href="#" class="btn btn-icons btn-inverse-primary pilihSetuju" data-tiket_id="{{ $data->tiketId }}" title="Setuju" data-toggle="modal" data-target="#myModalApprove">
                                   <i class="fa fa-check-square icon-lg"></i>
