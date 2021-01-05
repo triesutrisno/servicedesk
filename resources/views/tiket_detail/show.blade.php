@@ -66,7 +66,7 @@ $(document).ready(function() {
             <div class="card-body">
                 <h4 class="card-title">Data Tiket</h4>
                 <div class="table-responsive-sm">
-                    <table class="table">
+                    <table class="table-responsive">
                         <tr>
                             <td width="10%">Nomor</td>
                             <td width="2%">:</td>
