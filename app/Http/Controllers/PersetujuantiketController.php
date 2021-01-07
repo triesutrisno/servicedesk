@@ -657,7 +657,7 @@ class PersetujuantiketController extends Controller
                         'token' => 'tiketing.silog.co.id'
                     ])
                     ->post($urle2,[
-                        'idTelegram' => "939753653", #$users[0]['idTelegram'],
+                        'idTelegram' => $users[0]['idTelegram'],
                         'pesan' => $isiTelegram,
                 ]);
             }
