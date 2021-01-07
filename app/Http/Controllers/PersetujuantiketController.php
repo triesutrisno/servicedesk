@@ -608,7 +608,7 @@ class PersetujuantiketController extends Controller
             $isiEmail="<html>";
             $isiEmail.="<html>";
             $isiEmail.="<body>";           
-            $isiEmail.="Saat ini anda diminta untuk mengerjakan tiket dengan: <br />";
+            $isiEmail.="Saat ini anda mendapatkan foward tiket dengan: <br />";
             $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
             $isiEmail.="<tr>";
             $isiEmail.="<td width=\"40\">Nomer</td>";
@@ -646,7 +646,7 @@ class PersetujuantiketController extends Controller
             
             $users = User::where(['username'=>$request->nikTeknisi])->get(); 
             if($users[0]['idTelegram']!=""){
-                $isiTelegram="Saat ini anda diminta untuk mengerjakan tiket dengan: \n";
+                $isiTelegram="Saat ini anda mendapatkan foward tiket dengan: \n";
                 $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";
                 $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
                 $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
