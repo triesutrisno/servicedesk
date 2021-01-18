@@ -716,7 +716,7 @@ class TiketdetailController extends Controller
                 ->get();
         
         //dd($tktDetail[0]['nikTeknisi']);
-        $stsTiket = array("4", "5", "6", "7","11");
+        $stsTiket = array("4", "5", "6","11");
         if($tktDetail[0]['tiket'][0]['tiketStatus']=='8'){
             return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket ini sudah diclose !']);
         }elseif($tktDetail[0]['tiket'][0]['tiketStatus']=='10'){
