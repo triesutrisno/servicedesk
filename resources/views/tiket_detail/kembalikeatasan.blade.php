@@ -4,14 +4,6 @@
         $('#tableTiket').DataTable({
           "iDisplayLength": 50
         });
-        
-        $('.pilihTeknisi').click( function(){
-            $('#nikTeknisi').val($(this).attr('data_nik'));
-            $('#namaTeknisi').val($(this).attr('data_nama'));            
-            $('#namaTeknisi2').text($(this).attr('data_nama'));
-            $('#emailTeknisi').val($(this).attr('data_email'));
-            $('#myModalTeknisi').modal('hide');
-        });
     });
 </script>
 @stop
@@ -28,8 +20,8 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Forward Tiket</h4>                                  
-                <form method="POST" action="{{ url('tugasku/forward') }}/{{ $datas[0]->tiketDetailId }}/{{ $datas[0]->tiketId }}" enctype="multipart/form-data">
+                <h4 class="card-title">Kembalikan Tiket Ke Atasan</h4>                                  
+                <form method="POST" action="{{ url('tugasku/kembalikeatasan') }}/{{ $datas[0]->tiketDetailId }}/{{ $datas[0]->tiketId }}" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="table-responsive-sm">
                         <table class="table-responsive">
@@ -117,25 +109,6 @@
                                 <td colspan="4" class="datae">{{ $datas[0]->tiketKeterangan}}</td>
                             </tr>
                             <tr>
-                                <td>Teknisi *</td>
-                                <td>:</td>
-                                <td colspan="4" class="datae">
-                                    <div class="input-group col-md-6">
-                                        <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required>
-                                        <input type="hidden" name="namaTeknisi" id="namaTeknisi" readonly="true" class="form-control" required>
-                                        <input type="hidden" name="emailTeknisi" id="emailTeknisi" readonly="true" class="form-control" required>
-                                        <a href="#" data-toggle="modal" data-target="#myModalTeknisi" style="text-decoration:none">
-                                        <div class="input-group-append bg-primary border-primary">
-                                            <span class="input-group-text bg-transparent">                                    
-                                                <i class="fa fa-search text-white"></i>
-                                            </span>
-                                        </div>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-6" id="namaTeknisi2"></div>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td>Keterangan *</td>
                                 <td>:</td>
                                 <td colspan="4" class="datae">
@@ -143,7 +116,7 @@
                                 </td>
                             </tr>
                         </table>
-                    </div>                                     
+                    </div>            
                     <div class="form-group">
                         <button type="submit" class="btn btn-success mr-2">Simpan</button>
                         <button type='reset' class="btn btn-light">Reset</button>
@@ -153,53 +126,5 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="myModalTeknisi" tabindex="-1" role="dialog" aria-labelledby="myModalTeknisi" aria-hidden="true" >
-    <div class="modal-dialog modal-lg" role="document" >
-        <div class="modal-content" style="background: #fff;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Forward Ke</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-6 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <table class="table table-hover table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>NIK</th>
-                                                <th>NAMA</th>
-                                                <th>JABATAN</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @php
-                                            $nik = $nikLama = "";
-                                            foreach($dtAtasanService as $data){
-                                                $nik = $data['NIK'];
-                                                if($nik!=$nikLama){
-                                                @endphp
-                                                <tr class="pilihTeknisi" data_nik="{{ $data['NIK'] }}" data_nama="{{ $data['NAMA'] }}" data_email="{{ $data['EMAIL'] }}">
-                                                    <td><a href="#" style="text-decoration:none">{{$data['NIK']}}</a></td>
-                                                    <td>{{$data['NAMA']}}</td>
-                                                    <td>{{$data['URAIAN_JAB']}}</td>
-                                                </tr>
-                                                @php
-                                                $nikLama = $data['NIK'];
-                                                }
-                                            }
-                                            @endphp
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                    </div>
-                </div>                
-            </div>
-        </div>
-    </div>
-</div>
+
 @endsection

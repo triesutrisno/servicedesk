@@ -82,7 +82,7 @@ class PersetujuantiketController extends Controller
     
     public function approve(Request $request)
     {
-        //dd($request->tiketId);
+        //dd($request->namaTeknisi);
         $tiket = Tiket::with(['layanan', 'service', 'subService'])
                     ->where(['tiketId'=>$request->tiketId])
                     ->get(); 
@@ -100,6 +100,12 @@ class PersetujuantiketController extends Controller
             $tiketDetail->nikTeknisi = $request->nikTeknisi;            
             $tiketDetail->tiketDetailStatus = "1";
             $tiketDetail->save();
+            
+            $histori = new Histori();
+            $histori->keterangan    = "Approve atasan Unit Service - Nama Teknisi ".$request->namaTeknisi;
+            $histori->progresId     = '0';
+            $histori->tiketId       = $request->tiketId;
+            $histori->save();
 
             $isiEmail="<html>";
             $isiEmail.="<html>";
@@ -196,6 +202,12 @@ class PersetujuantiketController extends Controller
                   'tiketTglApproveService' => date("Y-m-d H:i:s"),
                   'tiketStatus' => "5",
             ]);
+            
+            $histori = new Histori();
+            $histori->keterangan    = "Reject atasan Unit Service";
+            $histori->progresId     = '0';
+            $histori->tiketId       = $id;
+            $histori->save();
             
             $isiEmail="<html>";
             $isiEmail.="<html>";
@@ -447,13 +459,15 @@ class PersetujuantiketController extends Controller
         
         $histori = DB::table('tb_histori as a')
                 ->select(
+                    'a.historiId',
                     'a.tiketDetailId',
                     'a.progresId',
                     'a.created_at',                     
                     'a.keterangan',
                     'a.tglRTL',                   
                     'c.progresNama',                   
-                    'c.progresProsen'
+                    'c.progresProsen',
+                    'a.file'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketDetailId', '=', 'a.tiketDetailId')
                 ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
@@ -461,19 +475,21 @@ class PersetujuantiketController extends Controller
         
         $histori2 = DB::table('tb_histori as a')
                 ->select(
+                    'a.historiId',
                     'a.tiketId as tiketDetailId',
                     'a.progresId',
                     'a.created_at',                     
                     'a.keterangan',
                     'a.tglRTL',                   
                     'c.progresNama',                   
-                    'c.progresProsen'
+                    'c.progresProsen',
+                    'a.file'
                 )
                 ->leftjoin('tiket as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
                 ->where(['b.tiketId' => $id])
                 ->union($histori)
-                #->orderBy('a.historiId', 'desc')
+                ->orderBy('historiId', 'desc')
                 ->get();
         //dd($histori);
         

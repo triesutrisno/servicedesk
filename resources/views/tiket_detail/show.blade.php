@@ -57,6 +57,7 @@ $(document).ready(function() {
         @if($data[0]->tiketDetailStatus<'6' && $data[0]->nikTeknisi==session('infoUser')['NIK'])            
             <a href="{{ url('/tugasku')}}/solusi/{{ $data[0]->tiketDetailId }}" class="btn btn-warning btn-rounded btn-fw"><i class="fa fa-send-o icon-lg"></i> Solusi</a>
             <a href="{{ url('/tugasku')}}/forward/{{ $data[0]->tiketDetailId }}" class="btn btn-info btn-rounded btn-fw"><i class="fa fa-share icon-lg"></i> Forward</a>
+            <a href="{{ url('/tugasku')}}/kembalikeatasan/{{ $data[0]->tiketDetailId }}" class="btn btn-danger btn-rounded btn-fw"><i class="fa fa-mail-reply-all icon-lg"></i> Kembali Ke Atasan</a>
         @endif
     </div>
 </div>
@@ -215,12 +216,13 @@ $(document).ready(function() {
                             <ul class="timeline">
                                 @foreach($histori as $dtHistori)
                                 <li>
-                                    <a href="#">
                                         {{ $dtHistori->progresNama }} &nbsp;
                                         @if($dtHistori->progresProsen!="")                                    
                                             <label class="badge badge-success">{{ $dtHistori->progresProsen }}%</label>
                                         @endif
-                                    </a>
+                                        @if($dtHistori->file!="")                                    
+                                            [ <a href="{{ url('/images/fileSolusiTiket') }}/{{$dtHistori->file}}">Lampiran</a> ]
+                                        @endif
                                     <a href="#" class="float-right">{{ date('d-m-Y H:i', strtotime($dtHistori->created_at)) }}</a>
                                     <p>{{ $dtHistori->keterangan }}</p>
                                     @if($dtHistori->tglRTL!="")                                    

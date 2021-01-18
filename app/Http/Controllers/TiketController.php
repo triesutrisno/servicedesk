@@ -512,13 +512,15 @@ class TiketController extends Controller
         
         $histori = DB::table('tb_histori as a')
                 ->select(
+                    'a.historiId',
                     'a.tiketDetailId',
                     'a.progresId',
                     'a.created_at',                     
                     'a.keterangan',
                     'a.tglRTL',                   
                     'c.progresNama',                   
-                    'c.progresProsen'
+                    'c.progresProsen',
+                    'a.file'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketDetailId', '=', 'a.tiketDetailId')
                 ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
@@ -526,19 +528,21 @@ class TiketController extends Controller
         
         $histori2 = DB::table('tb_histori as a')
                 ->select(
+                    'a.historiId',
                     'a.tiketId as tiketDetailId',
                     'a.progresId',
                     'a.created_at',                     
                     'a.keterangan',
                     'a.tglRTL',                   
                     'c.progresNama',                   
-                    'c.progresProsen'
+                    'c.progresProsen',
+                    'a.file'
                 )
                 ->leftjoin('tiket as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
                 ->where(['b.tiketId' => $id])
                 ->union($histori)
-                #->orderBy('a.historiId', 'desc')
+                ->orderBy('historiId', 'desc')
                 ->get();
         //dd($histori);
         return view('tiket.show',['data'=>$datas, 'histori'=>$histori2]);
@@ -666,6 +670,7 @@ class TiketController extends Controller
             $histori->keterangan    = 'Tiket Close';
             $histori->progresId     = '20';
             $histori->tiketDetailId = $tiketDetail[0]->tiketDetailId;
+            $histori->tiketId       = $tktDetail[0]->tiketId;
             $histori->save();
         }
         

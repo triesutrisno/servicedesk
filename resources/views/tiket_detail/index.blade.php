@@ -106,6 +106,9 @@
                             <a href="{{ url('/tugasku')}}/forward/{{ $data->tiketDetailId }}" class="btn btn-icons btn-inverse-info" title="Forward">
                                 <i class="fa fa-share icon-lg"></i>
                             </a>
+                            <a href="{{ url('/tugasku')}}/kembalikeatasan/{{ $data->tiketDetailId }}" class="btn btn-icons btn-inverse-danger" title="Kembali Ke Atasan">
+                                <i class="fa fa-mail-reply-all icon-lg"></i>
+                            </a>
                             @endif
                         </td>
                         <td>

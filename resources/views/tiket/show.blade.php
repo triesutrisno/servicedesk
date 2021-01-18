@@ -235,12 +235,13 @@
                             <ul class="timeline">
                                 @foreach($histori as $dtHistori)
                                 <li>
-                                    <a href="#">
-                                        {{ $dtHistori->progresNama }} &nbsp;
-                                        @if($dtHistori->progresProsen!="")                                    
-                                            <label class="badge badge-success">{{ $dtHistori->progresProsen }}%</label>
-                                        @endif
-                                    </a>
+                                    {{ $dtHistori->progresNama }} &nbsp;
+                                    @if($dtHistori->progresProsen!="")                                    
+                                        <label class="badge badge-success">{{ $dtHistori->progresProsen }}%</label>
+                                    @endif
+                                    @if($dtHistori->file!="")                                    
+                                        [ <a href="{{ url('/images/fileSolusiTiket') }}/{{$dtHistori->file}}">Lampiran</a> ]
+                                    @endif
                                     <a href="#" class="float-right">{{ date('d-m-Y H:i', strtotime($dtHistori->created_at)) }}</a>
                                     <p>{{ $dtHistori->keterangan }}</p>
                                     @if($dtHistori->tglRTL!="")                                    

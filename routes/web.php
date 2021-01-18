@@ -75,5 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/tugasku/forward/{id}', 'TiketdetailController@forward');
     Route::post('/tugasku/forward/{idDetailTiket}/{idTiket}', 'TiketdetailController@saveforward');
     Route::get('/tugasku/detail/{idDetailTiket}/{idTiket}', 'TiketdetailController@show');
+    Route::get('/tugasku/kembalikeatasan/{id}', 'TiketdetailController@kembalikeatasan');
+    Route::post('/tugasku/kembalikeatasan/{idDetailTiket}/{idTiket}', 'TiketdetailController@simpankembalikeatasan');
 });
 

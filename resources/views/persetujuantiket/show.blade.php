@@ -49,7 +49,8 @@
 
     $('.pilihTeknisi').click( function(){
         $('#nikTeknisi').val($(this).attr('data_nik'));
-        $('#namaTeknisi').text($(this).attr('data_nama'));
+        $('#namaTeknisi').val($(this).attr('data_nama'));
+        $('#namaTeknisi2').text($(this).attr('data_nama'));
         $('#emailTeknisi').val($(this).attr('data_email'));
         $('#myModalTeknisi').modal('hide');
     });
@@ -236,12 +237,13 @@
                             <ul class="timeline">
                                 @foreach($histori as $dtHistori)
                                 <li>
-                                    <a href="#">
-                                        {{ $dtHistori->progresNama }} &nbsp;
-                                        @if($dtHistori->progresProsen!="")                                    
-                                            <label class="badge badge-success">{{ $dtHistori->progresProsen }}%</label>
-                                        @endif
-                                    </a>
+                                    {{ $dtHistori->progresNama }} &nbsp;
+                                    @if($dtHistori->progresProsen!="")                                    
+                                        <label class="badge badge-success">{{ $dtHistori->progresProsen }}%</label>
+                                    @endif
+                                    @if($dtHistori->file!="")                                    
+                                        [ <a href="{{ url('/images/fileSolusiTiket') }}/{{$dtHistori->file}}">Lampiran</a> ]
+                                    @endif
                                     <a href="#" class="float-right">{{ date('d-m-Y H:i', strtotime($dtHistori->created_at)) }}</a>
                                     <p>{{ $dtHistori->keterangan }}</p>
                                     @if($dtHistori->tglRTL!="")                                    
@@ -343,6 +345,7 @@
                   <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required>
                   <input type="hidden" name="emailTeknisi" id="emailTeknisi" readonly="true" class="form-control" required>
                   <input type="hidden" name="tiketId" id="tiketId" readonly="true" class="form-control" required>
+                  <input type="hidden" name="namaTeknisi" id="namaTeknisi" readonly="true" class="form-control" required>
                   <a href="#" data-toggle="modal" data-target="#myModalTeknisi" style="text-decoration:none">
                   <div class="input-group-append bg-primary border-primary">
                       <span class="input-group-text bg-transparent">                                    
@@ -351,7 +354,7 @@
                   </div>
                   </a>
               </div>
-              <div class="col-md-6" id="namaTeknisi"></div>
+              <div class="col-md-6" id="namaTeknisi2"></div>
           </div>
       </div>
       <div class="modal-footer">
