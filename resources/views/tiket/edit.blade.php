@@ -130,6 +130,20 @@
                             <label class="custom-file-label" for="customFile">Pilih File, size maximal 1Mb</label>
                         </div>
                     </div>
+                    @if($tiket[0]['serviceId']=='5')
+                    <div class="form-group">
+                        <label for="namaLengkap" class="col-md-4 control-label">Nama Lengkap User Yang Diminta</label>
+                        <div class="input-group col-md-6">
+                            <input type="text" name="namaLengkap" id="namaLengkap" class="form-control" value="{{ $tiket[0]['namaLengkap'] }}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nikLengkap" class="col-md-4 control-label">NIK Lengkap User Yang Diminta</label>
+                        <div class="input-group col-md-6">
+                            <input type="text" name="nikLengkap" id="nikLengkap" class="form-control" value="{{ $tiket[0]['namaLengkap'] }}">
+                        </div>
+                    </div>
+                    @endif
                     <div class="form-group">
                         <button type="submit" class="btn btn-success mr-2" id="simpan">Simpan</button>
                     </div>

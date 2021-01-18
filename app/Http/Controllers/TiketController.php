@@ -181,7 +181,8 @@ class TiketController extends Controller
                         'subService'=>$subService, 
                         'dtAtasanService'=>$dtAtasanService, 
                         'id_layanan'=>$id, 
-                        'id_service'=>$id2, 'kode'=>$kode
+                        'id_service'=>$id2, 
+                        'kode'=>$kode
                    ]);
         }else{
             return redirect('/tiket')->with('pesan', 'Anda tidak diijinkan mengakses menu yang tadi !');
