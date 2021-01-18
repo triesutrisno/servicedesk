@@ -716,11 +716,12 @@ class TiketdetailController extends Controller
                 ->get();
         
         //dd($tktDetail[0]['nikTeknisi']);
+        $stsTiket = array("4", "5", "6", "7","11");
         if($tktDetail[0]['tiket'][0]['tiketStatus']=='8'){
             return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket ini sudah diclose !']);
         }elseif($tktDetail[0]['tiket'][0]['tiketStatus']=='10'){
             return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket ini sudah cancel !']);
-        }elseif($tktDetail[0]['tiket'][0]['tiketStatus']=='4' || $tktDetail[0]['tiket'][0]['tiketStatus']=='11'){
+        }elseif(in_array($tktDetail[0]['tiket'][0]['tiketStatus'], $stsTiket)){
             $datas = DB::table('tiket as a')
                 ->select(
                     'a.tiketId',
