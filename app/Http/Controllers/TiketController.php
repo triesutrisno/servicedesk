@@ -671,7 +671,7 @@ class TiketController extends Controller
             $histori->keterangan    = 'Tiket Close';
             $histori->progresId     = '20';
             $histori->tiketDetailId = $tiketDetail[0]->tiketDetailId;
-            $histori->tiketId       = $tktDetail[0]->tiketId;
+            $histori->tiketId       = $id;
             $histori->save();
         }
         
