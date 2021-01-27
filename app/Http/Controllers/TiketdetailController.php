@@ -642,7 +642,7 @@ class TiketdetailController extends Controller
             $histori = new Histori();
             $histori->keterangan    = $addKet.". ".$request->keterangan;
             $histori->progresId     = "21";
-            $histori->tiketDetailId = $tiketDetailId;
+            //$histori->tiketDetailId = $tiketDetailId;
             $histori->tiketId = $tiketId;
             $histori->save();
             
@@ -828,7 +828,7 @@ class TiketdetailController extends Controller
             $histori = new Histori();
             $histori->keterangan    = $addKet.". ".$request->keterangan;
             $histori->progresId     = "21";
-            $histori->tiketDetailId = $tiketDetailId;
+            //$histori->tiketDetailId = $tiketDetailId;
             $histori->tiketId = $tiketId;
             $histori->save();
             

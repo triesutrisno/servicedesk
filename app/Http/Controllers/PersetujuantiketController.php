@@ -95,11 +95,19 @@ class PersetujuantiketController extends Controller
                     'tiketStatus' => "4",
             ]);
             
-            $tiketDetail = new Tiketdetail();
-            $tiketDetail->tiketId = $tiket[0]['tiketId'];
-            $tiketDetail->nikTeknisi = $request->nikTeknisi;            
-            $tiketDetail->tiketDetailStatus = "1";
-            $tiketDetail->save();
+            if (Tiketdetail::where(['tiketId'=>$request->tiketId])->doesntExist()) { // Cek data apakah sudah ada atau belum di database  
+                $tiketDetail = new Tiketdetail();
+                $tiketDetail->tiketId = $tiket[0]['tiketId'];
+                $tiketDetail->nikTeknisi = $request->nikTeknisi;            
+                $tiketDetail->tiketDetailStatus = "1";
+                $tiketDetail->save();
+            }else{
+                Tiketdetail::where('tiketId', $request->tiketId)
+                  ->update([
+                      'nikTeknisi' => $request->nikTeknisi,
+                      'tiketDetailStatus' => "1",
+                ]);
+            }
             
             $histori = new Histori();
             $histori->keterangan    = "Approve atasan Unit Service - Nama Teknisi ".$request->namaTeknisi;
