@@ -230,12 +230,21 @@ class TiketController extends Controller
             $request->request->add(['nikUser'=>session('infoUser')['NIK']]);
             $request->request->add(['tiketEmail'=>session('infoUser')['EMAIL']]);            
             $request->request->add(['file'=>$gambar]);
-            if(session('infoUser')['AL_NIK'] !="" && !in_array(session('infoUser')['ESELON'], array('10','11','12'))){
-                $request->request->add(['tiketApprove'=>'W']);
-                $request->request->add(['tiketNikAtasan'=> session('infoUser')['AL_NIK']]);
-                $request->request->add(['tiketEmailAtasan'=> session('infoUser')['AL_EMAIL']]);
-                $request->request->add(['tiketApproveService'=>'N']);
-                $request->request->add(['tiketStatus'=>'1']);
+            if(session('infoUser')['AL_NIK'] !=""){
+                if(in_array(session('infoUser')['ESELON'], array('10','11','12')) || session('infoUser')['AL_ESELON']=="D1"){
+                    $request->request->add(['tiketApprove'=>'A']);
+                    $request->request->add(['tiketTglApprove'=>date("Y-m-d H:i:s")]);
+                    $request->request->add(['tiketNikAtasan'=> '']);
+                    $request->request->add(['tiketEmailAtasan'=> '']);
+                    $request->request->add(['tiketApproveService'=>'W']);
+                    $request->request->add(['tiketStatus'=>'2']);
+                }else{
+                    $request->request->add(['tiketApprove'=>'W']);
+                    $request->request->add(['tiketNikAtasan'=> session('infoUser')['AL_NIK']]);
+                    $request->request->add(['tiketEmailAtasan'=> session('infoUser')['AL_EMAIL']]);
+                    $request->request->add(['tiketApproveService'=>'N']);
+                    $request->request->add(['tiketStatus'=>'1']);
+                }
             }else{
                 $request->request->add(['tiketApprove'=>'A']);
                 $request->request->add(['tiketTglApprove'=>date("Y-m-d H:i:s")]);
