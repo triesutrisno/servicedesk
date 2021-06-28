@@ -31,7 +31,7 @@
                     <div class="float-right">
                         <p class="mb-0 text-right">Tiket Masuk  Hari Ini</p>
                         <div class="fluid-container">
-                            <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('created_at', '>=', date('Y-m-d'))->count()}}</h3>
+                            <h3 class="font-weight-medium text-right mb-0">{{$tiketMasukHariIni}}</h3>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <div class="float-right">
                         <p class="mb-0 text-right">Tiket Selesai Hari Ini</p>
                         <div class="fluid-container">
-                            <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('updated_at', '>=', date('Y-m-d'))->whereIn('tiketStatus',['7','10'])->count()}}</h3>
+                            <h3 class="font-weight-medium text-right mb-0">{{$tiketSelesaiHariIni}}</h3>
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                     <div class="float-right">
                         <p class="mb-0 text-right">Tiket Close Hari Ini</p>
                         <div class="fluid-container">
-                            <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('updated_at', '>=', date('Y-m-d'))->whereIn('tiketStatus',['3','5','8','10'])->count()}}</h3>
+                            <h3 class="font-weight-medium text-right mb-0">{{$tiketCloseHariIni}}</h3>
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                 <div class="float-right">
                     <p class="mb-0 text-right">Tiket Open Hari ini</p>
                     <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('created_at', '>=', date('Y-m-d'))->where('tiketStatus','<',7)->count()}}</h3>
+                        <h3 class="font-weight-medium text-right mb-0">{{$tiketOpenHariIni}}</h3>
                     </div>
                 </div>
               </div>
@@ -120,7 +120,7 @@
                     <div class="float-right">
                         <p class="mb-0 text-right">Tiket Masuk Bulan Ini</p>
                         <div class="fluid-container">
-                            <h3 class="font-weight-medium text-right mb-0">{{ $tikets->where('created_at', '>=', date('Y-m-01'))->count() }}</h3>
+                            <h3 class="font-weight-medium text-right mb-0">{{$tiketMasukBulanIni}}</h3>
                         </div>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                     <div class="float-right">
                         <p class="mb-0 text-right">Tiket Selesai Bulan Ini</p>
                         <div class="fluid-container">
-                            <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('updated_at', '>=', date('Y-m-01'))->whereIn('tiketStatus',['7','10'])->count()}}</h3>
+                            <h3 class="font-weight-medium text-right mb-0">{{$tiketSelesaiBulanIni}}</h3>
                         </div>
                     </div>
                 </div>
@@ -164,7 +164,7 @@
                     <div class="float-right">
                         <p class="mb-0 text-right">Tiket Close Bulan Ini</p>
                         <div class="fluid-container">
-                            <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('updated_at', '>=', date('Y-m-01'))->whereIn('tiketStatus',['3','5','8','10'])->count()}}</h3>
+                            <h3 class="font-weight-medium text-right mb-0">{{$tiketCloseBulanIni}}</h3>
                         </div>
                     </div>
                 </div>
@@ -186,7 +186,7 @@
                 <div class="float-right">
                     <p class="mb-0 text-right">Tiket Open Bulan Ini</p>
                     <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('created_at', '>=', date('Y-m-01'))->where('tiketStatus','<',7)->count()}}</h3>
+                        <h3 class="font-weight-medium text-right mb-0">{{$tiketOpenBulanIni}}</h3>
                     </div>
                 </div>
               </div>
@@ -209,7 +209,7 @@
                     <div class="float-right">
                         <p class="mb-0 text-right">Tiket Masuk Tahun Ini</p>
                         <div class="fluid-container">
-                            <h3 class="font-weight-medium text-right mb-0">{{ $tikets->where('created_at', '>=', date('Y-01-01'))->count() }}</h3>
+                            <h3 class="font-weight-medium text-right mb-0">{{$tiketMasukTahunIni}}</h3>
                         </div>
                     </div>
                 </div>
@@ -231,7 +231,7 @@
                     <div class="float-right">
                         <p class="mb-0 text-right">Tiket Selesai Tahun Ini</p>
                         <div class="fluid-container">
-                            <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('updated_at', '>=', date('Y-01-01'))->whereIn('tiketStatus',['7','10'])->count()}}</h3>
+                            <h3 class="font-weight-medium text-right mb-0">{{$tiketSelesaiTahunIni}}</h3>
                         </div>
                     </div>
                 </div>
@@ -253,7 +253,7 @@
                     <div class="float-right">
                         <p class="mb-0 text-right">Tiket Close Tahun Ini</p>
                         <div class="fluid-container">
-                            <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('updated_at', '>=', date('Y-01-01'))->whereIn('tiketStatus',['3','5','8','10'])->count()}}</h3>
+                            <h3 class="font-weight-medium text-right mb-0">{{$tiketCloseTahunIni}}</h3>
                         </div>
                     </div>
                 </div>
@@ -275,7 +275,7 @@
                 <div class="float-right">
                     <p class="mb-0 text-right">Tiket Open Tahun</p>
                     <div class="fluid-container">
-                        <h3 class="font-weight-medium text-right mb-0">{{$tikets->where('created_at', '>=', date('Y-01-01'))->where('tiketStatus','<',7)->count()}}</h3>
+                        <h3 class="font-weight-medium text-right mb-0">{{$tiketOpenTahunIni}}</h3>
                     </div>
                 </div>
               </div>

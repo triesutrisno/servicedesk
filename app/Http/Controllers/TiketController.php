@@ -67,7 +67,8 @@ class TiketController extends Controller
                 ->leftjoin('users as g', 'g.username', '=', 'a.nikUser')
                 ->orderBy('a.tiketStatus', 'asc')
                 ->orderBy('a.kode_tiket', 'asc')
-                ->get();
+                ->paginate(50);
+                #->get();
         } else {
             $datas = DB::table('tiket as a')
                 ->select(
@@ -103,7 +104,8 @@ class TiketController extends Controller
                 ->where(['a.nikUser' => session('infoUser')['NIK']])
                 ->orderBy('a.tiketStatus', 'asc')
                 ->orderBy('a.kode_tiket', 'asc')
-                ->get();
+                ->paginate(50);
+                #->get();
         }
         //dd($datas);
         return view('tiket.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'']);

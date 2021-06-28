@@ -41,9 +41,42 @@ class HomeController extends Controller
      */
     public function index()
     {   
-        $tikets = Tiket::get();
+        #$tikets = Tiket::get();
+        $tiketMasukHariIni = Tiket::where('created_at', '>=', date('Y-m-d'))->count();
+        $tiketSelesaiHariIni = Tiket::where('updated_at', '>=', date('Y-m-d'))->whereIn('tiketStatus',['7','10'])->count();
+        $tiketCloseHariIni = Tiket::where('updated_at', '>=', date('Y-m-d'))->whereIn('tiketStatus',['3','5','8','10'])->count();
+        $tiketOpenHariIni = Tiket::where('created_at', '>=', date('Y-m-d'))->where('tiketStatus','<','7')->count();
         
-        return view('home', ['tikets'=>$tikets, 'kode'=>'', 'pesan'=>'']);
+        
+        $tiketMasukBulanIni = Tiket::where('created_at', '>=', date('Y-m-01'))->count();
+        $tiketSelesaiBulanIni = Tiket::where('updated_at', '>=', date('Y-m-01'))->whereIn('tiketStatus',['7','10'])->count();
+        $tiketCloseBulanIni = Tiket::where('updated_at', '>=', date('Y-m-01'))->whereIn('tiketStatus',['3','5','8','10'])->count();
+        $tiketOpenBulanIni = Tiket::where('created_at', '>=', date('Y-m-01'))->where('tiketStatus','<','7')->count();
+        
+        
+        $tiketMasukTahunIni = Tiket::where('created_at', '>=', date('Y-01-01'))->count();
+        $tiketSelesaiTahunIni = Tiket::where('updated_at', '>=', date('Y-01-01'))->whereIn('tiketStatus',['7','10'])->count();
+        $tiketCloseTahunIni = Tiket::where('updated_at', '>=', date('Y-01-01'))->whereIn('tiketStatus',['3','5','8','10'])->count();
+        $tiketOpenTahunIni = Tiket::where('created_at', '>=', date('Y-01-01'))->where('tiketStatus','<','7')->count();
+        //dd($tiketOpenHariIni);
+        
+        return view('home2', [
+                #'tikets'=>$tikets, 
+                'tiketMasukHariIni'=>$tiketMasukHariIni, 
+                'tiketSelesaiHariIni'=>$tiketSelesaiHariIni,  
+                'tiketCloseHariIni'=>$tiketCloseHariIni,  
+                'tiketOpenHariIni'=>$tiketOpenHariIni,             
+                'tiketMasukBulanIni'=>$tiketMasukBulanIni, 
+                'tiketSelesaiBulanIni'=>$tiketSelesaiBulanIni,  
+                'tiketCloseBulanIni'=>$tiketCloseBulanIni,  
+                'tiketOpenBulanIni'=>$tiketOpenBulanIni,             
+                'tiketMasukTahunIni'=>$tiketMasukTahunIni, 
+                'tiketSelesaiTahunIni'=>$tiketSelesaiTahunIni,  
+                'tiketCloseTahunIni'=>$tiketCloseTahunIni,  
+                'tiketOpenTahunIni'=>$tiketOpenTahunIni, 
+                'kode'=>'', 
+                'pesan'=>''
+            ]);
     }
 
     /**
@@ -69,8 +102,7 @@ class HomeController extends Controller
                 'a.subServiceId',            
                 'e.ServiceSubName',           
                 'a.tiketKeterangan',          
-                'a.tiketApprove',
-                'a.created_at',          
+                'a.tiketApprove',   
                 'a.tiketTglApprove',
                 'a.tiketTglApproveService',
                 'b.tglMulaiMengerjakan',
@@ -83,6 +115,7 @@ class HomeController extends Controller
                 'a.updated_at',
                 'b.nikTeknisi',
                 'f.progresProsen'
+                //(DB::raw('select name from users where username=a.tiketNikAtasan as namaAtasanTeknisi'))
             )
             ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
             ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
@@ -110,7 +143,7 @@ class HomeController extends Controller
             }elseif($id=='3'){
                 $datas->where('a.updated_at', '>=', date("Y-m-d"))->where('tiketStatus', '=', '8');
             }elseif($id=='4'){
-                $datas->where('a.updated_at', '>=', date("Y-m-d"))->where('tiketStatus', '<', '7');
+                $datas->where('a.created_at', '>=', date("Y-m-d"))->where('tiketStatus', '<', '7');
             }elseif($id=='5'){
                 $datas->where('a.created_at', '>=', date("Y-m-01"));
             }elseif($id=='6'){
@@ -118,7 +151,7 @@ class HomeController extends Controller
             }elseif($id=='7'){
                 $datas->where('a.updated_at', '>=', date("Y-m-01"))->where('tiketStatus', '=', '8');
             }elseif($id=='8'){
-                $datas->where('a.updated_at', '>=', date("Y-m-01"))->where('tiketStatus', '<', '7');
+                $datas->where('a.created_at', '>=', date("Y-m-01"))->where('tiketStatus', '<', '7');
             }elseif($id=='9'){
                 $datas->where('a.created_at', '>=', date("Y-01-01"));
             }elseif($id=='10'){
@@ -126,13 +159,14 @@ class HomeController extends Controller
             }elseif($id=='11'){
                 $datas->where('a.updated_at', '>=', date("Y-01-01"))->where('tiketStatus', '=', '8');
             }elseif($id=='12'){
-                $datas->where('a.updated_at', '>=', date("Y-01-01"))->where('tiketStatus', '<', '7');
+                $datas->where('a.created_at', '>=', date("Y-01-01"))->where('tiketStatus', '<', '7');
             }
             
             $result = $datas->groupBy('a.tiketId')
                             ->orderBy('a.tiketStatus', 'asc')
                             ->orderBy('a.kode_tiket', 'asc')
-                            ->get();
+                            ->paginate(50);
+                            #->get();
         
         return view('detail', ['datas'=>$result]);
     }

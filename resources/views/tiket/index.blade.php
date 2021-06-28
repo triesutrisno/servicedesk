@@ -9,9 +9,11 @@
     //    $(this).html( '<input type="text" placeholder="'+title+'" />' );
     //} );
     var table = $('#table').DataTable({
-        "iDisplayLength": 20,
+        //"iDisplayLength": 20,
         //"bSort" : false
-        "order": [[ 11, "asc" ]],      
+        "order": [[ 11, "asc" ]],        
+        "paging"  : false,
+        "info"    : false
     });
     
     table.column( 11 ).visible( false );
@@ -181,7 +183,14 @@
                     </tr>
                   @endforeach
                   </tbody>
-                </table>
+                </table>                  
+                <div class="pull-left">
+                    Showing
+                    {{ $datas->firstItem() }} to {{ $datas->lastItem() }} of {{ $datas->total() }} entries
+                </div>
+                <div class="pull-right">                        
+                    {{ $datas->links() }}
+                </div>
               </div>
             </div>
         </div>

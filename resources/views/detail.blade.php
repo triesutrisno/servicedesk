@@ -2,7 +2,9 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('#table').DataTable({
-      "iDisplayLength": 25
+      //"iDisplayLength": 25
+      "paging"  : false,
+      "info"    : false
     });
 
 } );
@@ -46,9 +48,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($datas as $data)
+                        @foreach($datas as $key => $data)
                             <tr>
-                                <td class="py-1">{{$loop->iteration}}</td>
+                                <td class="py-1">{{ $datas->firstItem() + $key }}</td>
                                 <td>
                                     @if($data->tiketStatus == '1')
                                         <label class="badge badge-warning">open</label>
@@ -91,6 +93,13 @@
                           @endforeach
                         </tbody>
                     </table>
+                    <div class="pull-left">
+                        Showing
+                        {{ $datas->firstItem() }} to {{ $datas->lastItem() }} of {{ $datas->total() }} entries
+                    </div>
+                    <div class="pull-right">                        
+                        {{ $datas->links() }}
+                    </div>
                 </div>
             </div>
         </div>
