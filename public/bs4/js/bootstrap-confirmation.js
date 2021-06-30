@@ -591,4 +591,3 @@
   };
 
 }));
-//# sourceMappingURL=bootstrap-confirmation.js.map
