@@ -28,8 +28,15 @@ class TiketController extends Controller
      * @return \Illuminate\Http\Response
      */
        
-    public function index()
+    public function index(Request $request)
     {    
+        $nomer = $request->post("nomer") != NULL ? $request->post("nomer") : "";
+        $status = $request->post("status") != NULL ? $request->post("status") : "";
+        $nama = $request->post("nama") != NULL ? $request->post("nama") : "";
+        $param["nomer"] = $nomer;
+        $param["status"] = $status;
+        $param["nama"] = $nama;
+        #dd($request->all());
         if(session('infoUser')['LEVEL'] == 'admin')
         {
             #$datas = Tiket::with(['layanan', 'service', 'subService', 'tiketDetail'])->get();
@@ -65,6 +72,15 @@ class TiketController extends Controller
                 ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'a.subServiceId')
                 ->leftjoin('m_progres as f', 'f.progresId', '=', 'b.progresId')
                 ->leftjoin('users as g', 'g.username', '=', 'a.nikUser')
+                ->when($nomer, function ($query, $nomer) {
+                    return $query->where('kode_tiket', $nomer);
+                })
+                ->when($status, function ($query, $status) {
+                    return $query->where('tiketStatus', $status);
+                })
+                ->when($nama, function ($query, $nama) {
+                    return $query->where('name', 'LIKE', '%' . $nama . '%');
+                })
                 ->orderBy('a.tiketStatus', 'asc')
                 ->orderBy('a.kode_tiket', 'asc')
                 ->paginate(50);
@@ -102,13 +118,22 @@ class TiketController extends Controller
                 ->leftjoin('m_progres as f', 'f.progresId', '=', 'b.progresId')
                 ->leftjoin('users as g', 'g.username', '=', 'a.nikUser')
                 ->where(['a.nikUser' => session('infoUser')['NIK']])
+                ->when($nomer, function ($query, $nomer) {
+                    return $query->where('kode_tiket', $nomer);
+                })
+                ->when($status, function ($query, $status) {
+                    return $query->where('tiketStatus', $status);
+                })
+                ->when($nama, function ($query, $nama) {
+                    return $query->where('name', 'LIKE', '%' . $nama . '%');
+                })
                 ->orderBy('a.tiketStatus', 'asc')
                 ->orderBy('a.kode_tiket', 'asc')
                 ->paginate(50);
                 #->get();
         }
         //dd($datas);
-        return view('tiket.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'']);
+        return view('tiket.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'', 'param'=>$param]);
     }
 
     /**

@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('home', 'HomeController@index');
     Route::get('home/detail/{id}', 'HomeController@detail');
+    Route::post('home/detail/{id}', 'HomeController@detail');
     Route::resource('user', 'UserController');
     Route::resource('subservice', 'SubserviceController');
     Route::resource('service', 'ServiceController');
@@ -45,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::get('/tiket', 'TiketController@index');
+    Route::post('/tiket', 'TiketController@index');
     Route::get('/tiket/create', 'TiketController@create');
     Route::get('/tiket/create/{id}', 'TiketController@created');
     Route::get('/tiket/create/{id}/{id2}', 'TiketController@add');

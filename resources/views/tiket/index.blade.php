@@ -10,12 +10,18 @@
     //} );
     var table = $('#table').DataTable({
         //"iDisplayLength": 20,
-        //"bSort" : false
+        "bSort" : false
         "order": [[ 11, "asc" ]],        
         "paging"  : false,
-        "info"    : false
+        "info"    : false,
+        "bFilter": false,
+        //"oLanguage": {
+        //    "sSearch": "Nomer : "
+        //}
     });
     
+    //var table = $('#example').DataTable();
+  
     table.column( 11 ).visible( false );
     
     $('[data-toggle=confirmation]').confirmation({
@@ -69,6 +75,40 @@
         <div class="card">
             <div class="card-body">
               <h4 class="card-title">Data Tiket</h4>
+              <form action="{{ url('/tiket')}}" method="post">
+              @csrf
+              <div class="row alert alert-warning">
+                    <div class="col-sm-12 col-md-3">
+                        <label class="text-small">Nomer : </label>
+                        <input type="text" name="nomer" class="form-control" value="{{ $param['nomer'] }}" autocomplete="off">
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <label class="text-small">Nama : </label>
+                        <input type="text" name="nama" class="form-control" value="{{ $param['nama'] }}" autocomplete="off">
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <label class="text-small">Status : </label>
+                        <select name="status" class="form-control">
+                            <option value="">Silakan Pilih</option>
+                            <option value="1" {{ $param['status']=='1' ? 'selected' : '' }}>Open</option>
+                            <option value="2"{{ $param['status']=='2' ? 'selected' : '' }}>Diapprove Atasan Unit</option>
+                            <option value="3"{{ $param['status']=='3' ? 'selected' : '' }}>Ditolak Atasan Unit</option>
+                            <option value="4"{{ $param['status']=='4' ? 'selected' : '' }}>Disetujui</option>
+                            <option value="5"{{ $param['status']=='5' ? 'selected' : '' }}>Ditolak</option>
+                            <option value="6"{{ $param['status']=='6' ? 'selected' : '' }}>Dikerjakan</option>
+                            <option value="7"{{ $param['status']=='7' ? 'selected' : '' }}>Selesai</option>
+                            <option value="8"{{ $param['status']=='8' ? 'selected' : '' }}>Close</option>
+                            <option value="9"{{ $param['status']=='9' ? 'selected' : '' }}>Pending</option>
+                            <option value="10"{{ $param['status']=='10' ? 'selected' : '' }}>Cancel</option>
+                            <option value="11"{{ $param['status']=='11' ? 'selected' : '' }}>Diforward</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <br />
+                        <button type="submit" class="btn btn-success mr-2">Cari</button>
+                    </div>
+              </div>
+              </form>
               @if (session('pesan'))
                     @if (session('kode')=='99')
                         <div class="alert alert-success">
@@ -82,7 +122,7 @@
                         </div>
                     @endif
                @endif
-              
+              @csrf
               <div class="table-responsive">
                 <table class="table table-striped" id="table">
                   <thead>

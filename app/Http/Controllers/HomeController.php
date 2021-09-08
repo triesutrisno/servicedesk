@@ -85,7 +85,7 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function detail($id)
+    public function detail(Request $request, $id)
     {
         $datas = DB::table('tiket as a')
             ->select(
@@ -96,7 +96,8 @@ class HomeController extends Controller
                 'a.nikUser',
                 'g.name',
                 'a.layananId',         
-                'c.nama_layanan',          
+                'c.nama_layanan',
+                'j.name as nameAtasanService',
                 'a.serviceId',             
                 'd.ServiceName',          
                 'a.subServiceId',            
@@ -123,6 +124,7 @@ class HomeController extends Controller
             ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'a.subServiceId')
             ->leftjoin('m_progres as f', 'f.progresId', '=', 'b.progresId')
             ->leftjoin('users as g', 'g.username', '=', 'a.nikUser')
+            ->leftjoin('users as j', 'j.username', '=', 'a.tiketNikAtasanService')
             ->leftjoin('tb_histori as h', function ($join) {
                 $join->on('h.tiketDetailId', '=', 'b.tiketDetailId')
                         ->where('h.progresId', '=', 20);
@@ -161,14 +163,34 @@ class HomeController extends Controller
             }elseif($id=='12'){
                 $datas->where('a.created_at', '>=', date("Y-01-01"))->where('tiketStatus', '<', '7');
             }
+            $nomer = $request->post("nomer") != NULL ? $request->post("nomer") : "";
+            $status = $request->post("status") != NULL ? $request->post("status") : "";
+            $nama = $request->post("nama") != NULL ? $request->post("nama") : "";
+            $namaAtasanService = $request->post("namaAtasanService") != NULL ? $request->post("namaAtasanService") : "";
+            $param["nomer"] = $nomer;
+            $param["status"] = $status;
+            $param["nama"] = $nama;
+            $param["namaAtasanService"] = $namaAtasanService;
             
-            $result = $datas->groupBy('a.tiketId')
+            $result = $datas->when($nomer, function ($query, $nomer) {
+                                return $query->where('kode_tiket', $nomer);
+                            })
+                            ->when($status, function ($query, $status) {
+                                return $query->where('tiketStatus', $status);
+                            })
+                            ->when($nama, function ($query, $nama) {
+                                return $query->where('g.name', 'LIKE', '%' . $nama . '%');
+                            })
+                            ->when($namaAtasanService, function ($query, $namaAtasanService) {
+                                return $query->where('j.name', 'LIKE', '%' . $namaAtasanService . '%');
+                            })
+                            ->groupBy('a.tiketId')
                             ->orderBy('a.tiketStatus', 'asc')
                             ->orderBy('a.kode_tiket', 'asc')
                             ->paginate(50);
                             #->get();
         
-        return view('detail', ['datas'=>$result]);
+        return view('detail', ['datas'=>$result, 'id'=>$id, 'param'=>$param]);
     }
     
     public function approve($kode)
