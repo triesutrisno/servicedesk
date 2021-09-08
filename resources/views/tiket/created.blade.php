@@ -62,8 +62,9 @@
                         }else{
                         @endphp
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
-                                <div class="card card-statistics" style='background:#EBEBEB'>
-                                    <a href="#" onclick="alert('Ada tidak dijinkan untuk mengakses menu ini')" class="row" style='color:#000000;text-decoration:none'>
+                                <div class="card card-statistics" style='background:#EBEBEB'>                                    
+                                    <input type='hidden' id='idEselon' value='{{$val->min_eselon}}'>
+                                    <a href="#" onclick=" alert('Ada tidak dijinkan untuk mengakses menu ini, menu ini hanya boleh diakses minimal eselon '+$('#idEselon').val())" class="row" style='color:#000000;text-decoration:none'>
                                     <div class="card-body">
                                       <div class="clearfix">
                                         <div class="float-left">
