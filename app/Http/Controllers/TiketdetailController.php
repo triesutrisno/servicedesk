@@ -337,6 +337,11 @@ class TiketdetailController extends Controller
                         $isiEmail.="<td>Keterangan</td>";
                         $isiEmail.="<td>:</td>";
                         $isiEmail.="<td>".$tktDetail[0]['tiket'][0]['tiketKeterangan']."</td>";
+                        $isiEmail.="</tr>";
+                        $isiEmail.="<tr>";
+                        $isiEmail.="<td>Remak</td>";
+                        $isiEmail.="<td>:</td>";
+                        $isiEmail.="<td>".$request->keterangan."</td>";
                         $isiEmail.="</tr>";            
                         $isiEmail.="</table><br />";
                         $isiEmail.="Sudah selesai dikerjakan, silakan cek kembali serta lakukan close tiket anda di tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
