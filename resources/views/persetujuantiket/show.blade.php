@@ -57,7 +57,6 @@
 } );
 </script>
 <script src="{{asset('bs4/js/bootstrap-confirmation.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.4/umd/popper.min.js" integrity="sha512-eUQ9hGdLjBjY3F41CScH3UX+4JDSI9zXeroz7hJ+RteoCaY+GP/LDoM8AO+Pt+DRFw3nXqsjh9Zsts8hnYv8/A==" crossorigin="anonymous"></script>
 @stop
 @extends('layouts.app')
 

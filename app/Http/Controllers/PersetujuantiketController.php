@@ -67,6 +67,7 @@ class PersetujuantiketController extends Controller
                         'idPegawai' => session('infoUser')['IDE'],
                         'parentId' => session('infoUser')['PROFIT_CTR_ID']
                 ]);
+        dd(session('infoUser'));
         $dtAPi = json_decode($response->getBody()->getContents(),true);  
         $responStatus = $response->getStatusCode();
         //dd($dtAPi["data"]);
