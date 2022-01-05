@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Userlevel extends Model
 {
-    protected $table = "userLevel";
+    protected $table = "userlevel";
     protected $primaryKey = "id";
     protected $fillable = [
         'nik',
