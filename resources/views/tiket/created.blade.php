@@ -39,8 +39,7 @@
                         if($eselon <= $val->min_eselon){ 
                             $serviceSAP = ['18','19'];
                             if(in_array($val->id, $serviceSAP)){
-                                $arrayNIK = ['02008'];
-                                if (in_array(session('infoUser')['USERNAME'], $arrayNIK)){ 
+                                if (in_array(session('infoUser')['USERNAME'], $userLevel)){ 
                                     @endphp 
                                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
                                             <div class="card card-statistics" style='background:#f2f8f9'>

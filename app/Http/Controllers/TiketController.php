@@ -18,6 +18,7 @@ use App\Service;
 use App\Subservice;
 use App\User;
 use App\Tbapprove;
+use App\Userlevel;
 use DateTime;
 
 class TiketController extends Controller
@@ -150,15 +151,22 @@ class TiketController extends Controller
     
     public function created($id)
     {        
-        $service = Service::where(['ServiceStatus'=>'1', 'id_layanan'=>$id])->orderBy('min_eselon', 'desc')->get();
-        //dd($service);
-        return view('tiket.created', ['service'=>$service]);
+        $service = Service::where(['ServiceStatus'=>'1', 'id_layanan'=>$id])->orderBy('min_eselon', 'desc')->get();        
+        $userLevel = Userlevel::where(['status'=>'1', 'level'=>'1'])->orderBy('nik', 'asc')->get()->toArray();
+        foreach($userLevel as $val){
+            $levelUser [] = $val['nik']; 
+        }
+        #dd($levelUser);
+        return view('tiket.created', ['service'=>$service, 'userLevel'=>$levelUser]);
     }
     
     public function add($id,$id2)
     {   
         $serviceSAP = ['18','19'];
-        $arrayNIK = ['02008'];
+        $userLevel = Userlevel::where(['status'=>'1', 'level'=>'1'])->orderBy('nik', 'asc')->get()->toArray();
+        foreach($userLevel as $val){
+            $arrayNIK [] = $val['nik']; 
+        }
         if(in_array($id2, $serviceSAP) && !in_array(session('infoUser')['USERNAME'], $arrayNIK)){
             return redirect('/tiket')->with(['kode'=>'90', 'pesan'=>'Anda tidak diijinkan mengakses menu ini !']);
         }else{
