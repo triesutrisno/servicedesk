@@ -37,7 +37,7 @@
                         }
 
                         if($eselon <= $val->min_eselon){ 
-                            $serviceSAP = ['18','19'];
+                            $serviceSAP = ['18','19','20'];
                             if(in_array($val->id, $serviceSAP)){
                                 if (in_array(session('infoUser')['USERNAME'], $userLevel)){ 
                                     @endphp 

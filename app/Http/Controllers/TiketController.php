@@ -162,7 +162,7 @@ class TiketController extends Controller
     
     public function add($id,$id2)
     {   
-        $serviceSAP = ['18','19'];
+        $serviceSAP = ['18','19','20'];
         $userLevel = Userlevel::where(['status'=>'1', 'level'=>'1'])->orderBy('nik', 'asc')->get()->toArray();
         foreach($userLevel as $val){
             $arrayNIK [] = $val['nik']; 
@@ -271,7 +271,7 @@ class TiketController extends Controller
             $request->request->add(['nikUser'=>session('infoUser')['NIK']]);
             $request->request->add(['tiketEmail'=>session('infoUser')['EMAIL']]);            
             $request->request->add(['file'=>$gambar]);
-            $serviceSAP = ['18','19'];
+            $serviceSAP = ['18','19','20'];
             if(in_array($serviceId, $serviceSAP)){
                 $request->request->add(['tiketApprove'=>'A']);
                 $request->request->add(['tiketTglApprove'=>date("Y-m-d H:i:s")]);
