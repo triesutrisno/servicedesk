@@ -99,7 +99,7 @@ $(document).ready(function() {
                         <tr>
                             <td>UserBy</td>
                             <td>:</td>
-                            <td>{{ $data[0]->name}}</td>
+                            <td>{{ $data[0]->name}} @if($data[0]->tiketEmail <> '') / <a href = "mailto:{{ $data[0]->tiketEmail}}">{{ $data[0]->tiketEmail}}</a>@endif</td>
                             <td>No Hp</td>
                             <td>:</td>
                             <td>{{ $data[0]->noHp}}</td>

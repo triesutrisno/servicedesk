@@ -418,6 +418,7 @@ class PersetujuantiketController extends Controller
                     'a.unit',          
                     'a.nikUser',
                     'g.name',
+                    'a.tiketEmail',
                     'a.layananId',         
                     'c.nama_layanan',          
                     'a.serviceId',             
