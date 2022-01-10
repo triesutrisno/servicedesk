@@ -204,6 +204,7 @@ class TiketController extends Controller
                         ])
                         ->post($urle,[
                             'biro' => $service[0]['layanan'][0]['kode_biro'],
+                            'serviceId' => $id2,
                     ]);
             $dtAPi = json_decode($response->getBody()->getContents(),true);  
             $responStatus = $response->getStatusCode();
