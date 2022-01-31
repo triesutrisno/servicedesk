@@ -31,7 +31,7 @@
                 <form method="POST" action="{{ url('persetujuantiket/approve') }}/{{ $data[0]->tiketId }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                     <h4 class="card-title">Data Tiket</h4>
-                    <table class="table">
+                    <table class="table-responsive">
                         <tbody>
                             <tr>
                                 <td width="10%">Nomor</td>

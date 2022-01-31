@@ -64,10 +64,10 @@
 <div class="flex-row">
     <div class="form-group">
         <a href="{{ url('persetujuantiket') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-book"></i> Lihat Data</a>
-        @if($data[0]->tiketStatus=='2' || $data[0]->tiketStatus=='11')
-          <a href="#" class="btn btn-warning btn-rounded btn-fw pilihSetuju" data-tiket_id="{{ $data[0]->tiketId }}" title="Setuju" data-toggle="modal" data-target="#myModalApprove">
-              <i class="fa fa-check-square icon-lg"></i> Setuju
-          </a> 
+        @if($data[0]->tiketStatus=='2' || $data[0]->tiketStatus=='11')          
+          <a href="{{ url('/persetujuantiket')}}/approve/{{ $data[0]->tiketId }}" class="btn btn-warning btn-rounded btn-fw" title="Setuju">
+                <i class="fa fa-check-square icon-lg"></i> Setuju
+          </a>
           <form action="{{ url('persetujuantiket/reject') }}/{{ $data[0]->tiketId }}" method="post" class="d-inline">
               @method('patch')
               @csrf
@@ -160,6 +160,24 @@
                                     <label class="badge badge-success">{{ $data[0]->progresProsen }}%</label>
                                 @endif
                             </td>
+                        </tr>                       
+                        <tr>
+                            <td>Severity</td>
+                            <td>:</td>
+                            <td>
+                                @if($data[0]->tiketSeverity == '1')
+                                    Severity Level 1
+                                @elseif($data[0]->tiketSeverity == '2')
+                                    Severity Level 2
+                                @elseif($data[0]->tiketSeverity == '3')
+                                    Severity Level 3
+                                @elseif($data[0]->tiketSeverity == '4')
+                                    Severity Level 4
+                                @endif
+                            </td>
+                            <td>Maindays</td>
+                            <td>:</td>
+                            <td>{{ $data[0]->tiketMaindays}} @if($data[0]->tiketMaindays <> '') Hari @endif</td>
                         </tr>
                         <tr>
                             <td>Keterangan</td>
