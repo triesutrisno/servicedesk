@@ -586,7 +586,7 @@ class TiketController extends Controller
                 }
             }
             
-            return redirect('/tiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil disimpan !']);
+            return redirect('/tiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil disimpan dengan nomer tiket '.$request->kode_tiket.' !']);
         }else{
             return redirect('/tiket')->with(['kode'=>'90', 'pesan'=>'Data sudah ada !']);
         }
@@ -640,7 +640,9 @@ class TiketController extends Controller
                     'f.progresProsen',
                     'a.namaLengkap',
                     'a.nikLengkap',
-                    'a.noHp'
+                    'a.noHp',                   
+                    'a.tiketSeverity',
+                    'a.tiketMaindays'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
@@ -740,6 +742,7 @@ class TiketController extends Controller
      */
     public function update(Request $request, $id)
     {
+        #dd($request->all());
         if (Tiket::where([
                 ['tiketKeterangan', '=', $request->tiketKeterangan],
                 ['nikUser', '=', session('infoUser')['NIK']],
@@ -748,14 +751,27 @@ class TiketController extends Controller
         ])->doesntExist()) { // Cek data apakah sudah ada atau belum di database   
             if($request->file('tiketFile') == '') {
                 $gambar = NULL;
-                Tiket::where('tiketId', $id)
+                $serviceSAP = ['18','19','20'];
+                if(in_array($request->serviceId, $serviceSAP)){
+                    Tiket::where('tiketId', $id)
                     ->update([
                         'tiketKeterangan' => $request->tiketKeterangan,
                         'subServiceId' => $request->subServiceId,
                         'tiketPrioritas' => $request->tiketPrioritas,
                         'tiketNikAtasanService' => $request->tiketNikAtasanService,
                         'flagFeedback' => $request->flagFeedback,
-                  ]);
+                        'tiketStatus' => '2'
+                    ]);
+                }else{
+                    Tiket::where('tiketId', $id)
+                        ->update([
+                            'tiketKeterangan' => $request->tiketKeterangan,
+                            'subServiceId' => $request->subServiceId,
+                            'tiketPrioritas' => $request->tiketPrioritas,
+                            'tiketNikAtasanService' => $request->tiketNikAtasanService,
+                            'flagFeedback' => $request->flagFeedback,
+                        ]);
+                }
             } else {
                 $file = $request->file('tiketFile');
                 $dt = Carbon::now();
@@ -765,15 +781,29 @@ class TiketController extends Controller
                 $request->file('tiketFile')->move("images/fileTiket", $fileName);
                 $gambar = $fileName;
                 
-                Tiket::where('tiketId', $id)
-                    ->update([
-                        'tiketKeterangan' => $request->tiketKeterangan,
-                        'subServiceId' => $request->subServiceId,
-                        'tiketPrioritas' => $request->tiketPrioritas,
-                        'tiketNikAtasanService' => $request->tiketNikAtasanService,
-                        'flagFeedback' => $request->flagFeedback,
-                        'file' => $gambar,
-                  ]);
+                $serviceSAP = ['18','19','20'];
+                if(in_array($request->serviceId, $serviceSAP)){
+                    Tiket::where('tiketId', $id)
+                        ->update([
+                            'tiketKeterangan' => $request->tiketKeterangan,
+                            'subServiceId' => $request->subServiceId,
+                            'tiketPrioritas' => $request->tiketPrioritas,
+                            'tiketNikAtasanService' => $request->tiketNikAtasanService,
+                            'flagFeedback' => $request->flagFeedback,
+                            'file' => $gambar,
+                            'tiketStatus' => '2'
+                      ]);
+                }else{
+                    Tiket::where('tiketId', $id)
+                        ->update([
+                            'tiketKeterangan' => $request->tiketKeterangan,
+                            'subServiceId' => $request->subServiceId,
+                            'tiketPrioritas' => $request->tiketPrioritas,
+                            'tiketNikAtasanService' => $request->tiketNikAtasanService,
+                            'flagFeedback' => $request->flagFeedback,
+                            'file' => $gambar,
+                      ]);
+                }
             }
             
             return redirect('/tiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil diubah !']);

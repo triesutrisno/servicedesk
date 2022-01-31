@@ -151,7 +151,8 @@ class TiketdetailController extends Controller
                 'b.tiketDetailId',
                 'b.keterangan',
                 'b.progresId',          
-                'b.tglRTL'        
+                'b.tglRTL',
+                'a.tiketMaindays'
             )
         ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
         ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
@@ -242,7 +243,10 @@ class TiketdetailController extends Controller
                     ]);
 
                     Tiket::where('tiketId', $tktDetail[0]['tiketId'])
-                        ->update(['tiketStatus' => '10']);
+                        ->update([
+                                'tiketStatus' => '10',
+                                'tiketMaindays' => $request->tiketMaindays,
+                            ]);
                     
                     if($tktDetail[0]['tiket'][0]['tiketEmail']!=""){
                         $isiEmail="<html>";
@@ -320,7 +324,10 @@ class TiketdetailController extends Controller
                     ]);
 
                     Tiket::where('tiketId', $tktDetail[0]['tiketId'])
-                        ->update(['tiketStatus' => '7']);
+                        ->update([
+                                'tiketStatus' => '7',                                
+                                'tiketMaindays' => $request->tiketMaindays,
+                            ]);
 
                     if($tktDetail[0]['tiket'][0]['tiketEmail']!=""){
                         $isiEmail="<html>";
@@ -403,7 +410,10 @@ class TiketdetailController extends Controller
                     ]);
 
                     Tiket::where('tiketId', $tktDetail[0]['tiketId'])
-                        ->update(['tiketStatus' => '6']);
+                        ->update([
+                                'tiketStatus' => '6',                                
+                                'tiketMaindays' => $request->tiketMaindays,
+                            ]);
             }
 
             $histori = new Histori();
@@ -471,7 +481,9 @@ class TiketdetailController extends Controller
                     'a.nikLengkap',
                     'a.noHp',
                     'b.tiketDetailStatus',
-                    'b.tiketDetailId'
+                    'b.tiketDetailId',                    
+                    'a.tiketSeverity',
+                    'a.tiketMaindays'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
@@ -637,7 +649,10 @@ class TiketdetailController extends Controller
                 ]);
 
             Tiket::where('tiketId', $tiketId)
-                ->update(['tiketStatus' => '11']);
+                ->update([
+                    'tiketStatus' => '11', 
+                    'flagForward' => '1', // flag forward
+                ]);
             
             $forward = New Forward();
             $forward->tiketId       = $tiketId;

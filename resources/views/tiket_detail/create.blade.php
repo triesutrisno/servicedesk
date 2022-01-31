@@ -208,9 +208,38 @@
                                 <td>
                                     <input type="date" id="tglSelesaiMengerjakan" name="tglSelesaiMengerjakan" class="form-control" required value="{{ $datas[0]->tglSelesaiMengerjakan }}">                                    
                                 </td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
+                                @if($datas[0]->serviceId=='19') 
+                                    <td>Maindays *</td>
+                                    <td>:</td>
+                                    <td>
+                                        <input type="text" id="tiketMaindays" name="tiketMaindays" class="form-control" required value="{{ $datas[0]->tiketMaindays }}">
+                                    </td>
+                                @else
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                @endif
+                            </tr>
+                            @else
+                            <tr>
+                                @if($datas[0]->serviceId=='19')
+                                    <td>Maindays *</td>
+                                    <td>:</td>
+                                    <td>
+                                        <input type="text" id="tiketMaindays" name="tiketMaindays" class="form-control" required value="{{ $datas[0]->tiketMaindays }}">
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                @else
+                                    
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>                                    
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                @endif
                             </tr>
                             @endif
                         </table>

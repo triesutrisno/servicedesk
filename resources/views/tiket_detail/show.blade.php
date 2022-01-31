@@ -140,6 +140,24 @@ $(document).ready(function() {
                                     <label class="badge badge-success">{{ $data[0]->progresProsen }}%</label>
                                 @endif
                             </td>
+                        </tr>                        
+                        <tr>
+                            <td>Severity</td>
+                            <td>:</td>
+                            <td>
+                                @if($data[0]->tiketSeverity == '1')
+                                    Severity Level 1
+                                @elseif($data[0]->tiketSeverity == '2')
+                                    Severity Level 2
+                                @elseif($data[0]->tiketSeverity == '3')
+                                    Severity Level 3
+                                @elseif($data[0]->tiketSeverity == '4')
+                                    Severity Level 4
+                                @endif
+                            </td>
+                            <td>Maindays</td>
+                            <td>:</td>
+                            <td>{{ $data[0]->tiketMaindays}} @if($data[0]->tiketMaindays <> '') Hari @endif</td>
                         </tr>
                         <tr>
                             <td>Keterangan</td>

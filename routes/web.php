@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('home', 'HomeController@index');
     Route::get('home/detail/{id}', 'HomeController@detail');
     Route::post('home/detail/{id}', 'HomeController@detail');
+    Route::get('home/show/{id}', 'HomeController@show');
     Route::resource('user', 'UserController');
     Route::resource('subservice', 'SubserviceController');
     Route::resource('service', 'ServiceController');
@@ -63,7 +64,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/approvetiket/detail/{id}', 'ApprovetiketController@show');
     
     Route::get('/persetujuantiket', 'PersetujuantiketController@index');
-    Route::patch('/persetujuantiket/approve', 'PersetujuantiketController@approve');
+    Route::get('/persetujuantiket/approve/{id}', 'PersetujuantiketController@approve'); 
+    Route::post('/persetujuantiket/approve/{id}', 'PersetujuantiketController@saveapprove');
     Route::patch('/persetujuantiket/reject/{id}', 'PersetujuantiketController@reject');
     Route::get('/persetujuantiket/detail/{id}', 'PersetujuantiketController@show');
     Route::get('/persetujuantiket/forward/{id}', 'PersetujuantiketController@forward');    

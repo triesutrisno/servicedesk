@@ -13,6 +13,7 @@
         });
         
         $('.pilihSetuju').click( function(){
+            alert($(this).attr('data-serviceId'));
             $('#tiketId').val($(this).attr('data-tiket_id'));
         });
         
@@ -58,7 +59,7 @@
                @endif
               
               <div class="table-responsive">
-                <table class="table table-striped" id="table">
+                <table class="table table-striped" id="table" width="100%">
                   <thead>
                     <tr>
                       <th>Action</th>
@@ -67,7 +68,7 @@
                       <th>Layanan</th>
                       <th>Service</th>
                       <th>Subservice</th>
-                      <th>Keterangan</th>
+                      <th width="50%">Keterangan</th>
                       <th>Tgl Buat</th>
                       <th>UserBy</th>
                       <th>Prioritas</th>
@@ -85,7 +86,10 @@
                               <i class="fa fa-search icon-lg"></i>
                           </a>
                           @if($data->tiketStatus=='2' || $data->tiketStatus=='11')
-                              <a href="#" class="btn btn-icons btn-inverse-primary pilihSetuju" data-tiket_id="{{ $data->tiketId }}" title="Setuju" data-toggle="modal" data-target="#myModalApprove">
+                              <!--<a href="#" class="btn btn-icons btn-inverse-primary pilihSetuju" data-tiket_id="{{ $data->tiketId }}" data-serviceId="{{ $data->serviceId }}" title="Setuju" data-toggle="modal" data-target="#myModalApprove">
+                                  <i class="fa fa-check-square icon-lg"></i>
+                              </a>-->
+                              <a href="{{ url('/persetujuantiket')}}/approve/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-info" title="Setuju">
                                   <i class="fa fa-check-square icon-lg"></i>
                               </a>
                               <form action="{{ url('persetujuantiket/reject') }}/{{ $data->tiketId }}" method="post" class="d-inline">
@@ -95,16 +99,16 @@
                                       <i class="fa fa-times-rectangle-o icon-lg"></i>
                                   </button>
                               </form>
-                          <a href="#" class="btn btn-icons btn-inverse-dark pilihFeedback" data-tiket_id="{{ $data->tiketId }}" title="Feedback" data-toggle="modal" data-target="#myModalFeedback">
-                              <i class="fa fa-sign-out"></i>
-                          </a>
-                          <a href="{{ url('/persetujuantiket')}}/forward/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-info" title="Forward">
-                                <i class="fa fa-share icon-lg"></i>
-                          </a>
+                              <a href="#" class="btn btn-icons btn-inverse-dark pilihFeedback" data-tiket_id="{{ $data->tiketId }}" title="Feedback" data-toggle="modal" data-target="#myModalFeedback">
+                                    <i class="fa fa-sign-out"></i>
+                              </a>
+                              <a href="{{ url('/persetujuantiket')}}/forward/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-info" title="Forward">
+                                    <i class="fa fa-share icon-lg"></i>
+                              </a>
                           @endif
                       </td>
                         <!--<td align="center">{{$loop->iteration}}</td>-->
-                        <td class="py-1">{{$data->kode_tiket }}</td>
+                        <td>{{$data->kode_tiket }}</td>
                         <td>{{ $data->nama_layanan }}</td>
                         <td>{{ $data->ServiceName }}</td>
                         <td>{{ $data->ServiceSubName }}</td>
@@ -186,6 +190,18 @@
                   </a>
               </div>
               <div class="col-md-6" id="namaTeknisi2"></div>
+          </div>
+          <div class="form-group">
+              <label for="tiketSeverity" class="col-md-4 control-label">Severity</label>
+              <div class="input-group col-md-6">
+                  <select class="form-control" required id="tiketSeverity" name="tiketSeverity">
+                    <option value="">Silakan Pilih</option>
+                    <option value="1">Severity Level 1</option>
+                    <option value="2">Severity Level 2</option>
+                    <option value="3">Severity Level 3</option>
+                    <option value="4">Severity Level 4</option>
+                  </select>
+              </div>
           </div>
       </div>
       <div class="modal-footer">

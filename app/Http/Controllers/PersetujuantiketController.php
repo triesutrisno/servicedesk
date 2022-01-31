@@ -44,7 +44,9 @@ class PersetujuantiketController extends Controller
                     'a.created_at',
                     'b.nikTeknisi',
                     'f.progresProsen',                    
-                    'a.flagFeedback'
+                    'a.flagFeedback',                        
+                    'a.tiketSeverity',
+                    'a.tiketMaindays'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
@@ -79,13 +81,95 @@ class PersetujuantiketController extends Controller
         
         return view('persetujuantiket.index', ['datas'=>$datas, 'dtAtasanService'=>$dtAtasanService, 'kode'=>'', 'pesan'=>'']);
     }
-
     
-    public function approve(Request $request)
+    public function approve($id)
+    {
+        $datas = DB::table('tiket as a')
+                ->select(
+                    'a.tiketId',
+                    'a.kode_tiket',          
+                    'a.comp',          
+                    'a.unit',          
+                    'a.nikUser',
+                    'g.name',
+                    'a.layananId',         
+                    'c.nama_layanan',          
+                    'a.serviceId',             
+                    'd.ServiceName',          
+                    'a.subServiceId',            
+                    'e.ServiceSubName',           
+                    'a.tiketKeterangan',          
+                    'a.file',          
+                    'a.tiketApprove',          
+                    'a.tiketTglApprove',          
+                    'a.tiketNikAtasan',  
+                    'i.name as namaAtasan',  
+                    'a.tiketApproveService',                             
+                    'a.tiketTglApproveService',          
+                    'a.tiketNikAtasanService', 
+                    'j.name as namaPIC', 
+                    'a.tiketPrioritas',          
+                    'a.tiketStatus',          
+                    'a.created_at',
+                    'b.nikTeknisi',
+                    'h.name as namaTeknisi',
+                    'b.namaAkun',
+                    'b.passwordAkun',
+                    'b.tglWawancara',
+                    'b.tglMulaiMengerjakan',
+                    'b.tglSelesaiMengerjakan',
+                    'b.tglImplementasi',
+                    'b.tglPelatihan',
+                    'f.progresProsen',
+                    'a.namaLengkap',
+                    'a.nikLengkap',
+                    'a.noHp'
+                )
+                ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
+                ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
+                ->leftjoin('ticket_service as d', 'd.id', '=', 'a.serviceId')
+                ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'a.subServiceId')
+                ->leftjoin('m_progres as f', 'f.progresId', '=', 'b.progresId')
+                ->leftjoin('users as g', 'g.username', '=', 'a.nikUser')
+                ->leftjoin('users as h', 'h.username', '=', 'b.nikTeknisi')
+                ->leftjoin('users as i', 'i.username', '=', 'a.tiketNikAtasan')
+                ->leftjoin('users as j', 'j.username', '=', 'a.tiketNikAtasanService')
+                ->where(['a.tiketId' => $id])
+                ->orderBy('a.tiketStatus', 'asc')
+                ->orderBy('a.kode_tiket', 'asc')
+                ->get();
+        //dd($datas);
+        
+        if($datas[0]->tiketNikAtasanService == session('infoUser')['NIK']){
+            $urle = env('API_BASE_URL')."/getAnakBuah.php";
+            $response = Http::withHeaders([
+                            'Content-Type' => 'application/json',
+                            'token' => 'tiketing.silog.co.id'
+                        ])
+                        ->post($urle,[
+                            'idPegawai' => session('infoUser')['IDE'],
+                            'parentId' => session('infoUser')['PROFIT_CTR_ID']
+                    ]);
+            #dd(session('infoUser'));
+            $dtAPi = json_decode($response->getBody()->getContents(),true);  
+            $responStatus = $response->getStatusCode();
+            //dd($dtAPi["data"]);
+            if($responStatus=='200'){
+                $dtAtasanService = $dtAPi["data"];
+            }else{
+                $dtAtasanService = $dtAPi["data"];
+            }
+            return view('persetujuantiket.approve', ['data'=>$datas, 'dtAtasanService'=>$dtAtasanService]);
+        }else{
+            return redirect('/persetujuantiket')->with(['kode'=>'90', 'pesan'=>'Tiket nomer '.$datas[0]->kode_tiket.' tidak ditugaskan ke anda !']);
+        }
+    }
+    
+    public function saveapprove(Request $request, $id)
     {
         //dd($request->namaTeknisi);
         $tiket = Tiket::with(['layanan', 'service', 'subService'])
-                    ->where(['tiketId'=>$request->tiketId])
+                    ->where(['tiketId'=>$id])
                     ->get(); 
         //dd($tiket);
         if($tiket[0]['tiketStatus']==2 || $tiket[0]['tiketStatus']==11){
@@ -94,16 +178,17 @@ class PersetujuantiketController extends Controller
                     'tiketTglApproveService' => date("Y-m-d H:i:s"),
                     'tiketApproveService' => "A",
                     'tiketStatus' => "4",
+                    'tiketSeverity' => $request->tiketSeverity,
             ]);
             
-            if (Tiketdetail::where(['tiketId'=>$request->tiketId])->doesntExist()) { // Cek data apakah sudah ada atau belum di database  
+            if (Tiketdetail::where(['tiketId'=>$id])->doesntExist()) { // Cek data apakah sudah ada atau belum di database  
                 $tiketDetail = new Tiketdetail();
                 $tiketDetail->tiketId = $tiket[0]['tiketId'];
                 $tiketDetail->nikTeknisi = $request->nikTeknisi;            
                 $tiketDetail->tiketDetailStatus = "1";
                 $tiketDetail->save();
             }else{
-                Tiketdetail::where('tiketId', $request->tiketId)
+                Tiketdetail::where('tiketId', $id)
                   ->update([
                       'nikTeknisi' => $request->nikTeknisi,
                       'tiketDetailStatus' => "1",
@@ -113,7 +198,7 @@ class PersetujuantiketController extends Controller
             $histori = new Histori();
             $histori->keterangan    = "Approve atasan Unit Service - Nama Teknisi ".$request->namaTeknisi;
             $histori->progresId     = '0';
-            $histori->tiketId       = $request->tiketId;
+            $histori->tiketId       = $id;
             $histori->save();
 
             $isiEmail="<html>";
@@ -308,16 +393,28 @@ class PersetujuantiketController extends Controller
                     ->get(); 
         //dd($tiket);
         if($tiket[0]['tiketStatus']==2 || $tiket[0]['tiketStatus']==11){
-            Tiket::where('tiketId', $request->tiketId)
-              ->update([
-                    'tiketTglApprove' => NULL,
-                    'tiketApprove' => "W",
-                    'tiketTglApproveService' => NULL,
-                    'tiketApproveService' => "N",
-                    'tiketStatus' => "1",
-                    'flagFeedback' => "1",
-                    'remarkFeedback' => $request->remark,
-            ]);
+            $serviceSAP = ['18','19','20'];
+            if(in_array($tiket[0]['serviceId'], $serviceSAP)){
+                Tiket::where('tiketId', $request->tiketId)
+                  ->update([
+                        'tiketTglApproveService' => NULL,
+                        'tiketApproveService' => "W",
+                        'tiketStatus' => "1",
+                        'flagFeedback' => "1",
+                        'remarkFeedback' => $request->remark,
+                ]);
+            }else{
+                Tiket::where('tiketId', $request->tiketId)
+                  ->update([
+                        'tiketTglApprove' => NULL,
+                        'tiketApprove' => "W",
+                        'tiketTglApproveService' => NULL,
+                        'tiketApproveService' => "N",
+                        'tiketStatus' => "1",
+                        'flagFeedback' => "1",
+                        'remarkFeedback' => $request->remark,
+                ]);
+            }
             
             $histori = new Histori();
             $histori->keterangan    = $request->remark;
@@ -450,7 +547,9 @@ class PersetujuantiketController extends Controller
                     'f.progresProsen',
                     'a.namaLengkap',
                     'a.nikLengkap',
-                    'a.noHp'
+                    'a.noHp',                        
+                    'a.tiketSeverity',
+                    'a.tiketMaindays'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
                 ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')

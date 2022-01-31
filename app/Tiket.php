@@ -32,7 +32,12 @@ class Tiket extends Model
         'tiketStatus',
         'namaLengkap',
         'nikLengkap',
-        'noHp'
+        'noHp',
+        'flagForward',
+        'flagFeedback',
+        'remarkFeedback',
+        'tiketSeverity',
+        'tiketMaindays'
     ];
     
     public function layanan()

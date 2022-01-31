@@ -70,6 +70,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Action</th>
                                 <th>Status</th>
                                 <th>Progress (%)</th>
                                 <th>User</th>
@@ -91,6 +92,11 @@
                         @foreach($datas as $key => $data)
                             <tr>
                                 <td class="py-1">{{ $datas->firstItem() + $key }}</td>
+                                <td>
+                                <a href="{{ url('/home')}}/show/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-warning" title="Detail">
+                                    <i class="fa fa-search icon-lg"></i>
+                                </a>
+                                </td>
                                 <td>
                                     @if($data->tiketStatus == '1')
                                         <label class="badge badge-warning">open</label>

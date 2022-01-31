@@ -193,6 +193,105 @@ class HomeController extends Controller
         return view('detail', ['datas'=>$result, 'id'=>$id, 'param'=>$param]);
     }
     
+    public function show($id)
+    {
+        $datas = DB::table('tiket as a')
+                ->select(
+                    'a.tiketId',
+                    'a.kode_tiket',          
+                    'a.comp',          
+                    'a.unit',          
+                    'a.nikUser',
+                    'g.name',
+                    'a.tiketEmail',
+                    'a.layananId',         
+                    'c.nama_layanan',          
+                    'a.serviceId',             
+                    'd.ServiceName',          
+                    'a.subServiceId',            
+                    'e.ServiceSubName',           
+                    'a.tiketKeterangan',          
+                    'a.file',          
+                    'a.tiketApprove',          
+                    'a.tiketTglApprove',          
+                    'a.tiketNikAtasan',  
+                    'i.name as namaAtasan',  
+                    'a.tiketApproveService',                             
+                    'a.tiketTglApproveService',          
+                    'a.tiketNikAtasanService', 
+                    'j.name as namaPIC', 
+                    'a.tiketPrioritas',          
+                    'a.tiketStatus',          
+                    'a.created_at',
+                    'b.nikTeknisi',
+                    'h.name as namaTeknisi',
+                    'b.namaAkun',
+                    'b.passwordAkun',
+                    'b.tglWawancara',
+                    'b.tglMulaiMengerjakan',
+                    'b.tglSelesaiMengerjakan',
+                    'b.tglImplementasi',
+                    'b.tglPelatihan',
+                    'f.progresProsen',
+                    'a.namaLengkap',
+                    'a.nikLengkap',
+                    'a.noHp',                   
+                    'a.tiketSeverity',
+                    'a.tiketMaindays'
+                )
+                ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
+                ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
+                ->leftjoin('ticket_service as d', 'd.id', '=', 'a.serviceId')
+                ->leftjoin('ticket_service_sub as e', 'e.id', '=', 'a.subServiceId')
+                ->leftjoin('m_progres as f', 'f.progresId', '=', 'b.progresId')
+                ->leftjoin('users as g', 'g.username', '=', 'a.nikUser')
+                ->leftjoin('users as h', 'h.username', '=', 'b.nikTeknisi')
+                ->leftjoin('users as i', 'i.username', '=', 'a.tiketNikAtasan')
+                ->leftjoin('users as j', 'j.username', '=', 'a.tiketNikAtasanService')
+                ->where(['a.tiketId' => $id])
+                ->orderBy('a.tiketStatus', 'asc')
+                ->orderBy('a.kode_tiket', 'asc')
+                ->get();
+        //dd($datas);
+        
+        $histori = DB::table('tb_histori as a')
+                ->select(
+                    'a.historiId',
+                    'a.tiketDetailId',
+                    'a.progresId',
+                    'a.created_at',                     
+                    'a.keterangan',
+                    'a.tglRTL',                   
+                    'c.progresNama',                   
+                    'c.progresProsen',
+                    'a.file'
+                )
+                ->leftjoin('tiket_detail as b', 'b.tiketDetailId', '=', 'a.tiketDetailId')
+                ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
+                ->where(['b.tiketId' => $id]);
+        
+        $histori2 = DB::table('tb_histori as a')
+                ->select(
+                    'a.historiId',
+                    'a.tiketId as tiketDetailId',
+                    'a.progresId',
+                    'a.created_at',                     
+                    'a.keterangan',
+                    'a.tglRTL',                   
+                    'c.progresNama',                   
+                    'c.progresProsen',
+                    'a.file'
+                )
+                ->leftjoin('tiket as b', 'b.tiketId', '=', 'a.tiketId')
+                ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
+                ->where(['b.tiketId' => $id])
+                ->union($histori)
+                ->orderBy('historiId', 'desc')
+                ->get();
+        //dd($histori2);
+        return view('show',['data'=>$datas, 'histori'=>$histori2]);
+    }
+    
     public function approve($kode)
     {
         $cekKode = $datas = DB::table('tb_approve')
