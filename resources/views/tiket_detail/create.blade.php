@@ -201,7 +201,7 @@
                                     <input type="date" id="tglPelatihan" name="tglPelatihan" class="form-control" value="{{ $datas[0]->tglPelatihan }}">
                                 </td>
                             </tr>
-                            @if($datas[0]->tiketDetailStatus=='1')                            
+                            @if($datas[0]->tiketDetailStatus=='1')                     
                             <tr>
                                 <td>Tanggal Target Selesai *</td>
                                 <td>:</td>

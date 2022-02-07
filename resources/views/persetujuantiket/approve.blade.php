@@ -129,7 +129,10 @@
                         </div>
                         <div class="col-md-6" id="namaTeknisi2"></div>
                     </div>
-                    @if($data[0]->serviceId == '18')
+                    @php
+                    $serviceSAP = ['18','20'];
+                    @endphp
+                    @if(in_array($data[0]->serviceId, $serviceSAP))
                         <div class="form-group">
                             <label for="tiketSeverity" class="col-md-4 control-label">Severity</label>
                             <div class="input-group col-md-6">
@@ -156,7 +159,7 @@
     <div class="modal-dialog modal-lg" role="document" >
         <div class="modal-content" style="background: #fff;">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Forward Ke</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Teknisi Tiket</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

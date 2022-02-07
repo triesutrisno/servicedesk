@@ -590,7 +590,9 @@ class TiketdetailController extends Controller
                 'b.tiketDetailId',
                 'b.keterangan',
                 'b.progresId',
-                'b.nikTeknisi'
+                'b.nikTeknisi',                   
+                    'a.tiketSeverity',
+                    'a.tiketMaindays'
             )
         ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
         ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')

@@ -102,6 +102,24 @@
                                         <label class="badge badge-warning">Forward</label>
                                     @endif
                                 </td>
+                            </tr>                       
+                            <tr>
+                                <td>Severity</td>
+                                <td>:</td>
+                                <td>
+                                    @if($datas[0]->tiketSeverity == '1')
+                                        Severity Level 1
+                                    @elseif($datas[0]->tiketSeverity == '2')
+                                        Severity Level 2
+                                    @elseif($datas[0]->tiketSeverity == '3')
+                                        Severity Level 3
+                                    @elseif($datas[0]->tiketSeverity == '4')
+                                        Severity Level 4
+                                    @endif
+                                </td>
+                                <td>Maindays</td>
+                                <td>:</td>
+                                <td>{{ $datas[0]->tiketMaindays}} @if($datas[0]->tiketMaindays <> '') Hari @endif</td>
                             </tr>
                             <tr>
                                 <td>Teknisi</td>
