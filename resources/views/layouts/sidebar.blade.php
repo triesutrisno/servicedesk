@@ -44,7 +44,7 @@
     </li>
     @endif   
 
-    @if(session('infoUser')['ESELON'] <= '40' || session('infoUser')['ESELON']=='DO')
+    @if(session('infoUser')['ESELON'] <= '40' || session('infoUser')['ESELON']=='D0')
       <li class="nav-item">
           <a class="nav-link" href="{{url('approvetiket')}}">
             <i class="menu-icon fa fa-handshake-o"></i>
