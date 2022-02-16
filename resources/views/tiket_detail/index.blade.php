@@ -49,7 +49,7 @@
                                 <option value="8"{{ $status=='8' ? 'selected' : '' }}>Close</option>
                                 <option value="9"{{ $status=='9' ? 'selected' : '' }}>Pending</option>
                                 <option value="10"{{ $status=='10' ? 'selected' : '' }}>Cancle</option> 
-                                <option value="11"{{ $param['status']=='11' ? 'selected' : '' }}>Diforward</option>                            
+                                <option value="11"{{ $status=='11' ? 'selected' : '' }}>Diforward</option>                            
                             </select>
                         </div>
                         <div class="form-group">
