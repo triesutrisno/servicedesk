@@ -10,6 +10,7 @@
             $('#namaTeknisi').val($(this).attr('data_nama'));            
             $('#namaTeknisi2').text($(this).attr('data_nama'));
             $('#emailTeknisi').val($(this).attr('data_email'));
+            $('#emailTeknisi2').val($(this).attr('data_email2'));
             $('#myModalTeknisi').modal('hide');
         });
     });
@@ -47,7 +48,15 @@
                                 <td>{{ $datas[0]->ServiceName }}</td>
                                 <td>Sub Service</td>
                                 <td>:</td>
-                                <td>{{ $datas[0]->ServiceSubName }}</td>
+                                <td>
+                                    <!--{{ $datas[0]->ServiceSubName }}-->
+                                    <select class="form-control"  required id="subServiceId" name="subServiceId">
+                                        <option value="">Silakan Pilih</option>
+                                        @foreach($subService as $key => $val)
+                                            <option value="{{ $val->id }}" {{ $datas[0]->subServiceId == $val->id ? 'selected' : '' }}>{{ $val->ServiceSubName }}</option>
+                                        @endforeach                          
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Tanggal Buat</td>
@@ -139,9 +148,10 @@
                                 <td>:</td>
                                 <td colspan="4" class="datae">
                                     <div class="input-group col-md-6">
-                                        <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required>
+                                        <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required readonly="true">
                                         <input type="hidden" name="namaTeknisi" id="namaTeknisi" readonly="true" class="form-control" required>
                                         <input type="hidden" name="emailTeknisi" id="emailTeknisi" readonly="true" class="form-control" required>
+                                        <input type="hidden" name="emailTeknisi2" id="emailTeknisi2" readonly="true" class="form-control" required>
                                         <a href="#" data-toggle="modal" data-target="#myModalTeknisi" style="text-decoration:none">
                                         <div class="input-group-append bg-primary border-primary">
                                             <span class="input-group-text bg-transparent">                                    
@@ -200,7 +210,7 @@
                                                 $nik = $data['NIK'];
                                                 if($nik!=$nikLama){
                                                 @endphp
-                                                <tr class="pilihTeknisi" data_nik="{{ $data['NIK'] }}" data_nama="{{ $data['NAMA'] }}" data_email="{{ $data['EMAIL'] }}">
+                                                <tr class="pilihTeknisi" data_nik="{{ $data['NIK'] }}" data_nama="{{ $data['NAMA'] }}" data_email="{{ $data['EMAIL'] }}" data_email2="{{ $data['EMAIL2'] }}">
                                                     <td><a href="#" style="text-decoration:none">{{$data['NIK']}}</a></td>
                                                     <td>{{$data['NAMA']}}</td>
                                                     <td>{{$data['URAIAN_JAB']}}</td>

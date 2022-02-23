@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 use DB;
 use Carbon\Carbon;
 use App\Progres;
+use App\Subservice;
 use App\Tiket;
 use App\Histori;
 use App\User;
@@ -169,12 +170,14 @@ class TiketdetailController extends Controller
         ->get();
         //dd($datas[0]->tiketStatus);
         
+        $subService = Subservice::where(['ServiceSubStatus'=>'1', 'ServiceIDf'=>$datas[0]->serviceId])->orderBy('urutan', 'asc')->get();
+        
         if($datas[0]->tiketStatus=='8'){
             return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket ini sudah diclose !']);
         }
         if($datas[0]->nikTeknisi == session('infoUser')['NIK']){
             $progres = Progres::where(['progresStatus'=>'1',])->where('progresId','<>','20')->get();
-            return view('tiket_detail.create', ['datas'=>$datas, 'progres'=>$progres]);
+            return view('tiket_detail.create', ['datas'=>$datas, 'progres'=>$progres, 'subService'=>$subService]);
         }else{
             return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket nomer '.$datas[0]->kode_tiket.' tidak ditugaskan ke anda !']);
         }
@@ -225,7 +228,11 @@ class TiketdetailController extends Controller
                     ]);
 
                     Tiket::where('tiketId', $tktDetail[0]['tiketId'])
-                        ->update(['tiketStatus' => '9']);
+                        ->update([
+                                'tiketStatus' => '9',
+                                'tiketMaindays' => $request->tiketMaindays,
+                                'subServiceId' => $request->subServiceId
+                            ]);
             }elseif($request->progres=='13'){ // Ketika tiket di cancel
                 Tiketdetail::where('tiketDetailId', $id)
                         ->update([
@@ -246,6 +253,7 @@ class TiketdetailController extends Controller
                         ->update([
                                 'tiketStatus' => '10',
                                 'tiketMaindays' => $request->tiketMaindays,
+                                'subServiceId' => $request->subServiceId
                             ]);
                     
                     if($tktDetail[0]['tiket'][0]['tiketEmail']!=""){
@@ -327,6 +335,7 @@ class TiketdetailController extends Controller
                         ->update([
                                 'tiketStatus' => '7',                                
                                 'tiketMaindays' => $request->tiketMaindays,
+                                'subServiceId' => $request->subServiceId
                             ]);
 
                     if($tktDetail[0]['tiket'][0]['tiketEmail']!=""){
@@ -413,6 +422,7 @@ class TiketdetailController extends Controller
                         ->update([
                                 'tiketStatus' => '6',                                
                                 'tiketMaindays' => $request->tiketMaindays,
+                                'subServiceId' => $request->subServiceId
                             ]);
             }
 
@@ -609,6 +619,8 @@ class TiketdetailController extends Controller
         ->get();
         //dd($datas);
         
+        $subService = Subservice::where(['ServiceSubStatus'=>'1', 'ServiceIDf'=>$datas[0]->serviceId])->orderBy('urutan', 'asc')->get();
+        
         if($datas[0]->nikTeknisi == session('infoUser')['NIK']){
             $urle = env('API_BASE_URL')."/getTeman.php";
             $response = Http::withHeaders([
@@ -627,14 +639,14 @@ class TiketdetailController extends Controller
             }else{
                 $dtAtasanService = $dtAPi["data"];
             }
-            return view('tiket_detail.forward', ['datas'=>$datas, 'dtAtasanService'=>$dtAtasanService]);
+            return view('tiket_detail.forward', ['datas'=>$datas, 'dtAtasanService'=>$dtAtasanService, 'subService'=>$subService]);
         }else{
             return redirect('/tugasku')->with(['kode'=>'90', 'pesan'=>'Tiket nomer '.$datas[0]->kode_tiket.' tidak ditugaskan ke anda !']);
         }
     }
     
     public function saveforward(Request $request, $tiketDetailId,$tiketId)
-    {        
+    {
         $tktDetail = Tiketdetail::with(['tiket'])
                 ->where(['tiketDetailId'=>$tiketDetailId])
                 ->get();
@@ -654,6 +666,7 @@ class TiketdetailController extends Controller
                 ->update([
                     'tiketStatus' => '11', 
                     'flagForward' => '1', // flag forward
+                    'subServiceId' => $request->subServiceId
                 ]);
             
             $forward = New Forward();
@@ -689,7 +702,8 @@ class TiketdetailController extends Controller
             $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
             $isiEmail.= "</body>";
             $isiEmail.="</html>";
-
+            
+            $cc = isset($request->emailTeknisi2) ? $request->emailTeknisi2 : "";
             $urle = env('API_BASE_URL')."/sendEmail.php";
             $response = Http::withHeaders([
                            'Content-Type' => 'application/json',
@@ -699,7 +713,7 @@ class TiketdetailController extends Controller
                             'tanggal' => date("Y-m-d H:i:s"),
                             'recipients' => $request->emailTeknisi,
                             #'recipients' => 'triesutrisno@gmail.com',
-                            #'cc' => $request->tiketEmailAtasanService,
+                            'cc' => $cc,
                             'subjectEmail' => 'Info Pengerjaan Tiket',
                             'isiEmail' => addslashes($isiEmail),
                             'status' => 'outbox',

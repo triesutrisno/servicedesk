@@ -116,7 +116,7 @@
                     <div class="form-group">
                         <label for="tiketNikTeknisi" class="col-md-4 control-label">Forward Ke</label>
                         <div class="input-group col-md-6">
-                            <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required>
+                            <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required readonly="true">
                             <input type="hidden" name="namaTeknisi" id="namaTeknisi" readonly="true" class="form-control" required>
                             <input type="hidden" name="emailTeknisi" id="emailTeknisi" readonly="true" class="form-control" required>
                             <a href="#" data-toggle="modal" data-target="#myModalTeknisi" style="text-decoration:none">

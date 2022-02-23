@@ -60,9 +60,17 @@
                                 <td>Service</td>
                                 <td>:</td>
                                 <td>{{ $datas[0]->ServiceName }}</td>
-                                <td>Sub Service</td>
+                                <td>Sub Service *</td>
                                 <td>:</td>
-                                <td>{{ $datas[0]->ServiceSubName }}</td>
+                                <td>
+                                    <!--{{ $datas[0]->ServiceSubName }}-->
+                                    <select class="form-control"  required id="subServiceId" name="subServiceId">
+                                        <option value="">Silakan Pilih</option>
+                                        @foreach($subService as $key => $val)
+                                            <option value="{{ $val->id }}" {{ $datas[0]->subServiceId == $val->id ? 'selected' : '' }}>{{ $val->ServiceSubName }}</option>
+                                        @endforeach                          
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Tanggal Buat</td>
