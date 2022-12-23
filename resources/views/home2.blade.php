@@ -272,12 +272,12 @@
             <canvas id="graph1" height="250"></canvas>
         </div>
     </div>
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin">
             <center><h3>Tiket Per Status</h3><center>
             <canvas id="graphByStatus" height="250"></canvas>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 @section('js')

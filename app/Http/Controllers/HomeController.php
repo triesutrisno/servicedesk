@@ -46,9 +46,9 @@ class HomeController extends Controller
         $tiketMasukBulanIni = Tiket::where('created_at', '>=', date('Y-m-01'))->count();
         $tiketMasukTahunIni = Tiket::where('created_at', '>=', date('Y-01-01'))->count();
 
-        $tiketCloseHariIni = Tiket::where('updated_at', '>=', date('Y-m-d'))->whereIn('tiketStatus', ['3', '5', '8', '10'])->count();
-        $tiketCloseBulanIni = Tiket::where('updated_at', '>=', date('Y-m-01'))->whereIn('tiketStatus', ['3', '5', '8', '10'])->count();
-        $tiketCloseTahunIni = Tiket::where('updated_at', '>=', date('Y-01-01'))->whereIn('tiketStatus', ['3', '5', '8', '10'])->count();
+        $tiketCloseHariIni = Tiket::where('updated_at', '>=', date('Y-m-d'))->whereIn('tiketStatus', ['7',  '8',])->count();
+        $tiketCloseBulanIni = Tiket::where('updated_at', '>=', date('Y-m-01'))->whereIn('tiketStatus', ['7',  '8',])->count();
+        $tiketCloseTahunIni = Tiket::where('updated_at', '>=', date('Y-01-01'))->whereIn('tiketStatus', ['7',  '8',])->count();
 
         $dataTiket = Tiket::where('created_at', '>=', date('Y-01-01'))
             ->selectRaw("count(*) as total, MONTH(created_at) month, tiketStatus, serviceId")
