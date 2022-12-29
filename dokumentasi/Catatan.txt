@@ -8,14 +8,14 @@ Status Tiket
 7 => Selesai
 8 => Close
 9 => Pending
-10 => Cancle
+10 => Cancel
 11 => Diforward
 
 Status Detail Tiket
 1 => Baru
 2 => Dikerjakan
 3 => Pending
-4 => Cancle
+4 => Cancel
 5 => Selesai dikerjakan
 6 => Close
 

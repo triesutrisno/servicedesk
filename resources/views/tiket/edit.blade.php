@@ -10,7 +10,7 @@
             $('#namaAtasanService').text($(this).attr('data_nama'));
             $('#myModalAtasanService').modal('hide');
         });
-        
+
         $('#tiketFile').bind('change', function() {
             //this.files[0].size gets the size of your file.
             var fileName = $(this).val().split("\\").pop();
@@ -19,7 +19,7 @@
             var filesize = parseFloat(this.files[0].size / 1024 ).toFixed(2); // dalam KB
             var filetype = $(this).val().split('.').pop().toLowerCase();
             //if($.inArray(filetype, ['xlsx', 'xls', 'docx', 'doc'] == -1){
-            
+
             //}
             //alert(filesize);
             if(filesize > 100){
@@ -27,7 +27,7 @@
                 $("#simpan").removeClass('btn-success');
                 $("#simpan").addClass('btn-secondary');
                 $("#simpan").prop('disabled', true);
-            }else{                
+            }else{
                 $("#simpan").removeClass('btn-secondary');
                 $("#simpan").addClass('btn-success');
                 $("#simpan").prop('disabled', false);
@@ -50,7 +50,7 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Ubah Data Tiket</h4>                                  
+                <h4 class="card-title">Ubah Data Tiket</h4>
                 <form method="POST" action="{{ url('tiket/edit') }}/{{ $tiket[0]['tiketId'] }}" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <input type="hidden" name="flagFeedback" id="flagFeedback" value="{{ $tiket[0]['flagFeedback'] !="" ? $tiket[0]['flagFeedback']+1 : '' }}" class="form-control">
@@ -58,28 +58,28 @@
                     <div class="form-group{{ $errors->has('kode_tiket') ? ' has-error' : '' }}">
                         <label for="kode_tiket" class="col-md-4 control-label">Nomor Tiket</label>
                         <div class="col-md-6">
-                            {{ $tiket[0]['kode_tiket'] }}                           
+                            {{ $tiket[0]['kode_tiket'] }}
                         </div>
                     </div>
                     <div class="form-group">
                       <label for="tiketLayanan" class="col-md-4 control-label">Atasan</label>
                       <div class="col-md-6">
-                        <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i> 
+                        <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i>
                         {{ session('infoUser')['AL_NAMA'] }} ({{ session('infoUser')['AL_NIK'] }})
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="tiketLayanan" class="col-md-4 control-label">Layanan</label>
                       <div class="col-md-6">
-                        <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i> 
+                        <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i>
                         {{ $tiket[0]['layanan'][0]['nama_layanan'] }}
                       </div>
                     </div>
                     <div class="form-group">
                       <label for="tiketService" class="col-md-4 control-label">Service</label>
                       <div class="col-md-6">
-                        <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i> 
-                        {{ $tiket[0]['service'][0]['ServiceName'] }}
+                        <i class="fa fa-angle-double-right text-danger mr-1" aria-hidden="true"></i>
+                        {{ $tiket[0]['service']['ServiceName'] }}
                       </div>
                     </div>
                     <div class="form-group">
@@ -89,7 +89,7 @@
                             <option value="">Silakan Pilih</option>
                             @foreach($subService as $key => $val)
                                 <option value="{{ $val->id }}" {{ $tiket[0]['subServiceId'] == $val->id ? 'selected' : '' }}>{{ $val->ServiceSubName }}</option>
-                            @endforeach                          
+                            @endforeach
                         </select>
                       </div>
                     </div>
@@ -110,7 +110,7 @@
                             <input type="text" name="tiketNikAtasanService" id="tiketNikAtasanService" value="{{ $tiket[0]['tiketNikAtasanService'] }}" class="form-control" required>
                             <a href="#" data-toggle="modal" data-target="#myModalAtasanService" style="text-decoration:none">
                             <div class="input-group-append bg-primary border-primary">
-                                <span class="input-group-text bg-transparent">                                    
+                                <span class="input-group-text bg-transparent">
                                     <i class="fa fa-search text-white"></i>
                                 </span>
                             </div>
@@ -122,7 +122,7 @@
                     <div class="form-group">
                         <label for="tiketKeterangan" class="col-md-4 control-label">Keterangan</label>
                         <div class="col-md-6">
-                            <textarea class="form-control" required id="tiketKeterangan" name="tiketKeterangan" rows="6">{{ trim($tiket[0]['tiketKeterangan']) }}</textarea>                            
+                            <textarea class="form-control" required id="tiketKeterangan" name="tiketKeterangan" rows="6">{{ trim($tiket[0]['tiketKeterangan']) }}</textarea>
                         </div>
                     </div>
                     <div class="form-group col-md-6">
@@ -148,7 +148,7 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-success mr-2" id="simpan">Simpan</button>
                     </div>
-                </form>                
+                </form>
             </div>
         </div>
     </div>
@@ -188,7 +188,7 @@
                                 </div>
                             </div>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </div>

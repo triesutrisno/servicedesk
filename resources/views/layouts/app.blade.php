@@ -40,7 +40,7 @@
 
       <div class="navbar-menu-wrapper d-flex align-items-center">
         <ul class="navbar-nav navbar-nav-right">
-         
+
           <li class="nav-item dropdown d-xl-inline-block">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
               <span class="profile-text">Hello, {{Auth::user()->name}} !</span>
@@ -60,7 +60,7 @@
             </div>
           </li>
         </ul>
-     
+
       </div>
     </nav>
     <!-- partial -->
@@ -97,12 +97,11 @@
   <script src="{{asset('js/dataTables.bootstrap4.min.js')}}"></script>
   <script src="{{asset('js/sweetalert2.all.js')}}"></script>
   <script src="{{asset('js/select2.min.js')}}"></script>
-  
-  @section('js')
 
+  @section('js')
+  @stack('scripts')
   @show
 </body>
 
 </html>
-                         
-   
+

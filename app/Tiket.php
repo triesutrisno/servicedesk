@@ -39,26 +39,26 @@ class Tiket extends Model
         'tiketSeverity',
         'tiketMaindays'
     ];
-    
+
     public function layanan()
     {
         return $this->hasMany('App\Layanan','id','layananId');
     }
-    
+
     public function service()
     {
-        return $this->hasMany('App\Service','id','serviceId');
+        return $this->belongsTo('App\Service','serviceId');
     }
-    
+
     public function subService()
     {
-        return $this->hasMany('App\Subservice','id','subServiceId');
+        return $this->belongsTo('App\Subservice','subServiceId');
     }
-    
+
     public function tiketDetail(){
         return $this->hasOne('App\Tiketdetail','tiketId','tiketId');
     }
-    
+
     public function userBy(){
         return $this->hasOne('App\Infouser','username','nikUser');
     }

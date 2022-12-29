@@ -9,18 +9,12 @@ use Illuminate\Http\Request;
 //use App\Transaksi;
 use App\Tiket;
 use App\Tiketdetail;
-use App\Histori;
-use App\Nextnumber;
-use App\Layanan;
-use App\Transaksiot;
-use App\Service;
-use App\Subservice;
 use App\Infouser;
 use Illuminate\Support\Facades\Http;
 
-use DB;
-use Auth;
+
 use DateTime;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -49,24 +43,26 @@ class HomeController extends Controller
         $tiketCloseHariIni = Tiket::where('updated_at', '>=', date('Y-m-d'))->whereIn('tiketStatus', ['7',  '8',])->count();
         $tiketCloseBulanIni = Tiket::where('updated_at', '>=', date('Y-m-01'))->whereIn('tiketStatus', ['7',  '8',])->count();
         $tiketCloseTahunIni = Tiket::where('updated_at', '>=', date('Y-01-01'))->whereIn('tiketStatus', ['7',  '8',])->count();
+        $dataTiketStatus = Tiket::selectRaw("count(*) as total, MONTH(created_at) month, tiketStatus, serviceId")
+            ->groupBy('month', 'tiketStatus', 'serviceId')->get();
 
         $dataTiket = Tiket::where('created_at', '>=', date('Y-01-01'))
             ->selectRaw("count(*) as total, MONTH(created_at) month, tiketStatus, serviceId")
             ->groupBy('month', 'tiketStatus', 'serviceId')->get();
 
-        $tiketOpen = $dataTiket->whereIn('tiketStatus', ['4', '6', '11'])->sum('total');
-        $tiketCancelReject = $dataTiket->whereIn('tiketStatus', ['3', '5', '10'])->sum('total');
-        $tiketPending = $dataTiket->whereIn('tiketStatus', [9])->sum('total');
-        $tiketBlmApprove = $dataTiket->whereIn('tiketStatus', [1])->sum('total');
+        $tiketOpen = $dataTiketStatus->whereIn('tiketStatus', ['4', '6', '11'])->sum('total');
+        $tiketCancelReject = $dataTiketStatus->whereIn('tiketStatus', ['3', '5', '10'])->sum('total');
+        $tiketPending = $dataTiketStatus->whereIn('tiketStatus', [9])->sum('total');
+        $tiketBlmApprove = $dataTiketStatus->whereIn('tiketStatus', [1])->sum('total');
 
         // dd($dataTiket->groupBy('month'));
-        $dataGraph1 = $dataTiket->groupBy('month')->mapWithKeys(function ($data, $key){
+        $dataGraph1 = $dataTiket->groupBy('month')->mapWithKeys(function ($data, $key) {
             return [
                 $key => $data->sum('total')
             ];
         });
 
-        $dataGraphByStatus = $dataTiket->groupBy('tiketStatus')->mapWithKeys(function ($data, $key){
+        $dataGraphByStatus = $dataTiket->groupBy('tiketStatus')->mapWithKeys(function ($data, $key) {
             return [
                 $key => $data->sum('total')
             ];
@@ -356,12 +352,12 @@ class HomeController extends Controller
                     $isiEmail .= "<tr>";
                     $isiEmail .= "<td>Service</td>";
                     $isiEmail .= "<td>:</td>";
-                    $isiEmail .= "<td>" . $tiket[0]['service'][0]['ServiceName'] . "</td>";
+                    $isiEmail .= "<td>" . $tiket[0]['service']['ServiceName'] . "</td>";
                     $isiEmail .= "</tr>";
                     $isiEmail .= "<tr>";
                     $isiEmail .= "<td>Subservice</td>";
                     $isiEmail .= "<td>:</td>";
-                    $isiEmail .= "<td>" . $tiket[0]['subService'][0]['ServiceSubName'] . "</td>";
+                    $isiEmail .= "<td>" . $tiket[0]['subService']['ServiceSubName'] . "</td>";
                     $isiEmail .= "</tr>";
                     $isiEmail .= "<tr>";
                     $isiEmail .= "<td>Keterangan</td>";
@@ -403,8 +399,8 @@ class HomeController extends Controller
                         $isiTelegram = "Saat ini ada mendapatkan permintaan tiket dengan: \n";
                         $isiTelegram .= "Nomer : " . $tiket[0]['kode_tiket'] . " \n";
                         $isiTelegram .= "Layanan : " . $tiket[0]['layanan'][0]['nama_layanan'] . " \n";
-                        $isiTelegram .= "Service : " . $tiket[0]['service'][0]['ServiceName'] . " \n";
-                        $isiTelegram .= "Subservice : " . $tiket[0]['subService'][0]['ServiceSubName'] . " \n";
+                        $isiTelegram .= "Service : " . $tiket[0]['service']['ServiceName'] . " \n";
+                        $isiTelegram .= "Subservice : " . $tiket[0]['subService']['ServiceSubName'] . " \n";
                         $isiTelegram .= "Keterangan : " . $tiket[0]['tiketKeterangan'] . " \n";
                         $isiTelegram .= "UserBy : " . $tiket[0]['userBy']['name'] . " \n\n";
                         $isiTelegram .= "Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
@@ -530,12 +526,12 @@ class HomeController extends Controller
                     $isiEmail .= "<tr>";
                     $isiEmail .= "<td>Service</td>";
                     $isiEmail .= "<td>:</td>";
-                    $isiEmail .= "<td>" . $tiket[0]['service'][0]['ServiceName'] . "</td>";
+                    $isiEmail .= "<td>" . $tiket[0]['service']['ServiceName'] . "</td>";
                     $isiEmail .= "</tr>";
                     $isiEmail .= "<tr>";
                     $isiEmail .= "<td>Subservice</td>";
                     $isiEmail .= "<td>:</td>";
-                    $isiEmail .= "<td>" . $tiket[0]['subService'][0]['ServiceSubName'] . "</td>";
+                    $isiEmail .= "<td>" . $tiket[0]['subService']['ServiceSubName'] . "</td>";
                     $isiEmail .= "</tr>";
                     $isiEmail .= "<tr>";
                     $isiEmail .= "<td>Keterangan</td>";
@@ -577,8 +573,8 @@ class HomeController extends Controller
                         $isiTelegram = "Saat ini anda diminta untuk mengerjakan tiket dengan: \n";
                         $isiTelegram .= "Nomer : " . $tiket[0]['kode_tiket'] . " \n";
                         $isiTelegram .= "Layanan : " . $tiket[0]['layanan'][0]['nama_layanan'] . " \n";
-                        $isiTelegram .= "Service : " . $tiket[0]['service'][0]['ServiceName'] . " \n";
-                        $isiTelegram .= "Subservice : " . $tiket[0]['subService'][0]['ServiceSubName'] . " \n";
+                        $isiTelegram .= "Service : " . $tiket[0]['service']['ServiceName'] . " \n";
+                        $isiTelegram .= "Subservice : " . $tiket[0]['subService']['ServiceSubName'] . " \n";
                         $isiTelegram .= "Keterangan : " . $tiket[0]['tiketKeterangan'] . " \n";
                         $isiTelegram .= "UserBy : " . $tiket[0]['userBy']['name'] . " \n\n";
                         $isiTelegram .= "Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
@@ -698,12 +694,12 @@ class HomeController extends Controller
                     $isiEmail .= "<tr>";
                     $isiEmail .= "<td>Service</td>";
                     $isiEmail .= "<td>:</td>";
-                    $isiEmail .= "<td>" . $tiket[0]['service'][0]['ServiceName'] . "</td>";
+                    $isiEmail .= "<td>" . $tiket[0]['service']['ServiceName'] . "</td>";
                     $isiEmail .= "</tr>";
                     $isiEmail .= "<tr>";
                     $isiEmail .= "<td>Subservice</td>";
                     $isiEmail .= "<td>:</td>";
-                    $isiEmail .= "<td>" . $tiket[0]['subService'][0]['ServiceSubName'] . "</td>";
+                    $isiEmail .= "<td>" . $tiket[0]['subService']['ServiceSubName'] . "</td>";
                     $isiEmail .= "</tr>";
                     $isiEmail .= "<tr>";
                     $isiEmail .= "<td>Keterangan</td>";
@@ -745,8 +741,8 @@ class HomeController extends Controller
                         $isiTelegram = "Saat ini ada mendapatkan permintaan tiket dengan: \n";
                         $isiTelegram .= "Nomer : " . $tiket[0]['kode_tiket'] . " \n";
                         $isiTelegram .= "Layanan : " . $tiket[0]['layanan'][0]['nama_layanan'] . " \n";
-                        $isiTelegram .= "Service : " . $tiket[0]['service'][0]['ServiceName'] . " \n";
-                        $isiTelegram .= "Subservice : " . $tiket[0]['subService'][0]['ServiceSubName'] . " \n";
+                        $isiTelegram .= "Service : " . $tiket[0]['service']['ServiceName'] . " \n";
+                        $isiTelegram .= "Subservice : " . $tiket[0]['subService']['ServiceSubName'] . " \n";
                         $isiTelegram .= "Keterangan : " . $tiket[0]['tiketKeterangan'] . " \n";
                         $isiTelegram .= "UserBy : " . $tiket[0]['userBy']['name'] . " \n\n";
                         $isiTelegram .= "Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";

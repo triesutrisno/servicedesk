@@ -19,7 +19,7 @@
             </div>
         </div>
     </li>
-    <li class="nav-item"> 
+    <li class="nav-item">
       <a class="nav-link" href="{{ url('home') }}">
         <i class="menu-icon mdi mdi-television"></i>
         <span class="menu-title">Dashboard</span>
@@ -42,7 +42,7 @@
           </ul>
       </div>
     </li>
-    @endif   
+    @endif
 
     @if(session('infoUser')['ESELON'] <= '40' || session('infoUser')['ESELON']=='D0')
       <li class="nav-item">
@@ -56,13 +56,19 @@
             <i class="menu-icon fa fa-book"></i>
             <span class="menu-title">Persetujuan Tiket</span>
           </a>
-      </li> 
+      </li>
     @endif
-    
+
     <li class="nav-item">
       <a class="nav-link" href="{{url('tiket')}}">
         <i class="menu-icon fa fa-ticket"></i>
         <span class="menu-title">Tiket</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{url('tiket2')}}">
+        <i class="menu-icon fa fa-ticket"></i>
+        <span class="menu-title">Tiket V2</span>
       </a>
     </li>
     <li class="nav-item">

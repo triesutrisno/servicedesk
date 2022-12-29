@@ -23,28 +23,28 @@ class PersetujuantiketController extends Controller
         $datas = DB::table('tiket as a')
                 ->select(
                     'a.tiketId',
-                    'a.kode_tiket',          
-                    'a.comp',          
-                    'a.unit',          
+                    'a.kode_tiket',
+                    'a.comp',
+                    'a.unit',
                     'a.nikUser',
                     'g.name',
-                    'a.layananId',         
-                    'c.nama_layanan',          
-                    'a.serviceId',             
-                    'd.ServiceName',          
-                    'a.subServiceId',            
-                    'e.ServiceSubName',           
-                    'a.tiketKeterangan',          
-                    'a.file',          
-                    'a.tiketApprove',          
-                    'a.tiketTglApprove',          
-                    'a.tiketNikAtasan',          
-                    'a.tiketPrioritas',          
-                    'a.tiketStatus',          
+                    'a.layananId',
+                    'c.nama_layanan',
+                    'a.serviceId',
+                    'd.ServiceName',
+                    'a.subServiceId',
+                    'e.ServiceSubName',
+                    'a.tiketKeterangan',
+                    'a.file',
+                    'a.tiketApprove',
+                    'a.tiketTglApprove',
+                    'a.tiketNikAtasan',
+                    'a.tiketPrioritas',
+                    'a.tiketStatus',
                     'a.created_at',
                     'b.nikTeknisi',
-                    'f.progresProsen',                    
-                    'a.flagFeedback',                        
+                    'f.progresProsen',
+                    'a.flagFeedback',
                     'a.tiketSeverity',
                     'a.tiketMaindays'
                 )
@@ -59,7 +59,7 @@ class PersetujuantiketController extends Controller
                 ->orderBy('a.tiketStatus', 'asc')
                 ->orderBy('a.kode_tiket', 'asc')
                 ->get();
-        
+
         $urle = env('API_BASE_URL')."/getAnakBuah.php";
         $response = Http::withHeaders([
                         'Content-Type' => 'application/json',
@@ -70,7 +70,7 @@ class PersetujuantiketController extends Controller
                         'parentId' => session('infoUser')['PROFIT_CTR_ID']
                 ]);
         #dd(session('infoUser'));
-        $dtAPi = json_decode($response->getBody()->getContents(),true);  
+        $dtAPi = json_decode($response->getBody()->getContents(),true);
         $responStatus = $response->getStatusCode();
         //dd($dtAPi["data"]);
         if($responStatus=='200'){
@@ -78,38 +78,38 @@ class PersetujuantiketController extends Controller
         }else{
             $dtAtasanService = $dtAPi["data"];
         }
-        
+
         return view('persetujuantiket.index', ['datas'=>$datas, 'dtAtasanService'=>$dtAtasanService, 'kode'=>'', 'pesan'=>'']);
     }
-    
+
     public function approve($id)
     {
         $datas = DB::table('tiket as a')
                 ->select(
                     'a.tiketId',
-                    'a.kode_tiket',          
-                    'a.comp',          
-                    'a.unit',          
+                    'a.kode_tiket',
+                    'a.comp',
+                    'a.unit',
                     'a.nikUser',
                     'g.name',
-                    'a.layananId',         
-                    'c.nama_layanan',          
-                    'a.serviceId',             
-                    'd.ServiceName',          
-                    'a.subServiceId',            
-                    'e.ServiceSubName',           
-                    'a.tiketKeterangan',          
-                    'a.file',          
-                    'a.tiketApprove',          
-                    'a.tiketTglApprove',          
-                    'a.tiketNikAtasan',  
-                    'i.name as namaAtasan',  
-                    'a.tiketApproveService',                             
-                    'a.tiketTglApproveService',          
-                    'a.tiketNikAtasanService', 
-                    'j.name as namaPIC', 
-                    'a.tiketPrioritas',          
-                    'a.tiketStatus',          
+                    'a.layananId',
+                    'c.nama_layanan',
+                    'a.serviceId',
+                    'd.ServiceName',
+                    'a.subServiceId',
+                    'e.ServiceSubName',
+                    'a.tiketKeterangan',
+                    'a.file',
+                    'a.tiketApprove',
+                    'a.tiketTglApprove',
+                    'a.tiketNikAtasan',
+                    'i.name as namaAtasan',
+                    'a.tiketApproveService',
+                    'a.tiketTglApproveService',
+                    'a.tiketNikAtasanService',
+                    'j.name as namaPIC',
+                    'a.tiketPrioritas',
+                    'a.tiketStatus',
                     'a.created_at',
                     'b.nikTeknisi',
                     'h.name as namaTeknisi',
@@ -139,7 +139,7 @@ class PersetujuantiketController extends Controller
                 ->orderBy('a.kode_tiket', 'asc')
                 ->get();
         //dd($datas);
-        
+
         if($datas[0]->tiketNikAtasanService == session('infoUser')['NIK']){
             $urle = env('API_BASE_URL')."/getAnakBuah.php";
             $response = Http::withHeaders([
@@ -151,7 +151,7 @@ class PersetujuantiketController extends Controller
                             'parentId' => session('infoUser')['PROFIT_CTR_ID']
                     ]);
             #dd(session('infoUser'));
-            $dtAPi = json_decode($response->getBody()->getContents(),true);  
+            $dtAPi = json_decode($response->getBody()->getContents(),true);
             $responStatus = $response->getStatusCode();
             //dd($dtAPi["data"]);
             if($responStatus=='200'){
@@ -164,13 +164,13 @@ class PersetujuantiketController extends Controller
             return redirect('/persetujuantiket')->with(['kode'=>'90', 'pesan'=>'Tiket nomer '.$datas[0]->kode_tiket.' tidak ditugaskan ke anda !']);
         }
     }
-    
+
     public function saveapprove(Request $request, $id)
     {
         //dd($request->namaTeknisi);
         $tiket = Tiket::with(['layanan', 'service', 'subService'])
                     ->where(['tiketId'=>$id])
-                    ->get(); 
+                    ->get();
         //dd($tiket);
         if($tiket[0]['tiketStatus']==2 || $tiket[0]['tiketStatus']==11){
             Tiket::where('tiketId', $tiket[0]['tiketId'])
@@ -180,11 +180,11 @@ class PersetujuantiketController extends Controller
                     'tiketStatus' => "4",
                     'tiketSeverity' => $request->tiketSeverity,
             ]);
-            
-            if (Tiketdetail::where(['tiketId'=>$id])->doesntExist()) { // Cek data apakah sudah ada atau belum di database  
+
+            if (Tiketdetail::where(['tiketId'=>$id])->doesntExist()) { // Cek data apakah sudah ada atau belum di database
                 $tiketDetail = new Tiketdetail();
                 $tiketDetail->tiketId = $tiket[0]['tiketId'];
-                $tiketDetail->nikTeknisi = $request->nikTeknisi;            
+                $tiketDetail->nikTeknisi = $request->nikTeknisi;
                 $tiketDetail->tiketDetailStatus = "1";
                 $tiketDetail->save();
             }else{
@@ -194,7 +194,7 @@ class PersetujuantiketController extends Controller
                       'tiketDetailStatus' => "1",
                 ]);
             }
-            
+
             $histori = new Histori();
             $histori->keterangan    = "Approve atasan Unit Service - Nama Teknisi ".$request->namaTeknisi;
             $histori->progresId     = '0';
@@ -203,7 +203,7 @@ class PersetujuantiketController extends Controller
 
             $isiEmail="<html>";
             $isiEmail.="<html>";
-            $isiEmail.="<body>";           
+            $isiEmail.="<body>";
             $isiEmail.="Saat ini anda diminta untuk mengerjakan tiket dengan: <br />";
             $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
             $isiEmail.="<tr>";
@@ -219,18 +219,18 @@ class PersetujuantiketController extends Controller
             $isiEmail.="<tr>";
             $isiEmail.="<td>Service</td>";
             $isiEmail.="<td>:</td>";
-            $isiEmail.="<td>".$tiket[0]['service'][0]['ServiceName']."</td>";
+            $isiEmail.="<td>".$tiket[0]['service']['ServiceName']."</td>";
             $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Subservice</td>";
             $isiEmail.="<td>:</td>";
-            $isiEmail.="<td>".$tiket[0]['subService'][0]['ServiceSubName']."</td>";
+            $isiEmail.="<td>".$tiket[0]['subService']['ServiceSubName']."</td>";
             $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Keterangan</td>";
             $isiEmail.="<td>:</td>";
             $isiEmail.="<td>".$tiket[0]['tiketKeterangan']."</td>";
-            $isiEmail.="</tr>";            
+            $isiEmail.="</tr>";
             $isiEmail.="</table><br />";
             $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
             $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
@@ -254,15 +254,15 @@ class PersetujuantiketController extends Controller
                             'contentEmail' => '0',
                             'sistem' => 'tiketSilog',
                     ]);
-            
-            $users = User::where(['username'=>$request->nikTeknisi])->get(); 
+
+            $users = User::where(['username'=>$request->nikTeknisi])->get();
             //dd($users);
             if($users[0]['idTelegram']!=""){
                 $isiTelegram="Saat ini anda diminta untuk mengerjakan tiket dengan: \n";
                 $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";
                 $isiTelegram.="Layanan : ".$tiket[0]['layanan'][0]['nama_layanan']." \n";
-                $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
-                $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['ServiceSubName']." \n";
+                $isiTelegram.="Service : ".$tiket[0]['service']['ServiceName']." \n";
+                $isiTelegram.="Subservice : ".$tiket[0]['subService']['ServiceSubName']." \n";
                 $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
                 $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
 
@@ -282,12 +282,12 @@ class PersetujuantiketController extends Controller
         }
     }
 
-    
+
     public function reject($id)
     {
         $tiket = Tiket::with(['layanan', 'service', 'subService'])
                     ->where(['tiketId'=>$id])
-                    ->get(); 
+                    ->get();
         //dd($tiket);
         if($tiket[0]['tiketStatus']==2 || $tiket[0]['tiketStatus']==11){
             Tiket::where('tiketId', $id)
@@ -296,16 +296,16 @@ class PersetujuantiketController extends Controller
                   'tiketTglApproveService' => date("Y-m-d H:i:s"),
                   'tiketStatus' => "5",
             ]);
-            
+
             $histori = new Histori();
             $histori->keterangan    = "Reject atasan Unit Service";
             $histori->progresId     = '0';
             $histori->tiketId       = $id;
             $histori->save();
-            
+
             $isiEmail="<html>";
             $isiEmail.="<html>";
-            $isiEmail.="<body>";           
+            $isiEmail.="<body>";
             $isiEmail.="Saat ini tiket dengan: <br />";
             $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
             $isiEmail.="<tr>";
@@ -321,18 +321,18 @@ class PersetujuantiketController extends Controller
             $isiEmail.="<tr>";
             $isiEmail.="<td>Service</td>";
             $isiEmail.="<td>:</td>";
-            $isiEmail.="<td>".$tiket[0]['service'][0]['ServiceName']."</td>";
+            $isiEmail.="<td>".$tiket[0]['service']['ServiceName']."</td>";
             $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Subservice</td>";
             $isiEmail.="<td>:</td>";
-            $isiEmail.="<td>".$tiket[0]['subService'][0]['ServiceSubName']."</td>";
+            $isiEmail.="<td>".$tiket[0]['subService']['ServiceSubName']."</td>";
             $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Keterangan</td>";
             $isiEmail.="<td>:</td>";
             $isiEmail.="<td>".$tiket[0]['tiketKeterangan']."</td>";
-            $isiEmail.="</tr>";            
+            $isiEmail.="</tr>";
             $isiEmail.="</table><br />";
             $isiEmail.="Ditolak karena alasan suatu hal<br />";
             $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
@@ -357,15 +357,15 @@ class PersetujuantiketController extends Controller
                             'contentEmail' => '0',
                             'sistem' => 'tiketSilog',
                     ]);
-            
-            $users = User::where(['username'=>$tiket[0]['nikUser']])->get(); 
+
+            $users = User::where(['username'=>$tiket[0]['nikUser']])->get();
             //dd($users);
             if($users[0]['idTelegram']!=""){
                 $isiTelegram="Saat ini tiket dengan: \n";
                 $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";
                 $isiTelegram.="Layanan : ".$tiket[0]['layanan'][0]['nama_layanan']." \n";
-                $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
-                $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['ServiceSubName']." \n";
+                $isiTelegram.="Service : ".$tiket[0]['service']['ServiceName']." \n";
+                $isiTelegram.="Subservice : ".$tiket[0]['subService']['ServiceSubName']." \n";
                 $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
                 $isiTelegram.="Ditolak karena suatu hal. \n";
                 $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
@@ -385,12 +385,12 @@ class PersetujuantiketController extends Controller
             return redirect('/persetujuantiket')->with(['kode'=>'90', 'pesan'=>'Data tidak bisa direject !']);
         }
     }
-    
+
     public function feedback(Request $request)
     {
         $tiket = Tiket::with(['layanan', 'service', 'subService'])
                     ->where(['tiketId'=>$request->tiketId])
-                    ->get(); 
+                    ->get();
         //dd($tiket);
         if($tiket[0]['tiketStatus']==2 || $tiket[0]['tiketStatus']==11){
             $serviceSAP = ['18','19','20'];
@@ -415,16 +415,16 @@ class PersetujuantiketController extends Controller
                         'remarkFeedback' => $request->remark,
                 ]);
             }
-            
+
             $histori = new Histori();
             $histori->keterangan    = $request->remark;
             $histori->progresId     = '1';
             $histori->tiketId = $request->tiketId;
             $histori->save();
-            
+
             $isiEmail="<html>";
             $isiEmail.="<html>";
-            $isiEmail.="<body>";           
+            $isiEmail.="<body>";
             $isiEmail.="Saat ini tiket dengan: <br />";
             $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
             $isiEmail.="<tr>";
@@ -440,18 +440,18 @@ class PersetujuantiketController extends Controller
             $isiEmail.="<tr>";
             $isiEmail.="<td>Service</td>";
             $isiEmail.="<td>:</td>";
-            $isiEmail.="<td>".$tiket[0]['service'][0]['ServiceName']."</td>";
+            $isiEmail.="<td>".$tiket[0]['service']['ServiceName']."</td>";
             $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Subservice</td>";
             $isiEmail.="<td>:</td>";
-            $isiEmail.="<td>".$tiket[0]['subService'][0]['ServiceSubName']."</td>";
+            $isiEmail.="<td>".$tiket[0]['subService']['ServiceSubName']."</td>";
             $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Keterangan</td>";
             $isiEmail.="<td>:</td>";
             $isiEmail.="<td>".$tiket[0]['tiketKeterangan']."</td>";
-            $isiEmail.="</tr>";            
+            $isiEmail.="</tr>";
             $isiEmail.="</table><br />";
             $isiEmail.= $request->remark."<br />";
             $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
@@ -476,15 +476,15 @@ class PersetujuantiketController extends Controller
                             'contentEmail' => '0',
                             'sistem' => 'tiketSilog',
                     ]);
-            
-            $users = User::where(['username'=>$tiket[0]['nikUser']])->get(); 
+
+            $users = User::where(['username'=>$tiket[0]['nikUser']])->get();
             //dd($users);
             if($users[0]['idTelegram']!=""){
                 $isiTelegram="Saat ini tiket dengan: \n";
                 $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";
                 $isiTelegram.="Layanan : ".$tiket[0]['layanan'][0]['nama_layanan']." \n";
-                $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
-                $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['ServiceSubName']." \n";
+                $isiTelegram.="Service : ".$tiket[0]['service']['ServiceName']." \n";
+                $isiTelegram.="Subservice : ".$tiket[0]['subService']['ServiceSubName']." \n";
                 $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
                 $isiTelegram.= $request->remark." \n";
                 $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
@@ -498,42 +498,42 @@ class PersetujuantiketController extends Controller
                         'idTelegram' => $users[0]['idTelegram'],
                         'pesan' => $isiTelegram,
                 ]);
-            }        
+            }
             return redirect('/persetujuantiket')->with(['kode'=>'99', 'pesan'=>'Feedback berhasil !']);
         }else{
             return redirect('/persetujuantiket')->with(['kode'=>'90', 'pesan'=>'Feedback tidak bisa !']);
         }
     }
-    
+
     public function show($id)
     {
         $datas = DB::table('tiket as a')
                 ->select(
                     'a.tiketId',
-                    'a.kode_tiket',          
-                    'a.comp',          
-                    'a.unit',          
+                    'a.kode_tiket',
+                    'a.comp',
+                    'a.unit',
                     'a.nikUser',
                     'g.name',
                     'a.tiketEmail',
-                    'a.layananId',         
-                    'c.nama_layanan',          
-                    'a.serviceId',             
-                    'd.ServiceName',          
-                    'a.subServiceId',            
-                    'e.ServiceSubName',           
-                    'a.tiketKeterangan',          
-                    'a.file',          
-                    'a.tiketApprove',          
-                    'a.tiketTglApprove',          
-                    'a.tiketNikAtasan',  
-                    'i.name as namaAtasan',  
-                    'a.tiketApproveService',                             
-                    'a.tiketTglApproveService',          
-                    'a.tiketNikAtasanService', 
-                    'j.name as namaPIC', 
-                    'a.tiketPrioritas',          
-                    'a.tiketStatus',          
+                    'a.layananId',
+                    'c.nama_layanan',
+                    'a.serviceId',
+                    'd.ServiceName',
+                    'a.subServiceId',
+                    'e.ServiceSubName',
+                    'a.tiketKeterangan',
+                    'a.file',
+                    'a.tiketApprove',
+                    'a.tiketTglApprove',
+                    'a.tiketNikAtasan',
+                    'i.name as namaAtasan',
+                    'a.tiketApproveService',
+                    'a.tiketTglApproveService',
+                    'a.tiketNikAtasanService',
+                    'j.name as namaPIC',
+                    'a.tiketPrioritas',
+                    'a.tiketStatus',
                     'a.created_at',
                     'b.nikTeknisi',
                     'h.name as namaTeknisi',
@@ -547,7 +547,7 @@ class PersetujuantiketController extends Controller
                     'f.progresProsen',
                     'a.namaLengkap',
                     'a.nikLengkap',
-                    'a.noHp',                        
+                    'a.noHp',
                     'a.tiketSeverity',
                     'a.tiketMaindays'
                 )
@@ -565,32 +565,32 @@ class PersetujuantiketController extends Controller
                 ->orderBy('a.kode_tiket', 'asc')
                 ->get();
         //dd($datas);
-        
+
         $histori = DB::table('tb_histori as a')
                 ->select(
                     'a.historiId',
                     'a.tiketDetailId',
                     'a.progresId',
-                    'a.created_at',                     
+                    'a.created_at',
                     'a.keterangan',
-                    'a.tglRTL',                   
-                    'c.progresNama',                   
+                    'a.tglRTL',
+                    'c.progresNama',
                     'c.progresProsen',
                     'a.file'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketDetailId', '=', 'a.tiketDetailId')
                 ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
                 ->where(['b.tiketId' => $id]);
-        
+
         $histori2 = DB::table('tb_histori as a')
                 ->select(
                     'a.historiId',
                     'a.tiketId as tiketDetailId',
                     'a.progresId',
-                    'a.created_at',                     
+                    'a.created_at',
                     'a.keterangan',
-                    'a.tglRTL',                   
-                    'c.progresNama',                   
+                    'a.tglRTL',
+                    'c.progresNama',
                     'c.progresProsen',
                     'a.file'
                 )
@@ -601,7 +601,7 @@ class PersetujuantiketController extends Controller
                 ->orderBy('historiId', 'desc')
                 ->get();
         //dd($histori);
-        
+
         $urle = env('API_BASE_URL')."/getAnakBuah.php";
         $response = Http::withHeaders([
                         'Content-Type' => 'application/json',
@@ -611,7 +611,7 @@ class PersetujuantiketController extends Controller
                         'idPegawai' => session('infoUser')['IDE'],
                         'parentId' => session('infoUser')['PROFIT_CTR_ID']
                 ]);
-        $dtAPi = json_decode($response->getBody()->getContents(),true);  
+        $dtAPi = json_decode($response->getBody()->getContents(),true);
         $responStatus = $response->getStatusCode();
         //dd($dtAPi["data"]);
         if($responStatus=='200'){
@@ -621,35 +621,35 @@ class PersetujuantiketController extends Controller
         }
         return view('persetujuantiket.show',['data'=>$datas, 'dtAtasanService'=>$dtAtasanService, 'histori'=>$histori2]);
     }
-    
+
     public function forward($id)
     {
         $datas = DB::table('tiket as a')
                 ->select(
                     'a.tiketId',
-                    'a.kode_tiket',          
-                    'a.comp',          
-                    'a.unit',          
+                    'a.kode_tiket',
+                    'a.comp',
+                    'a.unit',
                     'a.nikUser',
                     'g.name',
-                    'a.layananId',         
-                    'c.nama_layanan',          
-                    'a.serviceId',             
-                    'd.ServiceName',          
-                    'a.subServiceId',            
-                    'e.ServiceSubName',           
-                    'a.tiketKeterangan',          
-                    'a.file',          
-                    'a.tiketApprove',          
-                    'a.tiketTglApprove',          
-                    'a.tiketNikAtasan',  
-                    'i.name as namaAtasan',  
-                    'a.tiketApproveService',                             
-                    'a.tiketTglApproveService',          
-                    'a.tiketNikAtasanService', 
-                    'j.name as namaPIC', 
-                    'a.tiketPrioritas',          
-                    'a.tiketStatus',          
+                    'a.layananId',
+                    'c.nama_layanan',
+                    'a.serviceId',
+                    'd.ServiceName',
+                    'a.subServiceId',
+                    'e.ServiceSubName',
+                    'a.tiketKeterangan',
+                    'a.file',
+                    'a.tiketApprove',
+                    'a.tiketTglApprove',
+                    'a.tiketNikAtasan',
+                    'i.name as namaAtasan',
+                    'a.tiketApproveService',
+                    'a.tiketTglApproveService',
+                    'a.tiketNikAtasanService',
+                    'j.name as namaPIC',
+                    'a.tiketPrioritas',
+                    'a.tiketStatus',
                     'a.created_at',
                     'b.nikTeknisi',
                     'h.name as namaTeknisi',
@@ -679,7 +679,7 @@ class PersetujuantiketController extends Controller
                 ->orderBy('a.kode_tiket', 'asc')
                 ->get();
         //dd($datas);
-        
+
         if($datas[0]->tiketNikAtasanService == session('infoUser')['NIK']){
             $urle = env('API_BASE_URL')."/getSetara.php";
             $response = Http::withHeaders([
@@ -690,7 +690,7 @@ class PersetujuantiketController extends Controller
                             //'nikAtasan' => session('infoUser')['AL_NIK'],
                             'kodeBiro' => session('infoUser')['BIROBU'],
                     ]);
-            $dtAPi = json_decode($response->getBody()->getContents(),true);  
+            $dtAPi = json_decode($response->getBody()->getContents(),true);
             $responStatus = $response->getStatusCode();
             //dd(session('infoUser')['KODEPARENTUNIT']);
             if($responStatus=='200'){
@@ -703,12 +703,12 @@ class PersetujuantiketController extends Controller
             return redirect('/persetujuantiket')->with(['kode'=>'90', 'pesan'=>'Tiket nomer '.$datas[0]->kode_tiket.' tidak ditugaskan ke anda !']);
         }
     }
-    
+
     public function saveforward(Request $request,$tiketId)
-    {        
+    {
         $tiket = Tiket::where(['tiketId'=>$tiketId])
                 ->get();
-        
+
         $addKet = "Tiket dari ".session('infoUser')['NAMA']." diforward ke ".$request->namaTeknisi;
         if(session('infoUser')['NIK']==$tiket[0]['tiketNikAtasanService']){
             Tiket::where('tiketId', $tiketId)
@@ -718,21 +718,21 @@ class PersetujuantiketController extends Controller
                         'flagForward' => '1', // flag forward
                         'tiketStatus' => '11' // status Forward
                 ]);
-            
+
             $forward = New Forward();
             $forward->tiketId       = $tiketId;
             $forward->nik           = $request->nikTeknisi;
             $forward->save();
-            
+
             $histori = new Histori();
             $histori->keterangan    = $addKet.". ".$request->keterangan;
             $histori->progresId     = "21";
             $histori->tiketId = $tiketId;
             $histori->save();
-            
+
             $isiEmail="<html>";
             $isiEmail.="<html>";
-            $isiEmail.="<body>";           
+            $isiEmail.="<body>";
             $isiEmail.="Saat ini anda mendapatkan foward tiket dengan: <br />";
             $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
             $isiEmail.="<tr>";
@@ -744,7 +744,7 @@ class PersetujuantiketController extends Controller
             $isiEmail.="<td>Keterangan</td>";
             $isiEmail.="<td>:</td>";
             $isiEmail.="<td>".$tiket[0]['tiketKeterangan']."</td>";
-            $isiEmail.="</tr>";            
+            $isiEmail.="</tr>";
             $isiEmail.="</table><br />";
             $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
             $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
@@ -768,8 +768,8 @@ class PersetujuantiketController extends Controller
                             'contentEmail' => '0',
                             'sistem' => 'tiketSilog',
                     ]);
-            
-            $users = User::where(['username'=>$request->nikTeknisi])->get(); 
+
+            $users = User::where(['username'=>$request->nikTeknisi])->get();
             if($users[0]['idTelegram']!=""){
                 $isiTelegram="Saat ini anda mendapatkan foward tiket dengan: \n";
                 $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";
@@ -786,8 +786,8 @@ class PersetujuantiketController extends Controller
                         'pesan' => $isiTelegram,
                 ]);
             }
-            
-            return redirect('/persetujuantiket')->with(['kode'=>'99', 'pesan'=>'forward tiket berhasil ditambahkan !']); 
+
+            return redirect('/persetujuantiket')->with(['kode'=>'99', 'pesan'=>'forward tiket berhasil ditambahkan !']);
         }else{
             return redirect('/persetujuantiket')->with(['kode'=>'90', 'pesan'=>'Tiket ini tidak ditugaskan ke anda !']);
         }

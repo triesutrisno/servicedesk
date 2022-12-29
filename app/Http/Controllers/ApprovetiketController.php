@@ -21,24 +21,24 @@ class ApprovetiketController extends Controller
         $datas = DB::table('tiket as a')
                 ->select(
                     'a.tiketId',
-                    'a.kode_tiket',          
-                    'a.comp',          
-                    'a.unit',          
+                    'a.kode_tiket',
+                    'a.comp',
+                    'a.unit',
                     'a.nikUser',
                     'g.name',
-                    'a.layananId',         
-                    'c.nama_layanan',          
-                    'a.serviceId',             
-                    'd.ServiceName',          
-                    'a.subServiceId',            
-                    'e.ServiceSubName',           
-                    'a.tiketKeterangan',          
-                    'a.file',          
-                    'a.tiketApprove',          
-                    'a.tiketTglApprove',          
-                    'a.tiketNikAtasan',          
-                    'a.tiketPrioritas',          
-                    'a.tiketStatus',          
+                    'a.layananId',
+                    'c.nama_layanan',
+                    'a.serviceId',
+                    'd.ServiceName',
+                    'a.subServiceId',
+                    'e.ServiceSubName',
+                    'a.tiketKeterangan',
+                    'a.file',
+                    'a.tiketApprove',
+                    'a.tiketTglApprove',
+                    'a.tiketNikAtasan',
+                    'a.tiketPrioritas',
+                    'a.tiketStatus',
                     'a.created_at',
                     'b.nikTeknisi',
                     'f.progresProsen'
@@ -53,7 +53,7 @@ class ApprovetiketController extends Controller
                 ->orderBy('a.tiketStatus', 'asc')
                 ->orderBy('a.kode_tiket', 'asc')
                 ->get();
-        
+
         return view('approvetiket.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'']);
     }
 
@@ -61,7 +61,7 @@ class ApprovetiketController extends Controller
     {
         $tiket = Tiket::with(['layanan', 'service', 'subService', 'userBy'])
                     ->where(['tiketId'=>$id])
-                    ->get(); 
+                    ->get();
         //dd($tiket[0]['subService'][0]['ServiceSubName']);
         if($tiket[0]['tiketStatus']==1){
             Tiket::where('tiketId', $id)
@@ -71,7 +71,7 @@ class ApprovetiketController extends Controller
                     'tiketApproveService' => "W",
                     'tiketStatus' => "2",
             ]);
-            
+
             $histori = new Histori();
             $histori->keterangan    = "Approve atasan Unit";
             $histori->progresId     = '0';
@@ -80,7 +80,7 @@ class ApprovetiketController extends Controller
 
             $isiEmail="<html>";
             $isiEmail.="<html>";
-            $isiEmail.="<body>";           
+            $isiEmail.="<body>";
             $isiEmail.="Saat ini ada mendapatkan permintaan tiket dengan: <br />";
             $isiEmail.="<table style=\"border:0;bordercolor=#ffffff\" width=\"100%\">";
             $isiEmail.="<tr>";
@@ -96,12 +96,12 @@ class ApprovetiketController extends Controller
             $isiEmail.="<tr>";
             $isiEmail.="<td>Service</td>";
             $isiEmail.="<td>:</td>";
-            $isiEmail.="<td>".$tiket[0]['service'][0]['ServiceName']."</td>";
+            $isiEmail.="<td>".$tiket[0]['service']['ServiceName']."</td>";
             $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Subservice</td>";
             $isiEmail.="<td>:</td>";
-            $isiEmail.="<td>".$tiket[0]['subService'][0]['ServiceSubName']."</td>";
+            $isiEmail.="<td>".$tiket[0]['subService']['ServiceSubName']."</td>";
             $isiEmail.="</tr>";
             $isiEmail.="<tr>";
             $isiEmail.="<td>Keterangan</td>";
@@ -112,13 +112,13 @@ class ApprovetiketController extends Controller
             $isiEmail.="<td>UserBy</td>";
             $isiEmail.="<td>:</td>";
             $isiEmail.="<td>".$tiket[0]['userBy']['name']."</td>";
-            $isiEmail.="</tr>";            
+            $isiEmail.="</tr>";
             $isiEmail.="</table><br />";
             $isiEmail.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
             $isiEmail.="<h5>Mohon untuk tidak membalas karena email ini dikirimkan secara otomatis oleh sistem</h5>";
             $isiEmail.= "</body>";
             $isiEmail.="</html>";
-            
+
             if($tiket[0]['tiketEmailAtasanService']!=""){
                 $urle = env('API_BASE_URL')."/sendEmail.php";
                 $response = Http::withHeaders([
@@ -138,13 +138,13 @@ class ApprovetiketController extends Controller
                                 'sistem' => 'tiketSilog',
                         ]);
             }
-            $users = User::where(['username'=>$tiket[0]['tiketNikAtasanService']])->get(); 
+            $users = User::where(['username'=>$tiket[0]['tiketNikAtasanService']])->get();
             if($users[0]['idTelegram']!=""){
                 $isiTelegram="Saat ini ada mendapatkan permintaan tiket dengan: \n";
                 $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";
                 $isiTelegram.="Layanan : ".$tiket[0]['layanan'][0]['nama_layanan']." \n";
                 $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
-                $isiTelegram.="Subservice : ".$tiket[0]['subService'][0]['ServiceSubName']." \n";
+                $isiTelegram.="Subservice : ".$tiket[0]['subService']['ServiceSubName']." \n";
                 $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
                 $isiTelegram.="UserBy : ".$tiket[0]['userBy']['name']." \n\n";
                 $isiTelegram.="Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. \n";
@@ -162,15 +162,15 @@ class ApprovetiketController extends Controller
             return redirect('/approvetiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil diapprove !']);
         }else{
             return redirect('/approvetiket')->with(['kode'=>'90', 'pesan'=>'Data tidak bisa diapprove !']);
-        }        
+        }
     }
 
-    
+
     public function reject($id)
     {
         $tiket = Tiket::with(['layanan', 'service', 'subService', 'userBy'])
                     ->where(['tiketId'=>$id])
-                    ->get(); 
+                    ->get();
         //dd($tiket[0]['subService'][0]['ServiceSubName']);
         if($tiket[0]['tiketStatus']==1){
             Tiket::where('tiketId', $id)
@@ -180,47 +180,47 @@ class ApprovetiketController extends Controller
                   'tiketApproveService' => "N",
                   'tiketStatus' => "3",
             ]);
-            
+
             $histori = new Histori();
             $histori->keterangan    = "Reject atasan Unit";
             $histori->progresId     = '0';
             $histori->tiketId = $id;
             $histori->save();
-            
+
             return redirect('/approvetiket')->with(['kode'=>'99', 'pesan'=>'Data berhasil reject !']);
         }else{
             return redirect('/approvetiket')->with(['kode'=>'90', 'pesan'=>'Data tidak bisa diapprove !']);
-        } 
+        }
     }
-    
+
     public function show($id)
     {
         $datas = DB::table('tiket as a')
                 ->select(
                     'a.tiketId',
-                    'a.kode_tiket',          
-                    'a.comp',          
-                    'a.unit',          
+                    'a.kode_tiket',
+                    'a.comp',
+                    'a.unit',
                     'a.nikUser',
                     'g.name',
-                    'a.layananId',         
-                    'c.nama_layanan',          
-                    'a.serviceId',             
-                    'd.ServiceName',          
-                    'a.subServiceId',            
-                    'e.ServiceSubName',           
-                    'a.tiketKeterangan',          
-                    'a.file',          
-                    'a.tiketApprove',          
-                    'a.tiketTglApprove',          
-                    'a.tiketNikAtasan',  
-                    'i.name as namaAtasan',  
-                    'a.tiketApproveService',                             
-                    'a.tiketTglApproveService',          
-                    'a.tiketNikAtasanService', 
-                    'j.name as namaPIC', 
-                    'a.tiketPrioritas',          
-                    'a.tiketStatus',          
+                    'a.layananId',
+                    'c.nama_layanan',
+                    'a.serviceId',
+                    'd.ServiceName',
+                    'a.subServiceId',
+                    'e.ServiceSubName',
+                    'a.tiketKeterangan',
+                    'a.file',
+                    'a.tiketApprove',
+                    'a.tiketTglApprove',
+                    'a.tiketNikAtasan',
+                    'i.name as namaAtasan',
+                    'a.tiketApproveService',
+                    'a.tiketTglApproveService',
+                    'a.tiketNikAtasanService',
+                    'j.name as namaPIC',
+                    'a.tiketPrioritas',
+                    'a.tiketStatus',
                     'a.created_at',
                     'b.nikTeknisi',
                     'h.name as namaTeknisi',
@@ -250,29 +250,29 @@ class ApprovetiketController extends Controller
                 ->orderBy('a.kode_tiket', 'asc')
                 ->get();
         //dd($datas);
-        
+
         $histori = DB::table('tb_histori as a')
                 ->select(
                     'a.tiketDetailId',
                     'a.progresId',
-                    'a.created_at',                     
+                    'a.created_at',
                     'a.keterangan',
-                    'a.tglRTL',                   
-                    'c.progresNama',                   
+                    'a.tglRTL',
+                    'c.progresNama',
                     'c.progresProsen'
                 )
                 ->leftjoin('tiket_detail as b', 'b.tiketDetailId', '=', 'a.tiketDetailId')
                 ->leftjoin('m_progres as c', 'c.progresId', '=', 'a.progresId')
                 ->where(['b.tiketId' => $id]);
-        
+
         $histori2 = DB::table('tb_histori as a')
                 ->select(
                     'a.tiketId as tiketDetailId',
                     'a.progresId',
-                    'a.created_at',                     
+                    'a.created_at',
                     'a.keterangan',
-                    'a.tglRTL',                   
-                    'c.progresNama',                   
+                    'a.tglRTL',
+                    'c.progresNama',
                     'c.progresProsen'
                 )
                 ->leftjoin('tiket as b', 'b.tiketId', '=', 'a.tiketId')
