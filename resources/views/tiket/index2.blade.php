@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Data Tiket</h4>
                     <div class="col-lg-12 alert alert-warning">
-                        <form action="{{ url('/tiket') }}" method="get">
+                        <form action="{{ url('/tiket2') }}" method="get">
                             <div class="row">
                                 <div class="col-md-4">
                                     <label class="text-small">Nomer : </label>
