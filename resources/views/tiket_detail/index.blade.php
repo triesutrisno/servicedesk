@@ -5,7 +5,7 @@
         var table = $('#table').DataTable({
             "iDisplayLength": 20,
             "searching": false,
-            "order": [[ 11, "asc" ]],  
+            "order": [[ 11, "asc" ]],
         });
         table.column( 11 ).visible( false );
     });
@@ -36,7 +36,7 @@
                         <div class="col-md-3">
                             <input type="text" name="subservice" class="form-control" placeholder="Sub Service">
                         </div>-->
-                        <div class="col-md-2">                          
+                        <div class="col-md-2">
                             <select class="form-control" name="status" placeholder="Status">
                                 <option value="">Pilih Status</option>
                                 <option value="1"{{ $status=='1' ? 'selected' : '' }}>Open</option>
@@ -48,8 +48,8 @@
                                 <option value="7"{{ $status=='7' ? 'selected' : '' }}>Selesai</option>
                                 <option value="8"{{ $status=='8' ? 'selected' : '' }}>Close</option>
                                 <option value="9"{{ $status=='9' ? 'selected' : '' }}>Pending</option>
-                                <option value="10"{{ $status=='10' ? 'selected' : '' }}>Cancle</option> 
-                                <option value="11"{{ $status=='11' ? 'selected' : '' }}>Diforward</option>                            
+                                <option value="10"{{ $status=='10' ? 'selected' : '' }}>Cancle</option>
+                                <option value="11"{{ $status=='11' ? 'selected' : '' }}>Diforward</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -71,7 +71,7 @@
                         </div>
                     @endif
                @endif
-              
+
               <div class="table-responsive">
                 <table class="table table-striped" id="table">
                   <thead>
@@ -81,7 +81,7 @@
                       <th>Progres</th>
                       <th>UserBy</th>
                       <th>Nomor</th>
-                      <th>Tgl Buat</th>                
+                      <th>Tgl Buat</th>
                       <!--<th>Layanan</th>-->
                       <th>Service</th>
                       <th>Subservice</th>
@@ -92,11 +92,11 @@
                     </tr>
                   </thead>
                   <tbody>
-                  @foreach($datas as $data)                  
-                 
-                    <tr>                        
+                  @foreach($datas as $data)
+
+                    <tr>
                         <td>
-                            @csrf                          
+                            @csrf
                             <a href="{{ url('/tugasku')}}/detail/{{ $data->tiketDetailId }}/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-primary" title="Detail">
                                 <i class="fa fa-search icon-lg"></i>
                             </a>
@@ -133,7 +133,7 @@
                                 <label class="badge badge-warning">Pending</label>
                             @elseif($data->tiketStatus == '10')
                                 <label class="badge badge-danger">Cancel</label>
-                            @elseif($data->tiketStatus == '11')
+                            @elseif($data->tiketStatus == '11' || $data->tiketStatus == '4.5')
                                 <label class="badge badge-warning">Diforward</label>
                             @endif
                         </td>
@@ -173,3 +173,4 @@
     </div>
 </div>
 @endsection
+

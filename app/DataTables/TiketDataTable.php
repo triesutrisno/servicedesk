@@ -42,6 +42,13 @@ class TiketDataTable extends DataTable
             ->editColumn('serviceId', function ($tiket) {
                 return $tiket->service->ServiceName;
             })
+            ->editColumn('subServiceId', function ($tiket) {
+                return $tiket->subService->ServiceSubName;
+            })
+            ->editColumn('teknisi', function ($tiket) {
+                return $tiket->tiketDetail != null ?
+                    $tiket->tiketDetail->teknisi->name : "";
+            })
             ->escapeColumns([])
             ->addColumn('action', 'tiket.column_action', 1)
             ->filter(function ($query) {
@@ -88,9 +95,9 @@ class TiketDataTable extends DataTable
     public function query(Tiket $model)
     {
         // dd($model->newQuery());
-        return $model->with('userBy', 'service')
-                     ->orderBy('created_at', 'desc')
-                     ->newQuery();
+        return $model->with('userBy', 'service', 'tiketDetail')
+            ->orderBy('created_at', 'desc')
+            ->newQuery();
     }
 
     /**
@@ -136,7 +143,9 @@ class TiketDataTable extends DataTable
             Column::make('tiketKeterangan')->title('Keterangan'),
             Column::make('created_at')->title('Tgl Create'),
             Column::make('updated_at')->title('Tgl Update'),
-            Column::make('serviceId')->title('Jenis'),
+            Column::make('serviceId')->title('Jenis Service'),
+            Column::make('subServiceId')->title('Sub Service'),
+            Column::make('teknisi')->title('Teknisi'),
         ];
     }
 

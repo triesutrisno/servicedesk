@@ -22,9 +22,14 @@ class Tiketdetail extends Model
         'tglPelatihan',
         'tglRTL'
     ];
-    
+
     public function tiket()
     {
-        return $this->hasMany('App\Tiket','tiketId','tiketId');
+        return $this->hasMany('App\Tiket', 'tiketId', 'tiketId');
+    }
+
+    public function teknisi()
+    {
+        return $this->belongsTo(User::class, 'nikTeknisi', 'username');
     }
 }
