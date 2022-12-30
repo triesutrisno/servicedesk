@@ -36,8 +36,8 @@ class TiketDataTable extends DataTable
                     . "</span>";
             })
             ->editColumn('tiketStatus', 'tiket.column_status')
-            ->editColumn('userBy', function ($tiket) {
-                return $tiket->userBy->name;
+            ->editColumn('nikUser', function ($tiket) {
+                return $tiket->userBy!=null?$tiket->userBy->name:"";
             })
             ->editColumn('serviceId', function ($tiket) {
                 return $tiket->service->ServiceName;
@@ -96,7 +96,6 @@ class TiketDataTable extends DataTable
     {
         // dd($model->newQuery());
         return $model->with('userBy', 'service', 'tiketDetail')
-            ->orderBy('created_at', 'desc')
             ->newQuery();
     }
 
@@ -113,7 +112,7 @@ class TiketDataTable extends DataTable
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->lengthMenu([10, 25, 50, 75, 100])
-            ->orderBy(1)
+            ->orderBy(2)
             ->buttons(
                 'colvis',
                 'pageLength',
@@ -139,13 +138,13 @@ class TiketDataTable extends DataTable
                 ->width(60)
                 ->addClass('text-left'),
             Column::make('kode_tiket'),
-            Column::make('userBy')->title('User')->width(50),
+            Column::make('nikUser')->title('User')->width(50),
             Column::make('tiketKeterangan')->title('Keterangan'),
             Column::make('created_at')->title('Tgl Create'),
             Column::make('updated_at')->title('Tgl Update'),
             Column::make('serviceId')->title('Jenis Service'),
             Column::make('subServiceId')->title('Sub Service'),
-            Column::make('teknisi')->title('Teknisi'),
+            Column::make('teknisi')->title('Teknisi')->orderable(false),
         ];
     }
 
