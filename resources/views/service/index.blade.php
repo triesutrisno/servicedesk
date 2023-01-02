@@ -28,12 +28,13 @@
 
                 <div class="card-body">
                   <h4 class="card-title">Data Master Service</h4>
-                  
+
                   <div class="table-responsive">
                     <table class="table table-striped" id="table">
                       <thead>
                         <tr>
                         <th>No</th>
+                        <th>ID System</th>
                         <th>Nama Layanan</th>
                           <th>Nama Service</th>
                           <th>Status</th>
@@ -46,6 +47,7 @@
                       @foreach($datas as $data)
                         <tr>
                         <td class="py-1">{{$loop->iteration}}</td>
+                        <td class="py-1">{{$data->id}}</td>
                         <td class="py-1">{{$data->nama_layanan}}</td>
                           <td class="py-1">{{$data->ServiceName}}</td>
                           <td>
@@ -53,7 +55,7 @@
                             <label class="badge badge-success">Aktif</label>
                             @elseif($data->ServiceStatus == '0')
                             <label class="badge badge-dark">Tidak Aktif</label>
-                            @endif 
+                            @endif
                           </td>                          <td>
                            <div class="btn-group dropdown">
                           <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,7 +65,7 @@
                           <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 30px, 0px);">
                             <a class="dropdown-item" href="{{route('service.edit', $data->id)}}"> Edit </a>
 
-                           
+
                           </div>
                         </div>
                           </td>
