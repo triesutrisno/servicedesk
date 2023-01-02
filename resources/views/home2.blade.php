@@ -91,7 +91,7 @@
 
         <!-- Second Row -->
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 grid-margin">
-            <a href="{{ 'tiket2?tgl_update=' . date('m/d/Y') . ' - ' . date('m/d/Y') . '&status[]=7&status[]=8' }}"
+            <a href="{{ 'tiket2?tgl_update=' . date('01/01/Y') . ' - ' . date('12/31/Y') . '&status[]=7&status[]=8' }}"
                 style='color:#000000;text-decoration:none'>
                 <div class="card card-statistics">
                     <div class="card-body">
@@ -143,7 +143,8 @@
         </div>
 
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 grid-margin">
-            <a href="{{ 'tiket2?tgl_update=' .date('01/01/Y') . ' - ' . date('12/31/Y') .'&status[]=7&status[]=8' }}" style='color:#000000;text-decoration:none'>
+            <a href="{{ 'tiket2?tgl_update=' . date('01/01/Y') . ' - ' . date('12/31/Y') . '&status[]=7&status[]=8' }}"
+                style='color:#000000;text-decoration:none'>
                 <div class="card card-statistics">
                     <div class="card-body">
                         <div class="clearfix">
@@ -194,7 +195,7 @@
         </div>
 
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 grid-margin">
-            <a href="{{ 'tiket2?status[]=3&status[]=5&status[]=10' }}" style='color:#000000;text-decoration:none'>
+            <a href="{{ 'tiket2?tgl_update=' . date('01/01/Y') . ' - ' . date('12/31/Y').'&status[]=3&status[]=5&status[]=10' }}" style='color:#000000;text-decoration:none'>
                 <div class="card card-statistics">
                     <div class="card-body">
                         <div class="clearfix">

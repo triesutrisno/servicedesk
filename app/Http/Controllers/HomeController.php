@@ -51,7 +51,7 @@ class HomeController extends Controller
             ->groupBy('month', 'tiketStatus', 'serviceId')->get();
 
         $tiketOpen = $dataTiketStatus->whereIn('tiketStatus', ['4', '6', '11'])->sum('total');
-        $tiketCancelReject = $dataTiketStatus->whereIn('tiketStatus', ['3', '5', '10'])->sum('total');
+        $tiketCancelReject = $dataTiket->whereIn('tiketStatus', ['3', '5', '10'])->sum('total');
         $tiketPending = $dataTiketStatus->whereIn('tiketStatus', [9])->sum('total');
         $tiketBlmApprove = $dataTiketStatus->whereIn('tiketStatus', [1])->sum('total');
 

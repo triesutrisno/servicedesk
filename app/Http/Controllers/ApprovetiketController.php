@@ -143,7 +143,7 @@ class ApprovetiketController extends Controller
                 $isiTelegram="Saat ini ada mendapatkan permintaan tiket dengan: \n";
                 $isiTelegram.="Nomer : ".$tiket[0]['kode_tiket']." \n";
                 $isiTelegram.="Layanan : ".$tiket[0]['layanan'][0]['nama_layanan']." \n";
-                $isiTelegram.="Service : ".$tiket[0]['service'][0]['ServiceName']." \n";
+                $isiTelegram.="Service : ".$tiket[0]['service']['ServiceName']." \n";
                 $isiTelegram.="Subservice : ".$tiket[0]['subService']['ServiceSubName']." \n";
                 $isiTelegram.="Keterangan : ".$tiket[0]['tiketKeterangan']." \n";
                 $isiTelegram.="UserBy : ".$tiket[0]['userBy']['name']." \n\n";
