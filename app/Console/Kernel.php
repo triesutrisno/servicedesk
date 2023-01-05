@@ -24,7 +24,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // $schedule->command('inspire')->everyMinute()
+        //     ->sendOutputTo("scheduler-output.log");
+
+        $schedule->command('expiredtiket:close')
+            ->timezone('Asia/Jakarta')
+            ->daily()->at('00:01');
     }
 
     /**
@@ -34,7 +39,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
