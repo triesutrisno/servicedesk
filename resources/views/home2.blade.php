@@ -1,5 +1,4 @@
-{{-- {{dd($dataGraph1->flatten())}} --}}
-
+{{-- {!! $dataGraphByStatus->keys() !!} --}}
 
 @extends('layouts.app')
 
@@ -195,7 +194,8 @@
         </div>
 
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 grid-margin">
-            <a href="{{ 'tiket2?tgl_update=' . date('01/01/Y') . ' - ' . date('12/31/Y').'&status[]=3&status[]=5&status[]=10' }}" style='color:#000000;text-decoration:none'>
+            <a href="{{ 'tiket2?tgl_update=' . date('01/01/Y') . ' - ' . date('12/31/Y') . '&status[]=3&status[]=5&status[]=10' }}"
+                style='color:#000000;text-decoration:none'>
                 <div class="card card-statistics">
                     <div class="card-body">
                         <div class="clearfix">
@@ -280,15 +280,25 @@
                     <canvas id="graph1" height="250"></canvas>
         </div>
     </div>
-    {{-- <div class="row">
+    <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin">
-            <center><h3>Tiket Per Status</h3><center>
-            <canvas id="graphByStatus" height="250"></canvas>
+            <center>
+                <h3>Tiket Per Status</h3>
+                <center>
+                    <canvas id="graphByStatus1" height="250"></canvas>
         </div>
-    </div> --}}
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin">
+            <center>
+                <h3>Tiket Per Status</h3>
+                <center>
+                    <canvas id="graphByStatus2" height="250"></canvas>
+        </div>
+    </div>
 @endsection
 
 @section('js')
+    <script src="{{ asset('js/chartjs-plugin-labels.min.js') }}"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             // Graph 1
@@ -337,27 +347,9 @@
                 tooltips: {
                     enabled: false
                 },
-                hover: {
-                    animationDuration: 0
-                },
-                animation: {
-                    duration: 1,
-                    onComplete: function() {
-                        var chartInstance = this.chart,
-                            ctx = chartInstance.ctx;
-                        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart
-                            .defaults.global.defaultFontStyle, Chart.defaults.global
-                            .defaultFontFamily);
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'bottom';
-
-                        this.data.datasets.forEach(function(dataset, i) {
-                            var meta = chartInstance.controller.getDatasetMeta(i);
-                            meta.data.forEach(function(bar, index) {
-                                var data = dataset.data[index];
-                                ctx.fillText(data, bar._model.x, bar._model.y - 5);
-                            });
-                        });
+                plugins: {
+                    labels: {
+                        render: 'value'
                     }
                 }
 
@@ -372,8 +364,116 @@
                 });
             }
 
-            // Graph 1
 
+            // Graph ByStatus1
+            const dataGraphByStatus1 = {
+                labels: {!! $dataGraphByStatusPct->keys() !!},
+                datasets: [{
+                    label: 'Tiket Per Status',
+                    data: {{ $dataGraphByStatusPct->flatten() }},
+                    backgroundColor: [
+                        '#ecf0f1',
+                        '#7f8c8d',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#ecf0f1',
+                    ],
+                }]
+            };
+
+            const optionsGraphByStatus1 = {
+                type: 'pie',
+                data: dataGraphByStatus1,
+            };
+
+            if ($("#graphByStatus1").length) {
+                var graphByStatus1Canvas = $("#graphByStatus1").get(0).getContext("2d");
+                var graphByStatus1 = new Chart(graphByStatus1Canvas, {
+                    type: 'pie',
+                    data: dataGraphByStatus1,
+                    options: optionsGraphByStatus1
+                });
+            }
+
+            // Graph ByStatus2
+            var dataGraphByStatus2 = {
+                labels: {!! $dataGraphByStatus->keys() !!},
+                datasets: [{
+                    label: 'Status',
+                    data: {{ $dataGraphByStatus->flatten() }},
+                    backgroundColor: [
+                        '#ecf0f1',
+                        '#7f8c8d',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#ecf0f1',
+                    ],
+                    borderColor: [
+                        '#ecf0f1',
+                        '#7f8c8d',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#ecf0f1',
+                    ],
+                    borderWidth: 1
+                }]
+            };
+            var optionsGraphByStatus2 = {
+                responsive: true,
+                legend: {
+                    position: 'top'
+                },
+                events: false,
+                tooltips: {
+                    enabled: false
+                },
+                scaleShowValues: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false
+                        }
+                    }]
+                },
+                plugins: {
+                    labels: {
+                        render: 'value'
+                    }
+                }
+
+            };
+
+            if ($("#graphByStatus2").length) {
+                var graphByStatus2Canvas = $("#graphByStatus2").get(0).getContext("2d");
+                var graphByStatus2 = new Chart(graphByStatus2Canvas, {
+                    type: 'bar',
+                    data: dataGraphByStatus2,
+                    options: optionsGraphByStatus2
+                });
+            }
         });
     </script>
 @endsection

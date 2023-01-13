@@ -46,9 +46,24 @@ class HomeController extends Controller
         $dataTiketStatus = Tiket::selectRaw("count(*) as total, MONTH(created_at) month, tiketStatus, serviceId")
             ->groupBy('month', 'tiketStatus', 'serviceId')->get();
 
-        $dataTiket = Tiket::where('created_at', '>=', date('Y-01-01'))
-            ->selectRaw("count(*) as total, MONTH(created_at) month, tiketStatus, serviceId")
-            ->groupBy('month', 'tiketStatus', 'serviceId')->get();
+        $dataTiket = Tiket::where('tiket.created_at', '>=', date('Y-01-01'))
+            ->selectRaw("count(*) as total, MONTH(tiket.created_at) month,
+            tiketStatus, serviceId, ticket_service.ServiceName,
+            CASE
+                WHEN tiket.tiketStatus = 1 THEN 'Baru'
+                WHEN tiket.tiketStatus = 2 THEN 'Approve Atasan'
+                WHEN tiket.tiketStatus = 3 THEN 'Ditolak Atasan'
+                WHEN tiket.tiketStatus = 4 THEN 'Approve Ka.Unit Service'
+                WHEN tiket.tiketStatus = 5 THEN 'Ditolak Ka.Unit Service'
+                WHEN tiket.tiketStatus = 6 THEN 'Dikerjakan'
+                WHEN tiket.tiketStatus = 7 THEN 'Selesai'
+                WHEN tiket.tiketStatus = 8 THEN 'Close'
+                WHEN tiket.tiketStatus = 9 THEN 'Pending'
+                WHEN tiket.tiketStatus = 10 THEN 'Cancel'
+                WHEN tiket.tiketStatus = 11 THEN 'Diforward'
+            END as namaStatus")
+            ->leftJoin('ticket_service', 'tiket.serviceId', '=', 'ticket_service.id')
+            ->groupBy('month', 'tiketStatus', 'serviceId', 'ServiceName', 'namaStatus')->get();
 
         $tiketOpen = $dataTiketStatus->whereIn('tiketStatus', ['4', '6', '11'])->sum('total');
         $tiketCancelReject = $dataTiket->whereIn('tiketStatus', ['3', '5', '10'])->sum('total');
@@ -62,7 +77,21 @@ class HomeController extends Controller
             ];
         });
 
-        $dataGraphByStatus = $dataTiket->groupBy('tiketStatus')->mapWithKeys(function ($data, $key) {
+        $dataGraphByStatus = $dataTiket->groupBy('namaStatus')->mapWithKeys(function ($data, $key) {
+            return [
+                $key => $data->sum('total')
+            ];
+        });
+
+        $totalDataTiket = $dataTiket->sum('total');
+        $dataGraphByStatusPct = $dataGraphByStatus->mapWithKeys(function ($data, $key) use ($totalDataTiket) {
+            return [
+                $key => round(($data / $totalDataTiket) * 100, 1)
+            ];
+        });
+
+
+        $dataGraphByService = $dataTiket->groupBy('ServiceName')->mapWithKeys(function ($data, $key) {
             return [
                 $key => $data->sum('total')
             ];
@@ -85,6 +114,8 @@ class HomeController extends Controller
             'dataTiket' => $dataTiket,
             'dataGraph1' => $dataGraph1,
             'dataGraphByStatus' => $dataGraphByStatus,
+            'dataGraphByStatusPct' => $dataGraphByStatusPct,
+            'dataGraphByService' => $dataGraphByService,
             'kode' => '',
             'pesan' => ''
         ]);

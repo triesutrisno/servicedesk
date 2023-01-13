@@ -16,8 +16,8 @@ class LoginController extends Controller
      */
     public function index()
     {
-        
-        if (Auth::user()) {            
+
+        if (Auth::user()) {
             return view('layouts.index');
         }
         return view('login.index');
@@ -40,7 +40,7 @@ class LoginController extends Controller
                         'username' => $request->email,
                         'password' => $request->password,
                 ]);
-        $dtAPi = json_decode($response->getBody()->getContents(),true);  
+        $dtAPi = json_decode($response->getBody()->getContents(),true);
         $responStatus = $response->getStatusCode();
         //dd($dtAPi);
         if($responStatus=='200'){
@@ -65,7 +65,7 @@ class LoginController extends Controller
             $model = array();
         }
     }
-    
+
     public function logout(Request $request)
     {
         Auth::logout();
