@@ -292,7 +292,7 @@
             <center>
                 <h3>Tiket Per Service</h3>
                 <center>
-                    <canvas id="graphByService2" height="250"></canvas>
+                    <canvas id="graphByService2" height="150"></canvas>
         </div>
     </div>
     <div class="row">
