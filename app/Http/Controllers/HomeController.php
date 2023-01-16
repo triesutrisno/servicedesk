@@ -63,7 +63,11 @@ class HomeController extends Controller
                 WHEN tiket.tiketStatus = 11 THEN 'Diforward'
             END as namaStatus")
             ->leftJoin('ticket_service', 'tiket.serviceId', '=', 'ticket_service.id')
-            ->groupBy('month', 'tiketStatus', 'serviceId', 'ServiceName', 'namaStatus')->get();
+            ->groupBy('month', 'tiketStatus', 'serviceId', 'ServiceName', 'namaStatus')
+            ->orderBy('month','asc')
+            ->orderBy('tiketStatus','asc')
+            ->orderBy('serviceId','asc')
+            ->get();
 
         $tiketOpen = $dataTiketStatus->whereIn('tiketStatus', ['4', '6', '11'])->sum('total');
         $tiketCancelReject = $dataTiket->whereIn('tiketStatus', ['3', '5', '10'])->sum('total');
