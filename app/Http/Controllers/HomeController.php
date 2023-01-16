@@ -97,6 +97,12 @@ class HomeController extends Controller
             ];
         });
 
+        $dataGraphByServicePct = $dataGraphByService->mapWithKeys(function ($data, $key) use ($totalDataTiket) {
+            return [
+                $key => round(($data / $totalDataTiket) * 100, 1)
+            ];
+        });
+
         // dd($dataGraph1);
 
         return view('home2', [
@@ -116,6 +122,7 @@ class HomeController extends Controller
             'dataGraphByStatus' => $dataGraphByStatus,
             'dataGraphByStatusPct' => $dataGraphByStatusPct,
             'dataGraphByService' => $dataGraphByService,
+            'dataGraphByServicePct' => $dataGraphByServicePct,
             'kode' => '',
             'pesan' => ''
         ]);

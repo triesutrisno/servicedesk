@@ -277,7 +277,22 @@
             <center>
                 <h3>Tiket masuk per bulan</h3>
                 <center>
-                    <canvas id="graph1" height="250"></canvas>
+                    <canvas id="graph1" height="350"></canvas>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin">
+            <center>
+                <h3>Tiket Per Service</h3>
+                <center>
+                    <canvas id="graphByService1" height="350"></canvas>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 grid-margin">
+            <center>
+                <h3>Tiket Per Service</h3>
+                <center>
+                    <canvas id="graphByService2" height="250"></canvas>
         </div>
     </div>
     <div class="row">
@@ -472,6 +487,139 @@
                     type: 'bar',
                     data: dataGraphByStatus2,
                     options: optionsGraphByStatus2
+                });
+            }
+
+            // Graph ByService1
+            const dataGraphByService1 = {
+                labels: {!! $dataGraphByServicePct->keys() !!},
+                datasets: [{
+                    label: 'Tiket Per Service',
+                    data: {{ $dataGraphByServicePct->flatten() }},
+                    backgroundColor: [
+                        '#ecf0f1',
+                        '#7f8c8d',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#ecf0f1',
+                        '#a55eea',
+                        '#2d98da',
+                        '#fed330',
+                        '#2bcbba',
+                        '#fc5c65',
+                        '#4b6584',
+                        '#3867d6',
+                    ],
+                }]
+            };
+
+            const optionsGraphByService1 = {
+                type: 'pie',
+                data: dataGraphByService1,
+            };
+
+            if ($("#graphByService1").length) {
+                var graphByService1Canvas = $("#graphByService1").get(0).getContext("2d");
+                var graphByService1 = new Chart(graphByService1Canvas, {
+                    type: 'pie',
+                    data: dataGraphByService1,
+                    options: optionsGraphByService1
+                });
+            }
+
+            // Graph ByService2
+            var dataGraphByService2 = {
+                labels: {!! $dataGraphByService->keys() !!},
+                datasets: [{
+                    label: 'Service',
+                    data: {{ $dataGraphByService->flatten() }},
+                    backgroundColor: [
+                        '#ecf0f1',
+                        '#7f8c8d',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#ecf0f1',
+                        '#a55eea',
+                        '#2d98da',
+                        '#fed330',
+                        '#2bcbba',
+                        '#fc5c65',
+                        '#4b6584',
+                        '#3867d6',
+                        '#eb3b5a'
+                    ],
+                    borderColor: [
+                        '#ecf0f1',
+                        '#7f8c8d',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#ecf0f1',
+                        '#a55eea',
+                        '#2d98da',
+                        '#fed330',
+                        '#2bcbba',
+                        '#fc5c65',
+                        '#4b6584',
+                        '#3867d6',
+                        '#eb3b5a'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+            var optionsGraphByService2 = {
+                responsive: true,
+                legend: {
+                    position: 'top'
+                },
+                events: false,
+                tooltips: {
+                    enabled: false
+                },
+                scaleShowValues: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false
+                        }
+                    }]
+                },
+                plugins: {
+                    labels: {
+                        render: 'value'
+                    }
+                }
+
+            };
+
+            if ($("#graphByService2").length) {
+                var graphByService2Canvas = $("#graphByService2").get(0).getContext("2d");
+                var graphByService2 = new Chart(graphByService2Canvas, {
+                    type: 'bar',
+                    data: dataGraphByService2,
+                    options: optionsGraphByService2
                 });
             }
         });
