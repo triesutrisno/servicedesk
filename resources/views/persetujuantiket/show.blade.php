@@ -42,7 +42,7 @@
         rootSelector: '[data-toggle=confirmation]',
         // other options
     });
-    
+
     $('.pilihSetuju').click( function(){
         $('#tiketId').val($(this).attr('data-tiket_id'));
     });
@@ -64,7 +64,7 @@
 <div class="flex-row">
     <div class="form-group">
         <a href="{{ url('persetujuantiket') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-book"></i> Lihat Data</a>
-        @if($data[0]->tiketStatus=='2' || $data[0]->tiketStatus=='11')          
+        @if($data[0]->tiketStatus=='2' || $data[0]->tiketStatus=='11')
           <a href="{{ url('/persetujuantiket')}}/approve/{{ $data[0]->tiketId }}" class="btn btn-warning btn-rounded btn-fw" title="Setuju">
                 <i class="fa fa-check-square icon-lg"></i> Setuju
           </a>
@@ -156,11 +156,11 @@
                                 @endif
                                 &nbsp;
                                 @if($data[0]->progresProsen!="")
-                                    
+
                                     <label class="badge badge-success">{{ $data[0]->progresProsen }}%</label>
                                 @endif
                             </td>
-                        </tr>                       
+                        </tr>
                         <tr>
                             <td>Severity</td>
                             <td>:</td>
@@ -242,6 +242,13 @@
                                         @endif
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>Keterangan Reject</td>
+                                    <td>:</td>
+                                    <td>
+                                        {{$data[0]->reject_reason}}
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -255,22 +262,22 @@
                                 @foreach($histori as $dtHistori)
                                 <li>
                                     {{ $dtHistori->progresNama }} &nbsp;
-                                    @if($dtHistori->progresProsen!="")                                    
+                                    @if($dtHistori->progresProsen!="")
                                         <label class="badge badge-success">{{ $dtHistori->progresProsen }}%</label>
                                     @endif
-                                    @if($dtHistori->file!="")                                    
+                                    @if($dtHistori->file!="")
                                         [ <a href="{{ url('/images/fileSolusiTiket') }}/{{$dtHistori->file}}">Lampiran</a> ]
                                     @endif
                                     <a href="#" class="float-right">{{ date('d-m-Y H:i', strtotime($dtHistori->created_at)) }}</a>
                                     <p>{{ $dtHistori->keterangan }}</p>
-                                    @if($dtHistori->tglRTL!="")                                    
+                                    @if($dtHistori->tglRTL!="")
                                         Tgl RTL : {{ date('d-m-Y H:i', strtotime($dtHistori->tglRTL)) }}
                                     @endif
                                 </li>
                                 @endforeach
                             </ul>
                         </div>
-                    </div>                    
+                    </div>
                     <!--End Histori Tiket -->
                     <!--Start Lain-Lain -->
                     <div class="tab-pane fade" id="lain-lain" role="tabpanel" aria-labelledby="profile-tab">
@@ -328,7 +335,7 @@
                                     <td>:</td>
                                     <td>{{ $data[0]->namaLengkap }}</td>
                                 </tr>
-                                
+
                                 <tr>
                                     <td>NIK Lengkap User Yang Diminta</td>
                                     <td>:</td>
@@ -336,7 +343,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>                    
+                    </div>
                     <!--End Lain-Lain -->
                 </div>
             </div>
@@ -351,7 +358,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>      
+      </div>
       <form action="{{ url('persetujuantiket/approve') }}" method="post">
         @method('patch')
         @csrf
@@ -365,7 +372,7 @@
                   <input type="hidden" name="namaTeknisi" id="namaTeknisi" readonly="true" class="form-control" required>
                   <a href="#" data-toggle="modal" data-target="#myModalTeknisi" style="text-decoration:none">
                   <div class="input-group-append bg-primary border-primary">
-                      <span class="input-group-text bg-transparent">                                    
+                      <span class="input-group-text bg-transparent">
                           <i class="fa fa-search text-white"></i>
                       </span>
                   </div>
@@ -377,7 +384,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
         <input type="submit" name="Setuju" value="Setuju" class="btn btn-primary">
-      </div>      
+      </div>
      </form>
     </div>
   </div>
@@ -426,7 +433,7 @@
                                 </div>
                             </div>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </div>

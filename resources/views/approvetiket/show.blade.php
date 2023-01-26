@@ -145,7 +145,7 @@
                                 @endif
                                 &nbsp;
                                 @if($data[0]->progresProsen!="")
-                                    
+
                                     <label class="badge badge-success">{{ $data[0]->progresProsen }}%</label>
                                 @endif
                             </td>
@@ -213,6 +213,13 @@
                                         @endif
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>Keterangan Reject</td>
+                                    <td>:</td>
+                                    <td>
+                                        {{$data[0]->reject_reason}}
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -227,20 +234,20 @@
                                 <li>
                                     <a href="#">
                                         {{ $dtHistori->progresNama }} &nbsp;
-                                        @if($dtHistori->progresProsen!="")                                    
+                                        @if($dtHistori->progresProsen!="")
                                             <label class="badge badge-success">{{ $dtHistori->progresProsen }}%</label>
                                         @endif
                                     </a>
                                     <a href="#" class="float-right">{{ date('d-m-Y H:i', strtotime($dtHistori->created_at)) }}</a>
                                     <p>{{ $dtHistori->keterangan }}</p>
-                                    @if($dtHistori->tglRTL!="")                                    
+                                    @if($dtHistori->tglRTL!="")
                                         Tgl RTL : {{ date('d-m-Y H:i', strtotime($dtHistori->tglRTL)) }}
                                     @endif
                                 </li>
                                 @endforeach
                             </ul>
                         </div>
-                    </div>                    
+                    </div>
                     <!--End Histori Tiket -->
                     <!--Start Lain-Lain -->
                     <div class="tab-pane fade" id="lain-lain" role="tabpanel" aria-labelledby="profile-tab">
@@ -298,7 +305,7 @@
                                     <td>:</td>
                                     <td>{{ $data[0]->namaLengkap }}</td>
                                 </tr>
-                                
+
                                 <tr>
                                     <td>NIK Lengkap User Yang Diminta</td>
                                     <td>:</td>
@@ -306,7 +313,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>                    
+                    </div>
                     <!--End Lain-Lain -->
                 </div>
             </div>

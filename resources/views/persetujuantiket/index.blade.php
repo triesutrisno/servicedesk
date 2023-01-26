@@ -11,16 +11,16 @@
             rootSelector: '[data-toggle=confirmation]',
             // other options
         });
-        
+
         $('.pilihSetuju').click( function(){
             alert($(this).attr('data-serviceId'));
             $('#tiketId').val($(this).attr('data-tiket_id'));
         });
-        
+
         $('.pilihFeedback').click( function(){
             $('#idTiket').val($(this).attr('data-tiket_id'));
         });
-        
+
         $('.pilihTeknisi').click( function(){
             $('#nikTeknisi').val($(this).attr('data_nik'));
             $('#namaTeknisi').val($(this).attr('data_nama'));
@@ -28,6 +28,56 @@
             $('#emailTeknisi').val($(this).attr('data_email'));
             $('#myModalTeknisi').modal('hide');
         });
+
+
+        $('[data-name=btn_reject]').on('click', function() {
+                var id_tiket = $(this).attr("data-id");
+                Swal.fire({
+                    title: 'Keterangan Reject',
+                    input: 'textarea',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Reject',
+                    showLoaderOnConfirm: true,
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((reason) => {
+                    if(reason.value){
+                        fetch('/persetujuantiket/reject/' + id_tiket, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'url': '/payment',
+                                "X-CSRF-Token": document.querySelector(
+                                    'input[name=_token]').value
+                            },
+                            body: JSON.stringify({
+                                'id_tiket': id_tiket,
+                                'reject_reason': reason.value
+                            })
+                        })
+                        .then(response => {
+                            Swal.fire({
+                                title: "Success",
+                                text: "berhasil reject!",
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                location.reload();
+                            })
+                        })
+                        .catch(error => {
+                            Swal.fire({
+                                title: "Error",
+                                text: error
+                            })
+                        })
+
+                    }
+                })
+            });
     } );
 </script>
 @stop
@@ -57,14 +107,14 @@
                         </div>
                     @endif
                @endif
-              
+
               <div class="table-responsive">
                 <table class="table table-striped" id="table" width="100%">
                   <thead>
                     <tr>
                       <th>Action</th>
                       <!--<th>No</th>-->
-                      <th>Nomor</th>                      
+                      <th>Nomor</th>
                       <th>Layanan</th>
                       <th>Service</th>
                       <th>Subservice</th>
@@ -77,11 +127,11 @@
                   </thead>
                   <tbody>
                   @foreach($datas as $data)
-                  
-                 
-                    <tr>                        
+
+
+                    <tr>
                       <td>
-                          @csrf                          
+                          @csrf
                           <a href="{{ url('/persetujuantiket')}}/detail/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-warning" title="Detail">
                               <i class="fa fa-search icon-lg"></i>
                           </a>
@@ -92,13 +142,13 @@
                               <a href="{{ url('/persetujuantiket')}}/approve/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-info" title="Setuju">
                                   <i class="fa fa-check-square icon-lg"></i>
                               </a>
-                              <form action="{{ url('persetujuantiket/reject') }}/{{ $data->tiketId }}" method="post" class="d-inline">
-                                  @method('patch')
-                                  @csrf
-                                  <button class="btn btn-icons btn-inverse-danger" data-toggle="confirmation" data-singleton="true" data-title="Anda yakin mereject data ini ?">
-                                      <i class="fa fa-times-rectangle-o icon-lg"></i>
-                                  </button>
-                              </form>
+
+                              <button class="btn btn-icons btn-inverse-danger" title="reject"
+                                data-name="btn_reject"
+                                data-id="{{ $data->tiketId }}">
+                                    <i class="fa fa-times-rectangle-o icon-lg"></i>
+                              </button>
+
                               <a href="#" class="btn btn-icons btn-inverse-dark pilihFeedback" data-tiket_id="{{ $data->tiketId }}" title="Feedback" data-toggle="modal" data-target="#myModalFeedback">
                                     <i class="fa fa-sign-out"></i>
                               </a>
@@ -113,8 +163,8 @@
                         <td>{{ $data->ServiceName }}</td>
                         <td>{{ $data->ServiceSubName }}</td>
                         <td>{{ $data->tiketKeterangan}}</td>
-                        <td>{{ date('d-m-Y H:i', strtotime($data->created_at)) }}</td>                           
-                        <td>{{ $data->name}}</td>                                          
+                        <td>{{ date('d-m-Y H:i', strtotime($data->created_at)) }}</td>
+                        <td>{{ $data->name}}</td>
                         <td>
                           @if($data->tiketPrioritas == '1')
                               Biasa
@@ -169,7 +219,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>      
+      </div>
       <form action="{{ url('persetujuantiket/approve') }}" method="post">
         @method('patch')
         @csrf
@@ -183,7 +233,7 @@
                   <input type="hidden" name="namaTeknisi" id="namaTeknisi" readonly="true" class="form-control" required>
                   <a href="#" data-toggle="modal" data-target="#myModalTeknisi" style="text-decoration:none">
                   <div class="input-group-append bg-primary border-primary">
-                      <span class="input-group-text bg-transparent">                                    
+                      <span class="input-group-text bg-transparent">
                           <i class="fa fa-search text-white"></i>
                       </span>
                   </div>
@@ -207,7 +257,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
         <input type="submit" name="Setuju" value="Setuju" class="btn btn-primary">
-      </div>      
+      </div>
      </form>
     </div>
   </div>
@@ -220,7 +270,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>      
+      </div>
       <form action="{{ url('persetujuantiket/feedback') }}" method="post">
         @method('patch')
         @csrf
@@ -236,7 +286,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
         <input type="submit" name="feedback" value="Feedback" class="btn btn-primary">
-      </div>      
+      </div>
      </form>
     </div>
   </div>
@@ -285,7 +335,7 @@
                                 </div>
                             </div>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </div>
