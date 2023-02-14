@@ -61,12 +61,25 @@ class HomeController extends Controller
                 WHEN tiket.tiketStatus = 9 THEN 'Pending'
                 WHEN tiket.tiketStatus = 10 THEN 'Cancel'
                 WHEN tiket.tiketStatus = 11 THEN 'Diforward'
-            END as namaStatus")
+            END as namaStatus,
+            tiket_detail.nikTeknisi,
+            users.name
+            ")
             ->leftJoin('ticket_service', 'tiket.serviceId', '=', 'ticket_service.id')
-            ->groupBy('month', 'tiketStatus', 'serviceId', 'ServiceName', 'namaStatus')
-            ->orderBy('month','asc')
-            ->orderBy('tiketStatus','asc')
-            ->orderBy('serviceId','asc')
+            ->leftJoin('tiket_detail', 'tiket.tiketId', '=', 'tiket_detail.tiketId')
+            ->leftJoin('users', 'users.username', '=', 'tiket_detail.nikTeknisi')
+            ->groupBy(
+                'month',
+                'tiketStatus',
+                'serviceId',
+                'ServiceName',
+                'namaStatus',
+                'tiket_detail.nikTeknisi',
+                'users.name'
+            )
+            ->orderBy('month', 'asc')
+            ->orderBy('tiketStatus', 'asc')
+            ->orderBy('serviceId', 'asc')
             ->get();
 
         $tiketOpen = $dataTiketStatus->whereIn('tiketStatus', ['4', '6', '11'])->sum('total');
@@ -75,17 +88,21 @@ class HomeController extends Controller
         $tiketBlmApprove = $dataTiketStatus->whereIn('tiketStatus', [1])->sum('total');
 
         // dd($dataTiket->groupBy('month'));
-        $dataGraph1 = $dataTiket->groupBy('month')->mapWithKeys(function ($data, $key) {
-            return [
-                $key => $data->sum('total')
-            ];
-        });
+        $dataGraph1 = $dataTiket->groupBy('month')
+            ->sortBy('month')
+            ->mapWithKeys(function ($data, $key) {
+                return [
+                    $key => $data->sum('total')
+                ];
+            });
 
-        $dataGraphByStatus = $dataTiket->groupBy('namaStatus')->mapWithKeys(function ($data, $key) {
-            return [
-                $key => $data->sum('total')
-            ];
-        });
+        $dataGraphByStatus = $dataTiket->groupBy('namaStatus')
+            ->sortBy('namaStatus')
+            ->mapWithKeys(function ($data, $key) {
+                return [
+                    $key => $data->sum('total')
+                ];
+            });
 
         $totalDataTiket = $dataTiket->sum('total');
         $dataGraphByStatusPct = $dataGraphByStatus->mapWithKeys(function ($data, $key) use ($totalDataTiket) {
@@ -95,11 +112,13 @@ class HomeController extends Controller
         });
 
 
-        $dataGraphByService = $dataTiket->groupBy('ServiceName')->mapWithKeys(function ($data, $key) {
-            return [
-                $key => $data->sum('total')
-            ];
-        });
+        $dataGraphByService = $dataTiket->groupBy('ServiceName')
+            ->sortBy('ServiceName')
+            ->mapWithKeys(function ($data, $key) {
+                return [
+                    $key => $data->sum('total')
+                ];
+            });
 
         $dataGraphByServicePct = $dataGraphByService->mapWithKeys(function ($data, $key) use ($totalDataTiket) {
             return [
@@ -107,7 +126,19 @@ class HomeController extends Controller
             ];
         });
 
-        // dd($dataGraph1);
+        $dataGraphByTeknisi = $dataTiket->groupBy('name')->mapWithKeys(function ($data, $key) {
+            return [
+                $key => $data->sum('total')
+            ];
+        });
+
+        $dataGraphByTeknisiPct = $dataGraphByTeknisi->mapWithKeys(function ($data, $key) use ($totalDataTiket) {
+            return [
+                $key => round(($data / $totalDataTiket) * 100, 1)
+            ];
+        });
+
+        // dd($dataGraphByTeknisi);
 
         return view('home2', [
             #'tikets'=>$tikets,
@@ -127,6 +158,8 @@ class HomeController extends Controller
             'dataGraphByStatusPct' => $dataGraphByStatusPct,
             'dataGraphByService' => $dataGraphByService,
             'dataGraphByServicePct' => $dataGraphByServicePct,
+            'dataGraphByTeknisi' => $dataGraphByTeknisi,
+            'dataGraphByTeknisiPct' => $dataGraphByTeknisiPct,
             'kode' => '',
             'pesan' => ''
         ]);

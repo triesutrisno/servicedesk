@@ -36,11 +36,11 @@
                             $warna = 'text-info';
                         }
 
-                        if($eselon <= $val->min_eselon){ 
+                        if($eselon <= $val->min_eselon){
                             $serviceSAP = ['0'];
                             if(in_array($val->id, $serviceSAP)){
-                                if (in_array(session('infoUser')['USERNAME'], $userLevel)){ 
-                                    @endphp 
+                                if (in_array(session('infoUser')['USERNAME'], $userLevel)){
+                                    @endphp
                                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
                                             <div class="card card-statistics" style='background:#f2f8f9'>
                                                 <a href="{{ url("/tiket/create") }}/{{ $val->id_layanan }}/{{ $val->id }}" class="row" style='color:#000000;text-decoration:none'>
@@ -66,7 +66,7 @@
                                     @endphp
                                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
                                             <div class="card card-statistics" style='background:#EBEBEB'>
-                                                <a href="#" onclick=" alert('Ada tidak dijinkan untuk mengakses menu ini !')" class="row" style='color:#000000;text-decoration:none'>
+                                                <a href="#" onclick=" alert('Anda tidak dijinkan untuk mengakses menu ini !')" class="row" style='color:#000000;text-decoration:none'>
                                                 <div class="card-body">
                                                   <div class="clearfix">
                                                     <div class="float-left">
@@ -87,7 +87,7 @@
                                     @php
                                 }
                             }else{
-                                @endphp 
+                                @endphp
                                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
                                         <div class="card card-statistics" style='background:#f2f8f9'>
                                             <a href="{{ url("/tiket/create") }}/{{ $val->id_layanan }}/{{ $val->id }}" class="row" style='color:#000000;text-decoration:none'>
@@ -114,7 +114,7 @@
                         @endphp
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
                                 <div class="card card-statistics" style='background:#EBEBEB'>
-                                    <a href="#" onclick=" var eselone = <?=$val->min_eselon?>; alert('Ada tidak dijinkan untuk mengakses menu ini, menu ini hanya boleh diakses minimal eselon '+eselone)" class="row" style='color:#000000;text-decoration:none'>
+                                    <a href="#" onclick=" var eselone = <?=$val->min_eselon?>; alert('Anda tidak dijinkan untuk mengakses menu ini, menu ini hanya boleh diakses minimal eselon '+eselone)" class="row" style='color:#000000;text-decoration:none'>
                                     <div class="card-body">
                                       <div class="clearfix">
                                         <div class="float-left">
@@ -133,9 +133,9 @@
                                 </div>
                             </div>
                         @php
-                        }                    
+                        }
                     }
-                    @endphp 
+                    @endphp
 
                 </div>
             </div>

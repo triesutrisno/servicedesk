@@ -309,6 +309,20 @@
                     <canvas id="graphByStatus2" height="250"></canvas>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin">
+            <center>
+                <h3>Tiket Per Teknisi</h3>
+                <center>
+                    <canvas id="graphByTeknisi1" height="250"></canvas>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin">
+            <center>
+                <h3>Tiket Per Teknisi</h3>
+                <center>
+                    <canvas id="graphByTeknisi2" height="250"></canvas>
+        </div>
+    </div>
 @endsection
 
 @section('js')
@@ -622,6 +636,137 @@
                     options: optionsGraphByService2
                 });
             }
+
+            // Graph ByTeknisi1
+            const dataGraphByTeknisi1 = {
+                labels: {!! $dataGraphByTeknisiPct->keys() !!},
+                datasets: [{
+                    label: 'Tiket Per Teknisi',
+                    data: {{ $dataGraphByTeknisiPct->flatten() }},
+                    backgroundColor: [
+                        '#9980FA',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#C4E538',
+                        '#a55eea',
+                        '#2d98da',
+                        '#fed330',
+                        '#2bcbba',
+                        '#fc5c65',
+                        '#4b6584',
+                        '#3867d6',
+                    ],
+                }]
+            };
+
+            const optionsGraphByTeknisi1 = {
+                type: 'pie',
+                data: dataGraphByTeknisi1,
+            };
+
+            if ($("#graphByTeknisi1").length) {
+                var graphByTeknisi1Canvas = $("#graphByTeknisi1").get(0).getContext("2d");
+                var graphByTeknisi1 = new Chart(graphByTeknisi1Canvas, {
+                    type: 'pie',
+                    data: dataGraphByTeknisi1,
+                    options: optionsGraphByTeknisi1
+                });
+            }
+
+            // Graph ByTeknisi2
+            var dataGraphByTeknisi2 = {
+                labels: {!! $dataGraphByTeknisi->keys() !!},
+                datasets: [{
+                    label: 'Teknisi',
+                    data: {{ $dataGraphByTeknisi->flatten() }},
+                    backgroundColor: [
+                        '#9980FA',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#C4E538',
+                        '#a55eea',
+                        '#2d98da',
+                        '#fed330',
+                        '#2bcbba',
+                        '#fc5c65',
+                        '#4b6584',
+                        '#3867d6',
+                        '#eb3b5a'
+                    ],
+                    borderColor: [
+                        '#ecf0f1',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#ecf0f1',
+                        '#a55eea',
+                        '#2d98da',
+                        '#fed330',
+                        '#2bcbba',
+                        '#fc5c65',
+                        '#4b6584',
+                        '#3867d6',
+                        '#eb3b5a'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+            var optionsGraphByTeknisi2 = {
+                responsive: true,
+                legend: {
+                    position: 'top'
+                },
+                events: false,
+                tooltips: {
+                    enabled: false
+                },
+                scaleShowValues: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false
+                        }
+                    }]
+                },
+                plugins: {
+                    labels: {
+                        render: 'value'
+                    }
+                }
+
+            };
+
+            if ($("#graphByTeknisi2").length) {
+                var graphByTeknisi2Canvas = $("#graphByTeknisi2").get(0).getContext("2d");
+                var graphByTeknisi2 = new Chart(graphByTeknisi2Canvas, {
+                    type: 'bar',
+                    data: dataGraphByTeknisi2,
+                    options: optionsGraphByTeknisi2
+                });
+            }
+
         });
     </script>
 @endsection
