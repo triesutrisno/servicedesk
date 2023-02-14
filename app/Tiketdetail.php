@@ -32,4 +32,9 @@ class Tiketdetail extends Model
     {
         return $this->belongsTo(User::class, 'nikTeknisi', 'username');
     }
+
+    public function progres()
+    {
+        return $this->belongsTo(Progres::class, 'progresId', 'progresId');
+    }
 }

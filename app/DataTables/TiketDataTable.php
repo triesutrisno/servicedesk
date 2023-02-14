@@ -49,6 +49,16 @@ class TiketDataTable extends DataTable
                 return $tiket->tiketDetail != null ?
                     $tiket->tiketDetail->teknisi->name : "";
             })
+            ->editColumn('progres', function ($tiket) {
+                return $tiket->tiketDetail != null ?
+                    ($tiket->tiketDetail->progres != null ?
+                        $tiket->tiketDetail->progres->progresNama : "") : "";
+            })
+            ->editColumn('progresProsen', function ($tiket) {
+                return $tiket->tiketDetail != null ?
+                    ($tiket->tiketDetail->progres != null ?
+                        $tiket->tiketDetail->progres->progresProsen : "") : "";
+            })
             ->escapeColumns([])
             ->addColumn('action', 'tiket.column_action', 1)
             ->filter(function ($query) {
@@ -124,6 +134,7 @@ class TiketDataTable extends DataTable
             ->buttons(
                 'colvis',
                 'pageLength',
+                'excel'
                 // Button::make('searchPanes')
             );
     }
@@ -153,6 +164,8 @@ class TiketDataTable extends DataTable
             Column::make('serviceId')->title('Jenis Service'),
             Column::make('subServiceId')->title('Sub Service'),
             Column::make('teknisi')->title('Teknisi')->orderable(false),
+            Column::make('progres')->title('Progres')->orderable(false),
+            Column::make('progresProsen')->title('Progres Prosen')->orderable(false),
         ];
     }
 
