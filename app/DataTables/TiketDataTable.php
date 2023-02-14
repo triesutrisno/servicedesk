@@ -37,7 +37,7 @@ class TiketDataTable extends DataTable
             })
             ->editColumn('tiketStatus', 'tiket.column_status')
             ->editColumn('nikUser', function ($tiket) {
-                return $tiket->userBy!=null?$tiket->userBy->name:"";
+                return $tiket->userBy != null ? $tiket->userBy->name : "";
             })
             ->editColumn('serviceId', function ($tiket) {
                 return $tiket->service->ServiceName;
@@ -82,6 +82,14 @@ class TiketDataTable extends DataTable
                 }
                 if (request()->filled('jenis')) {
                     $query->whereIn('serviceId', request('jenis'));
+                }
+                if (request()->filled('teknisi')) {
+                    $teknisi = request('teknisi');
+                    $query->whereHas('tiketDetail', function ($query) use ($teknisi) {
+                        $query->whereHas('teknisi', function ($query) use ($teknisi) {
+                            $query->where('name', 'like', '%' . $teknisi . '%');
+                        });
+                    });
                 }
             });
     }

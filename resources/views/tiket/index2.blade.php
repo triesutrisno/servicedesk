@@ -68,6 +68,13 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
+                                    <label class="text-small">Teknisi : </label>
+                                    <input type="text" name="teknisi" class="form-control" autocomplete="off"
+                                        value="{{ $param->get('teknisi') }}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
                                     <br />
                                     <button type="submit" class="btn btn-success mr-2">Cari</button>
                                 </div>
@@ -85,7 +92,6 @@
 @endsection
 
 @push('scripts')
-
     <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables.min.css') }}" />
     <script type="text/javascript" src="{{ asset('js/pdfmake.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/vfs_fonts.js') }}"></script>
