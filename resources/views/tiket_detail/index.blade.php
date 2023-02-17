@@ -129,7 +129,7 @@
                                 <label class="badge badge-primary">Selesai</label>
                             @elseif($data->tiketStatus == '8')
                                 <label class="badge badge-dark">Close</label>
-                            @elseif($data->tiketStatus == '9')
+                            @elseif($data->tiketStatus == '9' || $data->tiketStatus == '6.1')
                                 <label class="badge badge-warning">Pending</label>
                             @elseif($data->tiketStatus == '10')
                                 <label class="badge badge-danger">Cancel</label>
