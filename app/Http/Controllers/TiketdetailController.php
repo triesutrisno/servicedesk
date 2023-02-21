@@ -70,7 +70,7 @@ class TiketdetailController extends Controller
                     b.tiketTglApprove,
                     b.tiketNikAtasan,
                     b.tiketPrioritas,
-                    case when b.tiketStatus = '11' then '4.5' else b.tiketStatus end as tiketStatus,
+                    case when b.tiketStatus = '11' then '4.5' when b.tiketStatus= '9' then '6.1' else b.tiketStatus end as tiketStatus,
                     b.created_at,
                     b.noHp"
                 )
