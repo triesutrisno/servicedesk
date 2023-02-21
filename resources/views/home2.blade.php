@@ -323,6 +323,20 @@
                     <canvas id="graphByTeknisi2" height="250"></canvas>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin">
+            <center>
+                <h3>Tiket Per Unit</h3>
+                <center>
+                    <canvas id="graphByUnit1" height="250"></canvas>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 grid-margin">
+            <center>
+                <h3>Tiket Per Unit</h3>
+                <center>
+                    <canvas id="graphByUnit2" height="250"></canvas>
+        </div>
+    </div>
 @endsection
 
 @section('js')
@@ -764,6 +778,136 @@
                     type: 'bar',
                     data: dataGraphByTeknisi2,
                     options: optionsGraphByTeknisi2
+                });
+            }
+
+            // Graph ByUnit1
+            const dataGraphByUnit1 = {
+                labels: {!! $dataGraphByUnitPct->keys() !!},
+                datasets: [{
+                    label: 'Tiket Per Unit',
+                    data: {{ $dataGraphByUnitPct->flatten() }},
+                    backgroundColor: [
+                        '#9980FA',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#C4E538',
+                        '#a55eea',
+                        '#2d98da',
+                        '#fed330',
+                        '#2bcbba',
+                        '#fc5c65',
+                        '#4b6584',
+                        '#3867d6',
+                    ],
+                }]
+            };
+
+            const optionsGraphByUnit1 = {
+                type: 'pie',
+                data: dataGraphByUnit1,
+            };
+
+            if ($("#graphByUnit1").length) {
+                var graphByUnit1Canvas = $("#graphByUnit1").get(0).getContext("2d");
+                var graphByUnit1 = new Chart(graphByUnit1Canvas, {
+                    type: 'pie',
+                    data: dataGraphByUnit1,
+                    options: optionsGraphByUnit1
+                });
+            }
+
+            // Graph ByUnit2
+            var dataGraphByUnit2 = {
+                labels: {!! $dataGraphByUnit->keys() !!},
+                datasets: [{
+                    label: 'Unit',
+                    data: {{ $dataGraphByUnit->flatten() }},
+                    backgroundColor: [
+                        '#9980FA',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#C4E538',
+                        '#a55eea',
+                        '#2d98da',
+                        '#fed330',
+                        '#2bcbba',
+                        '#fc5c65',
+                        '#4b6584',
+                        '#3867d6',
+                        '#eb3b5a'
+                    ],
+                    borderColor: [
+                        '#ecf0f1',
+                        '#9b59b6',
+                        '#f1c40f',
+                        '#e74c3c',
+                        '#f39c12',
+                        '#c0392b',
+                        '#9b59b6',
+                        '#2ecc71',
+                        '#27ae60',
+                        '#ecf0f1',
+                        '#a55eea',
+                        '#2d98da',
+                        '#fed330',
+                        '#2bcbba',
+                        '#fc5c65',
+                        '#4b6584',
+                        '#3867d6',
+                        '#eb3b5a'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+            var optionsGraphByUnit2 = {
+                responsive: true,
+                legend: {
+                    position: 'top'
+                },
+                events: false,
+                tooltips: {
+                    enabled: false
+                },
+                scaleShowValues: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false
+                        }
+                    }]
+                },
+                plugins: {
+                    labels: {
+                        render: 'value'
+                    }
+                }
+
+            };
+
+            if ($("#graphByUnit2").length) {
+                var graphByUnit2Canvas = $("#graphByUnit2").get(0).getContext("2d");
+                var graphByUnit2 = new Chart(graphByUnit2Canvas, {
+                    type: 'bar',
+                    data: dataGraphByUnit2,
+                    options: optionsGraphByUnit2
                 });
             }
 

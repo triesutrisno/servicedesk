@@ -63,11 +63,15 @@ class HomeController extends Controller
                 WHEN tiket.tiketStatus = 11 THEN 'Diforward'
             END as namaStatus,
             tiket_detail.nikTeknisi,
-            users.name
+            users.name,
+            id_unit,
+            m_unit.nama_unit
             ")
             ->leftJoin('ticket_service', 'tiket.serviceId', '=', 'ticket_service.id')
             ->leftJoin('tiket_detail', 'tiket.tiketId', '=', 'tiket_detail.tiketId')
             ->leftJoin('users', 'users.username', '=', 'tiket_detail.nikTeknisi')
+            ->leftJoin('ticket_service_sub', 'ticket_service_sub.id', '=', 'tiket.subServiceID')
+            ->leftJoin('m_unit', 'm_unit.id', '=', 'ticket_service_sub.id_unit')
             ->groupBy(
                 'month',
                 'tiketStatus',
@@ -75,7 +79,9 @@ class HomeController extends Controller
                 'ServiceName',
                 'namaStatus',
                 'tiket_detail.nikTeknisi',
-                'users.name'
+                'users.name',
+                'id_unit',
+                'm_unit.nama_unit'
             )
             ->orderBy('month', 'asc')
             ->orderBy('tiketStatus', 'asc')
@@ -138,6 +144,18 @@ class HomeController extends Controller
             ];
         });
 
+        $dataGraphByUnit = $dataTiket->groupBy('nama_unit')->mapWithKeys(function ($data, $key) {
+            return [
+                $key => $data->sum('total')
+            ];
+        });
+
+        $dataGraphByUnitPct = $dataGraphByUnit->mapWithKeys(function ($data, $key) use ($totalDataTiket) {
+            return [
+                $key => round(($data / $totalDataTiket) * 100, 1)
+            ];
+        });
+
         // dd($dataGraphByTeknisi);
 
         return view('home2', [
@@ -160,6 +178,8 @@ class HomeController extends Controller
             'dataGraphByServicePct' => $dataGraphByServicePct,
             'dataGraphByTeknisi' => $dataGraphByTeknisi,
             'dataGraphByTeknisiPct' => $dataGraphByTeknisiPct,
+            'dataGraphByUnit' => $dataGraphByUnit,
+            'dataGraphByUnitPct' => $dataGraphByUnitPct,
             'kode' => '',
             'pesan' => ''
         ]);

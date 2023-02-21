@@ -28,7 +28,7 @@
 
                 <div class="card-body">
                   <h4 class="card-title">Data Sub Service</h4>
-                  
+
                   <div class="table-responsive">
                     <table class="table table-striped" id="table">
                       <thead>
@@ -36,6 +36,7 @@
                         <th>No</th>
                         <th>Nama Service</th>
                         <th>Nama Sub Service</th>
+                        <th>Unit</th>
                         <th>Status</th>
                         <th>Action</th>
                         </tr>
@@ -46,12 +47,13 @@
                           <td class="py-1">{{$loop->iteration}}</td>
                           <td class="py-1">{{ $data->ServiceName }}</td>
                           <td class="py-1">{{$data->ServiceSubName}}</td>
+                          <td class="py-1">{{$data->nama_unit}}</td>
                           <td>
                             @if($data->ServiceSubStatus == '1')
                             <label class="badge badge-success">Aktif</label>
                             @elseif($data->ServiceSubStatus == '0')
                             <label class="badge badge-dark">Tidak Aktif</label>
-                            @endif 
+                            @endif
                           <td>
                            <div class="btn-group dropdown">
                           <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,8 +61,8 @@
                           </button>
                           <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 30px, 0px);">
                             <a class="dropdown-item" href="{{route('subservice.edit', $data->id)}}"> Edit </a>
-                            
-                           
+
+
                           </div>
                         </div>
                           </td>
