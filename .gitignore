@@ -1,4 +1,3 @@
-*
 !.gitignore
 /node_modules
 /public/hot
@@ -15,3 +14,6 @@ yarn-error.log
 /public/image
 /public/images
 /public/eset
+.gitignore
+public/receipt_test.jpg
+public/02224.jpg

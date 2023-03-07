@@ -20,8 +20,8 @@ Route::get('/', function () {
  */
 
 
-Route::get('/','LoginController@index')->name('login');
-Route::post('/login','LoginController@login');
+Route::get('/', 'LoginController@index')->name('login');
+Route::post('/login', 'LoginController@login');
 
 Route::get('/ap1/approve/{kode}', 'HomeController@approve');
 Route::get('/ap1/reject/{kode}', 'HomeController@reject');
@@ -31,7 +31,7 @@ Route::get('/ap3/approve/{kode}', 'HomeController@approve3');
 Route::get('/ap3/reject/{kode}', 'HomeController@reject3');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/logout','LoginController@logout');
+    Route::get('/logout', 'LoginController@logout');
 
     Route::get('home', 'HomeController@index');
     Route::get('home/detail/{id}', 'HomeController@detail');
@@ -82,5 +82,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/tugasku/detail/{idDetailTiket}/{idTiket}', 'TiketdetailController@show');
     Route::get('/tugasku/kembalikeatasan/{id}', 'TiketdetailController@kembalikeatasan');
     Route::post('/tugasku/kembalikeatasan/{idDetailTiket}/{idTiket}', 'TiketdetailController@simpankembalikeatasan');
-});
 
+    Route::get('/saran', 'SaranController@index');
+    Route::get('/saran/create', 'SaranController@create');
+    Route::post('/saran/create', 'SaranController@store');
+});
