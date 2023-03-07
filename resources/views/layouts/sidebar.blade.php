@@ -60,16 +60,16 @@
         </li>
     @endif
 
-    {{-- <li class="nav-item">
+    <li class="nav-item">
       <a class="nav-link" href="{{url('tiket')}}">
         <i class="menu-icon fa fa-ticket"></i>
         <span class="menu-title">Tiket</span>
       </a>
-    </li> --}}
+    </li>
     <li class="nav-item">
         <a class="nav-link" href="{{ url('tiket2') }}">
             <i class="menu-icon fa fa-ticket"></i>
-            <span class="menu-title">Tiket</span>
+            <span class="menu-title">Tiket V2</span>
         </a>
     </li>
     <li class="nav-item">
