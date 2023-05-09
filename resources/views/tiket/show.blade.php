@@ -261,7 +261,7 @@
                                         [ <a href="{{ url('/images/fileSolusiTiket') }}/{{$dtHistori->file}}">Lampiran</a> ]
                                     @endif
                                     <a href="#" class="float-right">{{ date('d-m-Y H:i', strtotime($dtHistori->created_at)) }}</a>
-                                    <p>{{ $dtHistori->keterangan }}</p>
+                                    <p>{!! nl2br(e( $dtHistori->keterangan)) !!}</p>
                                     @if($dtHistori->tglRTL!="")                                    
                                         Tgl RTL : {{ date('d-m-Y H:i', strtotime($dtHistori->tglRTL)) }}
                                     @endif

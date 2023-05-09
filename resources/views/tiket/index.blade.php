@@ -9,7 +9,7 @@
     //} );
     var table = $('#table').DataTable({
         //"iDisplayLength": 20,
-        "bSort" : false
+        "bSort" : false,
         "order": [[ 11, "asc" ]],        
         "paging"  : false,
         "info"    : false,
