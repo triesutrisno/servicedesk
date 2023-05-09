@@ -72,7 +72,7 @@ class SaranDataTable extends DataTable
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->lengthMenu([10, 25, 50, 75, 100])
-            ->orderBy(1)
+            ->orderBy(0)
             ->buttons(
                 'colvis',
                 'pageLength',

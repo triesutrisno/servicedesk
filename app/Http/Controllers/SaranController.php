@@ -41,7 +41,7 @@ class SaranController extends Controller
         $isiEmail = "<html>";
         $isiEmail .= "<html>";
         $isiEmail .= "<body>";
-        $isiEmail .= "<h3>Kritik dan Saran Baru : <h3><br />";
+        $isiEmail .= "<h3>Kritik dan Saran Baru : </h3><br />";
         $isiEmail .= "User : " . $saran->user->name . "<br />";
         $isiEmail .= "Uraian : " . $saran->uraian . "<br />";
         $isiEmail .= "<br><br>Silakan akses tiket.silog.co.id dan gunakan user dan password anda untuk login ke aplikasi tersebut. <br />";
