@@ -35,8 +35,7 @@ class TiketController extends Controller
         $param["status"] = $status;
         $param["nama"] = $nama;
         #dd($request->all());
-        if(session('infoUser')['LEVEL'] == 'admin')
-        {
+        if (session('infoUser')['LEVEL'] == 'admin') {
             #$datas = Tiket::with(['layanan', 'service', 'subService', 'tiketDetail'])->get();
             $datas = DB::table('tiket as a')
                 ->select(
@@ -82,7 +81,7 @@ class TiketController extends Controller
                 ->orderBy('a.tiketStatus', 'asc')
                 ->orderBy('a.kode_tiket', 'asc')
                 ->paginate(50);
-                #->get();
+            #->get();
         } else {
             $datas = DB::table('tiket as a')
                 ->select(
@@ -128,17 +127,17 @@ class TiketController extends Controller
                 ->orderBy('a.tiketStatus', 'asc')
                 ->orderBy('a.kode_tiket', 'asc')
                 ->paginate(50);
-                #->get();
+            #->get();
         }
         //dd($datas);
-        return view('tiket.index', ['datas'=>$datas, 'kode'=>'', 'pesan'=>'', 'param'=>$param]);
+        return view('tiket.index', ['datas' => $datas, 'kode' => '', 'pesan' => '', 'param' => $param]);
     }
 
     public function index2(TiketDataTable $dataTable)
     {
 
         $param = collect(request()->all());
-        $param->put( 'jenis_opt', Service::pluck( 'serviceName', 'id'));
+        $param->put('jenis_opt', Service::pluck('serviceName', 'id'));
 
         return $dataTable
             ->render('tiket.index2', ['param' => $param]);
@@ -246,9 +245,11 @@ class TiketController extends Controller
      */
     public function store(Request $request, $layananId, $serviceId)
     {
-        $request->validate([
-            'tiketNikAtasanService' => 'required',
-        ]);
+        // $request->validate([
+        //     'tiketNikAtasanService' => 'required',
+        // ]);
+        /// ATASAN NOW AUTOMATIC FROM SUB SERVICE SELECTED
+
         //dd($request->all());
         if ($request->file('tiketFile') == '') {
             $gambar = NULL;
@@ -312,11 +313,21 @@ class TiketController extends Controller
                     $request->request->add(['tiketStatus' => '2']);
                 }
             }
+
+            //set tiketNikAtasanService
+            $subService = Subservice::find($request->get('subServiceId'));
+            // dd($subService->unit->atasanUnit);
+            $atasanUnit = $subService->unit->atasanUnit;
+            $request->request->add(['tiketNikAtasanService' => $atasanUnit->username]);
+            $request->request->add(['tiketEmailAtasanService' => $atasanUnit->email]);
+            //
+
             Tiket::create($request->all());
 
             $tiket = Tiket::with(['layanan', 'service', 'subService', 'userBy'])
                 ->where(['kode_tiket' => $request->kode_tiket])
                 ->get();
+
 
 
             $kode = rand(11111, 99999);
@@ -382,7 +393,8 @@ class TiketController extends Controller
                         ]);
                 }
 
-                $users = User::where(['username' => $request->tiketNikAtasanService])->get();
+                // $users = User::where(['username' => $request->tiketNikAtasanService])->get();
+                $users = User::where(['username' => $tiket->subService->nik_atasan_service])->get();
                 if ($users[0]['idTelegram'] != "") {
                     $isiTelegram = "Mohon untuk segera diapprove permintaan tiket dengan: \n";
                     $isiTelegram .= "Nomer : " . $request->kode_tiket . " \n";
@@ -570,7 +582,8 @@ class TiketController extends Controller
                             ]);
                     }
 
-                    $users = User::where(['username' => $request->tiketNikAtasanService])->get();
+                    // $users = User::where(['username' => $request->tiketNikAtasanService])->get();
+                    $users = User::where(['username' => $tiket->subService->nik_atasan_service])->get();
                     if ($users[0]['idTelegram'] != "") {
                         $isiTelegram = "Mohon untuk segera diapprove permintaan tiket dengan: \n";
                         $isiTelegram .= "Nomer : " . $request->kode_tiket . " \n";

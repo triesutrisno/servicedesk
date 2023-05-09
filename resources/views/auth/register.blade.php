@@ -49,7 +49,7 @@ var check = function() {
                   <div class="card">
                     <div class="card-body">
                       <h4 class="card-title">Tambah user baru</h4>
-                      
+
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
@@ -68,6 +68,17 @@ var check = function() {
                                 @if ($errors->has('username'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('username') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                            <label for="username" class="col-md-4 control-label">Email</label>
+                            <div class="col-md-6">
+                                <input id="email" type="text" class="form-control" name="email" value="{{ old('email') }}" required>
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
                             </div>

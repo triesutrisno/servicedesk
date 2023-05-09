@@ -69,7 +69,7 @@ class UserController extends Controller
             'username' => 'required|string|max:20|unique:users',
             //'email' => 'required|string|email|max:255|unique:users',
             //'password' => 'required|string|min:6|confirmed',
-            
+
         ]);
 
 
@@ -79,7 +79,7 @@ class UserController extends Controller
             $file = $request->file('gambar');
             $dt = Carbon::now();
             $acak  = $file->getClientOriginalExtension();
-            $fileName = rand(11111,99999).'-'.$dt->format('Y-m-d-H-i-s').'.'.$acak; 
+            $fileName = rand(11111,99999).'-'.$dt->format('Y-m-d-H-i-s').'.'.$acak;
             $request->file('gambar')->move("images/user", $fileName);
             $gambar = $fileName;
         }
@@ -87,7 +87,7 @@ class UserController extends Controller
         User::create([
             'name' => $request->input('name'),
             'username' => $request->input('username'),
-            //'email' => $request->input('email'),
+            'email' => $request->input('email'),
             'level' => $request->input('level'),
             //'password' => bcrypt(($request->input('password'))),
             'gambar' => $gambar,
@@ -125,7 +125,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
         if((Auth::user()->level == 'user') && (Auth::user()->id != $id)) {
                 Alert::info('Oopss..', 'Anda dilarang masuk ke area ini.');
                 return redirect()->to('/');
@@ -147,27 +147,27 @@ class UserController extends Controller
     {
         $user_data = User::findOrFail($id);
 
-        if($request->file('gambar')) 
+        if($request->file('gambar'))
         {
             $file = $request->file('gambar');
             $dt = Carbon::now();
             $acak  = $file->getClientOriginalExtension();
-            $fileName = rand(11111,99999).'-'.$dt->format('Y-m-d-H-i-s').'.'.$acak; 
+            $fileName = rand(11111,99999).'-'.$dt->format('Y-m-d-H-i-s').'.'.$acak;
             $request->file('gambar')->move("images/user", $fileName);
             $user_data->gambar = $fileName;
         }
 
         $user_data->name = $request->input('name');
-        //$user_data->email = $request->input('email');
+        $user_data->email = $request->input('email');
         //if($request->input('password')) {
-        $user_data->level = $request->input('level');        
+        $user_data->level = $request->input('level');
         $user_data->idTelegram = $request->input('idTelegram');
-        
+
         //}
 
         //if($request->input('password')) {
         //    $user_data->password= bcrypt(($request->input('password')));
-        
+
         //}
 
         $user_data->update();

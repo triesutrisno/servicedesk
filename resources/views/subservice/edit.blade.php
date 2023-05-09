@@ -51,7 +51,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="id_unit" class="col-md-4 control-label">Status</label>
+                                    <label for="id_unit" class="col-md-4 control-label">Unit</label>
                                     <div class="col-md-6">
                                         <select class="form-control" required id="id_unit" name="id_unit">
                                             <option value="1" {{ $data->id_unit == 1 ? 'selected' : '' }}>SYSTEM

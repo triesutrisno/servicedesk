@@ -124,7 +124,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="tiketNikAtasanService" class="col-md-4 control-label">Tujuan</label>
                             <div class="input-group col-md-6">
                                 <input type="text" name="tiketNikAtasanService" id="tiketNikAtasanService"
@@ -146,7 +146,7 @@
 
                             </div>
                             <div class="col-md-6" id="namaAtasanService"></div>
-                        </div>
+                        </div> --}}
                         <div class="form-group {{ $errors->has('tiketKeterangan') ? 'has-error' : '' }}">
                             <label for="tiketKeterangan" class="col-md-4 control-label">Keterangan</label>
                             <div class="col-md-6">
