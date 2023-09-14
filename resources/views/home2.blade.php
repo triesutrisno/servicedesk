@@ -337,6 +337,11 @@
                     <canvas id="graphByUnit2" height="250"></canvas>
         </div>
     </div>
+
+    <div class="flex-row">
+            <iframe src="http://172.20.5.9:3000/public/dashboard/b9aeb033-a2b1-4d27-9c2b-c748abc84238" frameborder="0"
+                width="100%" height="800" allowtransparency></iframe>
+    </div>
 @endsection
 
 @section('js')
