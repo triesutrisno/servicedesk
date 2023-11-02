@@ -47,6 +47,7 @@ class SubserviceController extends Controller
                 )
                 ->leftjoin('ticket_service as b', 'b.id', '=', 'a.ServiceIDf')
                 ->leftjoin('m_unit as u', 'u.id', '=', 'a.id_unit')
+                ->orderBy('a.id','desc')
                 ->get();
         } else {
             $datas = DB::table('ticket_service_sub as a')
@@ -60,6 +61,7 @@ class SubserviceController extends Controller
             )
             ->leftjoin('ticket_service as b', 'b.id', '=', 'a.ServiceIDf')
             ->leftjoin('m_unit as u', 'u.id', '=', 'a.id_unit')
+            ->orderBy('a.id','desc')
             ->get();
         }
         //dd($datas);
@@ -89,7 +91,8 @@ class SubserviceController extends Controller
                      })->get();
 
         $service = service::where(['ServiceStatus'=>'1'])->get();
-        return view('subservice.create', compact('service'));
+        $unit = DB::table('m_unit')->select('id', 'nama_unit', 'nik_atasan_service')->get();
+        return view('subservice.create', compact('service', 'unit'));
     }
 
     /**
@@ -152,8 +155,8 @@ class SubserviceController extends Controller
         $users = User::get();
 
         $service = Service::where(['ServiceStatus'=>'1'])->get();
-
-        return view('subservice.edit', compact('data', 'users','service'));
+        $unit = DB::table('m_unit')->select('id', 'nama_unit', 'nik_atasan_service')->get();
+        return view('subservice.edit', compact('data', 'users','service','unit'));
     }
 
     /**

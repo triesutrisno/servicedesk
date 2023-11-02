@@ -22,7 +22,7 @@
     <!-- Hari ini -->
     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
         <a href="{{ url('/home/detail/1') }}" style='color:#000000;text-decoration:none'>
-        <div class="card card-statistics">
+        <div class="card card-statistics" >
             <div class="card-body">
                 <div class="clearfix">
                     <div class="float-left">

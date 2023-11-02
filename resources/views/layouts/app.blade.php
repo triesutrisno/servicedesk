@@ -30,7 +30,7 @@
     {{-- <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row"> --}}
     <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-        <a class="navbar-brand brand-logo" href="{{ url('/home')}}" style="color: #2d2d2d">
+        <a class="navbar-brand brand-logo" href="{{ url('/home')}}" style="color: #000080">
           ServiceDesk
         </a>
            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -73,13 +73,13 @@
       @show
       </nav>
       <div class="main-panel">
-        <div class="content-wrapper">
+        <div class="content-wrapper2">
           @yield('content')
 
         </div>
         <footer class="footer">
           <div class="container-fluid clearfix">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © {{date('Y')}}
+            <span class="text-white d-block text-center text-sm-left d-sm-inline-block">Copyright © {{date('Y')}}
             <a href="https://tiket.silog.co.id/" target="_blank">Servicedesk Silog Group</a>. All rights reserved.</span>
           </div>
         </footer>

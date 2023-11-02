@@ -7,7 +7,7 @@
             "searching": false,
             "order": [[ 11, "asc" ]],
         });
-        table.column( 11 ).visible( false );
+        // table.column( 12 ).visible( false );
     });
 </script>
 @stop
@@ -22,6 +22,7 @@
 <div class="row" style="margin-top: 20px;">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
+            <div class="card-header p-1" style="background:#000080"></div>
             <div class="card-body">
               <h4 class="card-title">Data Tugasku</h4>
                 <form action="tugasku" method="post">
@@ -78,17 +79,17 @@
                     <tr>
                       <th>Action</th>
                       <th>Status</th>
-                      <th>Progres</th>
+                      <th>Progress</th>
                       <th>UserBy</th>
                       <th>Nomor</th>
                       <th>Tgl Buat</th>
-                      <!--<th>Layanan</th>-->
+                      <th>Layanan</th>
                       <th>Service</th>
                       <th>Subservice</th>
                       <th>Keterangan</th>
                       <th>Prioritas</th>
                       <th>Teknisi</th>
-                      <th>KodeStatus</th>
+                      <!-- <th>KodeStatus</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -144,8 +145,9 @@
                         </td>
                         <td>{{ $data->userBy }}</td>
                         <td class="py-1">{{$data->kode_tiket }}</td>
-                        <!--<td>{{ $data->nama_layanan }}</td>-->
+                        
                         <td>{{ date('d-m-Y H:i', strtotime($data->created_at)) }}</td>
+                        <td>{{ $data->nama_layanan }}</td>
                         <td>{{ $data->ServiceName }}</td>
                         <td>{{ $data->ServiceSubName }}</td>
                         <td>{{ $data->tiketKeterangan}}</td>
@@ -161,7 +163,7 @@
                           @endif
                         </td>
                         <td>{{ $data->namaTeknisi }}</td>
-                        <td>{{ $data->tiketStatus }}</td>
+                        <!-- <td>{{ $data->tiketStatus }}</td> -->
                     </tr>
                   @endforeach
                   </tbody>

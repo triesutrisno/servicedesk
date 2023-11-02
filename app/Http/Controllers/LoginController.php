@@ -32,6 +32,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $urle = env('API_BASE_URL')."/getLogin.php";
+        // $urle = "http://172.20.145.36/tiketsilog/getLogin.php";
         $response = Http::withHeaders([
                         'Content-Type' => 'application/json',
                         'token' => 'tiketing.silog.co.id'
@@ -42,10 +43,10 @@ class LoginController extends Controller
                 ]);
         $dtAPi = json_decode($response->getBody()->getContents(),true);
         $responStatus = $response->getStatusCode();
-        //dd($dtAPi);
+        // dd($dtAPi);exit;
         if($responStatus=='200'){
             $getUser = User::where(['username' => $request->email])->first();
-            //dd($getUser);
+            // dd($getUser);exit;
             if ($getUser === null) {
                 return redirect('/')->with('pesan', 'User tidak terdaftar aplikasi ini !');
             } else {

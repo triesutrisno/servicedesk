@@ -39,6 +39,10 @@ class TiketDataTable extends DataTable
             ->editColumn('nikUser', function ($tiket) {
                 return $tiket->userBy != null ? $tiket->userBy->name : "";
             })
+            ->editColumn('layananId', function ($tiket) {
+                // dd($tiket->layanan[0]->nama_layanan);exit;
+                return $tiket->layanan[0]->nama_layanan;
+            })
             ->editColumn('serviceId', function ($tiket) {
                 return $tiket->service->ServiceName;
             })
@@ -93,6 +97,9 @@ class TiketDataTable extends DataTable
                 if (request()->filled('jenis')) {
                     $query->whereIn('serviceId', request('jenis'));
                 }
+                if (request()->filled('layanan')) {
+                    $query->whereIn('layananId', request('layanan'));
+                }
                 if (request()->filled('teknisi')) {
                     $teknisi = request('teknisi');
                     $query->whereHas('tiketDetail', function ($query) use ($teknisi) {
@@ -113,7 +120,7 @@ class TiketDataTable extends DataTable
     public function query(Tiket $model)
     {
         // dd($model->newQuery());
-        return $model->with('userBy', 'service', 'tiketDetail')
+        return $model->with('userBy', 'service', 'tiketDetail','layanan')
             ->newQuery();
     }
 
@@ -161,6 +168,7 @@ class TiketDataTable extends DataTable
             Column::make('tiketKeterangan')->title('Keterangan'),
             Column::make('created_at')->title('Tgl Create'),
             Column::make('updated_at')->title('Tgl Update'),
+            Column::make('layananId')->title('Jenis Layanan'),
             Column::make('serviceId')->title('Jenis Service'),
             Column::make('subServiceId')->title('Sub Service'),
             Column::make('teknisi')->title('Teknisi')->orderable(false),

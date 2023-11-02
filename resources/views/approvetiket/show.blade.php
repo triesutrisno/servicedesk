@@ -73,6 +73,7 @@
 <div class="row" style="margin-top: 20px;">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
+        <div class="card-header p-1" style="background: #000080;"></div>
             <div class="card-body">
                 <h4 class="card-title">Data Tiket</h4>
                 <table class="table-responsive">
@@ -153,7 +154,7 @@
                         <tr>
                             <td>Keterangan</td>
                             <td>:</td>
-                            <td colspan="4">{{ $data[0]->tiketKeterangan}}</td>
+                            <td colspan="4" style="white-space:pre">{{ $data[0]->tiketKeterangan}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -216,7 +217,7 @@
                                 <tr>
                                     <td>Keterangan Reject</td>
                                     <td>:</td>
-                                    <td>
+                                    <td style="white-space:pre">
                                         {{$data[0]->reject_reason}}
                                     </td>
                                 </tr>
@@ -239,7 +240,7 @@
                                         @endif
                                     </a>
                                     <a href="#" class="float-right">{{ date('d-m-Y H:i', strtotime($dtHistori->created_at)) }}</a>
-                                    <p>{{ $dtHistori->keterangan }}</p>
+                                    <p>{!! nl2br(e( $dtHistori->keterangan)) !!}</p>
                                     @if($dtHistori->tglRTL!="")
                                         Tgl RTL : {{ date('d-m-Y H:i', strtotime($dtHistori->tglRTL)) }}
                                     @endif

@@ -138,9 +138,10 @@ class TiketController extends Controller
 
         $param = collect(request()->all());
         $param->put('jenis_opt', Service::pluck('serviceName', 'id'));
-
+        // dd($param);exit;
+        $layanan = Layanan::where(['status_layanan' => '1'])->get();
         return $dataTable
-            ->render('tiket.index2', ['param' => $param]);
+            ->render('tiket.index2', ['param' => $param, 'layanan' =>$layanan]);
     }
 
     /**
@@ -176,7 +177,9 @@ class TiketController extends Controller
         if (in_array($id2, $serviceSAP) && !in_array(session('infoUser')['USERNAME'], $arrayNIK)) {
             return redirect('/tiket')->with(['kode' => '90', 'pesan' => 'Anda tidak diijinkan mengakses menu ini !']);
         } else {
+            //testing aplikasi
             $eselon = substr(session('infoUser')['ESELON'], 0, 1);
+            // print_r($eselon);exit;
             $dtNextnumber = Nextnumber::where([
                 'tahun' => date("Y"),
                 'status' => 1,
@@ -245,6 +248,7 @@ class TiketController extends Controller
      */
     public function store(Request $request, $layananId, $serviceId)
     {
+        // dd($request);exit;
         // $request->validate([
         //     'tiketNikAtasanService' => 'required',
         // ]);
@@ -277,6 +281,8 @@ class TiketController extends Controller
             $request->request->add(['comp' => session('infoUser')['PERUSAHAAN']]);
             $request->request->add(['unit' => session('infoUser')['UNIT']]);
             $request->request->add(['biro' => session('infoUser')['BIROBU']]);
+            // $request->request->add(['unit' => 'H1070200']);
+            // $request->request->add(['biro' => 'H1070000']);
             $request->request->add(['nikUser' => session('infoUser')['NIK']]);
             $request->request->add(['tiketEmail' => session('infoUser')['EMAIL']]);
             $request->request->add(['file' => $gambar]);
@@ -301,6 +307,8 @@ class TiketController extends Controller
                         $request->request->add(['tiketApprove' => 'W']);
                         $request->request->add(['tiketNikAtasan' => session('infoUser')['AL_NIK']]);
                         $request->request->add(['tiketEmailAtasan' => session('infoUser')['AL_EMAIL']]);
+                        // $request->request->add(['tiketNikAtasan' => '942834']);
+                        // $request->request->add(['tiketEmailAtasan' => 'tomi@silog.co.id']);
                         $request->request->add(['tiketApproveService' => 'N']);
                         $request->request->add(['tiketStatus' => '1']);
                     }
@@ -320,6 +328,8 @@ class TiketController extends Controller
             $atasanUnit = $subService->unit->atasanUnit;
             $request->request->add(['tiketNikAtasanService' => $atasanUnit->username]);
             $request->request->add(['tiketEmailAtasanService' => $atasanUnit->email]);
+            // $request->request->add(['tiketNikAtasanService' => '942834']);
+            // $request->request->add(['tiketEmailAtasanService' => 'tomi@silog.co.id']);
             //
 
             Tiket::create($request->all());
@@ -382,7 +392,7 @@ class TiketController extends Controller
                         ->post($urle, [
                             'tanggal' => date("Y-m-d H:i:s"),
                             'recipients' => $request->tiketEmailAtasanService,
-                            #'recipients' => 'triesutrisno@gmail.com',
+                            // 'recipients' => 'tomi@silog.co.id',
                             'cc' => '',
                             'subjectEmail' => 'Info Permintaan Tiket',
                             'isiEmail' => addslashes($isiEmail),
@@ -395,6 +405,7 @@ class TiketController extends Controller
 
                 // $users = User::where(['username' => $request->tiketNikAtasanService])->get();
                 $users = User::where(['username' => $tiket->subService->nik_atasan_service])->get();
+                // $users = User::where(['username' => '942834'])->get();
                 if ($users[0]['idTelegram'] != "") {
                     $isiTelegram = "Mohon untuk segera diapprove permintaan tiket dengan: \n";
                     $isiTelegram .= "Nomer : " . $request->kode_tiket . " \n";
@@ -571,7 +582,7 @@ class TiketController extends Controller
                             ->post($urle, [
                                 'tanggal' => date("Y-m-d H:i:s"),
                                 'recipients' => $request->tiketEmailAtasanService,
-                                #'recipients' => 'triesutrisno@gmail.com',
+                                // 'recipients' => 'tomi@silog.co.id',
                                 'cc' => '',
                                 'subjectEmail' => 'Info Permintaan Tiket',
                                 'isiEmail' => addslashes($isiEmail),
