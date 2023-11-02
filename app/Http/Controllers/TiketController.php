@@ -594,7 +594,7 @@ class TiketController extends Controller
                     }
 
                     // $users = User::where(['username' => $request->tiketNikAtasanService])->get();
-                    $users = User::where(['username' => $tiket->subService->nik_atasan_service])->get();
+                    $users = User::where(['username' => $subService->unit->nik_atasan_service])->get();
                     if ($users[0]['idTelegram'] != "") {
                         $isiTelegram = "Mohon untuk segera diapprove permintaan tiket dengan: \n";
                         $isiTelegram .= "Nomer : " . $request->kode_tiket . " \n";
