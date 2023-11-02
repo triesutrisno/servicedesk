@@ -654,6 +654,11 @@ class TiketdetailController extends Controller
             ->where(['tiketDetailId' => $tiketDetailId])
             ->get();
 
+        //validasi nik
+        if (empty($request->namaTeknisi) || !isset($tktDetail[0]['nikTeknisi'])) {
+            return redirect('/tugasku')->with(['kode' => '90', 'pesan' => 'Teknisi Belum Dipilih']);
+        }
+
         $addKet = "Diforward ke " . $request->namaTeknisi;
         if (session('infoUser')['NIK'] == $tktDetail[0]['nikTeknisi']) {
             Tiketdetail::where('tiketDetailId', $tiketDetailId)
