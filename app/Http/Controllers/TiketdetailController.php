@@ -35,7 +35,7 @@ class TiketdetailController extends Controller
         //if($status!=""){
         //    $where.="'tiketStatus'=>$status";
         //}
-
+        // DB::enableQueryLog();
         $datas = DB::table('tiket_detail as a')
             ->select(
                 DB::raw(
@@ -96,10 +96,13 @@ class TiketdetailController extends Controller
             ->when($status, function ($query, $status) {
                 return $query->where('tiketStatus', $status);
             })
-            ->orderBy('b.kode_tiket', 'desc')
             ->orderBy('b.tiketStatus', 'asc')
+            ->orderBy('b.kode_tiket', 'desc')
+            
             ->get();
+            // dd(DB::getQueryLog());exit;
 
+// dd($query);
 
         return view('tiket_detail.index', ['datas' => $datas, 'kode' => '', 'pesan' => '', 'nomor' => $nomer, 'status' => $status]);
     }
