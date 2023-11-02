@@ -47,7 +47,7 @@ class TiketDataTable extends DataTable
             })
             ->editColumn('teknisi', function ($tiket) {
                 return $tiket->tiketDetail != null ?
-                    $tiket->tiketDetail->teknisi->name : "";
+                    ($tiket->tiketDetail->teknisi != null ? $tiket->tiketDetail->teknisi->name : "") : "";
             })
             ->editColumn('progres', function ($tiket) {
                 return $tiket->tiketDetail != null ?
