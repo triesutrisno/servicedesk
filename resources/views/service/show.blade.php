@@ -18,6 +18,7 @@ $(document).ready(function() {
               <div class="row flex-grow">
                 <div class="col-12">
                   <div class="card">
+                  <div class="card-header p-1" style="background: #000080;"></div>
                     <div class="card-body">
                       <h4 class="card-title">Detail <b>{{$data->nama}}</b></h4>
                       <form class="forms-sample">

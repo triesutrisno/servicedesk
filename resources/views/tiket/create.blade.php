@@ -20,6 +20,7 @@
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
+        <div class="card-header p-1" style="background: #000080;"></div>
             <div class="card-body">
                 <h4 class="card-title">Tambah Data Tiket</h4>
                 <div class="row">

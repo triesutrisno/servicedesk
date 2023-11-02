@@ -20,6 +20,7 @@ class PersetujuantiketController extends Controller
      */
     public function index()
     {
+        // \DB::enableQueryLog();
         $datas = DB::table('tiket as a')
             ->select(
                 'a.tiketId',
@@ -59,7 +60,7 @@ class PersetujuantiketController extends Controller
             ->orderBy('a.tiketStatus', 'asc')
             ->orderBy('a.kode_tiket', 'asc')
             ->get();
-
+            // dd(\DB::getQueryLog()); 
         $urle = env('API_BASE_URL') . "/getAnakBuah.php";
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',

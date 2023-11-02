@@ -14029,7 +14029,8 @@ input:focus {
       .sidebar .nav .nav-item.nav-profile .nav-link .user-wrapper {
         display: -webkit-flex;
         display: flex;
-        margin-bottom: 30px; }
+        margin-bottom: 10px;
+        margin-top: 10px; }
         .sidebar .nav .nav-item.nav-profile .nav-link .user-wrapper .profile-image {
           width: 40px;
           height: 40px; }
@@ -14070,7 +14071,8 @@ input:focus {
           background: #000; }
 
 .sidebar-dark .sidebar {
-  background: #161a27; }
+  background: #161a27; 
+}
   .sidebar-dark .sidebar .nav .nav-item .collapse.show,
   .sidebar-dark .sidebar .nav .nav-item .collapsing {
     background: #1f2537; }
@@ -14131,7 +14133,8 @@ input:focus {
 /* Navbar */
 .navbar.default-layout {
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(120deg, #00e4d0, #5983e8);
+  /* background: linear-gradient(120deg, #00e4d0, #5983e8); */
+  background: #000080;
   transition: background 0.25s ease;
   -webkit-transition: background 0.25s ease;
   -moz-transition: background 0.25s ease;
@@ -14145,7 +14148,8 @@ input:focus {
     width: 255px;
     height: 63px; }
     .sidebar-dark .navbar.default-layout .navbar-brand-wrapper {
-      background: #161a27; }
+      background: #161a27; 
+    }
     .navbar.default-layout .navbar-brand-wrapper .navbar-brand {
       color: #ffffff;
       font-size: 1.5rem;
@@ -14464,6 +14468,7 @@ html {
   /* .page-body-wrapper:not(.auth-page) {
     padding-top: 63px; 
   } */
+  
   .page-body-wrapper.full-page-wrapper {
     width: 100%;
     min-height: 100vh; }
@@ -14482,11 +14487,18 @@ html {
       width: 100%; } }
 
 .content-wrapper {
-  background: #f2f8f9;
+  /* background: #f2f8f9; */
   padding: 1.5rem 1.7rem;
   width: 100%;
   -webkit-flex-grow: 1;
   flex-grow: 1; }
+
+  .content-wrapper2 {
+    background: #f2f8f9;
+    padding: 1.5rem 1.7rem;
+    width: 100%;
+    -webkit-flex-grow: 1;
+    flex-grow: 1; }
 
 .container-scroller {
   overflow: hidden; }
@@ -14508,7 +14520,8 @@ pre {
 
 /* Footer */
 .footer {
-  background: #f2f8f9;
+  /* background: #f2f8f9; */
+  background: #000080;
   padding: 20px 1rem;
   transition: all 0.25s ease;
   -moz-transition: all 0.25s ease;
@@ -14758,7 +14771,7 @@ pre {
       border: 2px solid #cbcbcb; }
     .purchace-popup > div > span .btn.purchase-button {
       background-color: #d209fa;
-      *zoom: 1;
+      zoom: 1;
       filter: progid:DXImageTransform.Microsoft.gradient(gradientType=1, startColorstr='#FFD209FA', endColorstr='#FF4F81D4');
       background-image: -owg-linear-gradient(left, #d209fa 1%, #4f81d4 100%);
       background-image: -webkit-linear-gradient(left, #d209fa 1%, #4f81d4 100%);
@@ -16372,6 +16385,10 @@ ul {
 .auth.auth-bg-1 {
   background: url("../images/auth/login_1.jpg");
   background-size: cover; }
+  #background {
+    background: url("../images/auth/bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat; }
 
 .auth.register-bg-1 {
   background: url("../images/auth/register.jpg") center center no-repeat;

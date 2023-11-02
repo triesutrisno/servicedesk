@@ -27,6 +27,7 @@
 <div class="row" style="margin-top: 20px;">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
+        <div class="card-header p-1" style="background: #000080;"></div>
             <div class="card-body">
                 <form method="POST" action="{{ url('persetujuantiket/approve') }}/{{ $data[0]->tiketId }}" enctype="multipart/form-data">
                 {{ csrf_field() }}

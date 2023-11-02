@@ -18,6 +18,7 @@ class ApprovetiketController extends Controller
      */
     public function index()
     {
+        // \DB::enableQueryLog();
         $datas = DB::table('tiket as a')
             ->select(
                 'a.tiketId',
@@ -53,7 +54,7 @@ class ApprovetiketController extends Controller
             ->orderBy('a.tiketStatus', 'asc')
             ->orderBy('a.kode_tiket', 'asc')
             ->get();
-
+            // dd(\DB::getQueryLog());   
         return view('approvetiket.index', ['datas' => $datas, 'kode' => '', 'pesan' => '']);
     }
 

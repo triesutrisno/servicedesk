@@ -2,7 +2,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('#table').DataTable({
-      "iDisplayLength": 50
+      "iDisplayLength": 10
     });
 
 } );
@@ -25,7 +25,7 @@
 <div class="row" style="margin-top: 20px;">
 <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
-
+              <div class="card-header p-1" style="background: #000080;"></div>
                 <div class="card-body">
                   <h4 class="card-title">Data Sub Service</h4>
 
@@ -37,6 +37,7 @@
                         <th>Nama Service</th>
                         <th>Nama Sub Service</th>
                         <th>Unit</th>
+                        <!-- <th>Standart Penyelesaian</th> -->
                         <th>Status</th>
                         <th>Action</th>
                         </tr>
@@ -48,11 +49,12 @@
                           <td class="py-1">{{ $data->ServiceName }}</td>
                           <td class="py-1">{{$data->ServiceSubName}}</td>
                           <td class="py-1">{{$data->nama_unit}}</td>
+                          
                           <td>
                             @if($data->ServiceSubStatus == '1')
                             <label class="badge badge-success">Aktif</label>
                             @elseif($data->ServiceSubStatus == '0')
-                            <label class="badge badge-dark">Tidak Aktif</label>
+                            <label class="badge badge-danger">Tidak Aktif</label>
                             @endif
                           <td>
                            <div class="btn-group dropdown">
@@ -65,6 +67,7 @@
 
                           </div>
                         </div>
+                        <!-- <a href="{{route('subservice.edit', $data->id)}}"><span class="fa fa-edit"></span></a> -->
                           </td>
                         </tr>
                       @endforeach

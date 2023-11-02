@@ -20,6 +20,7 @@
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
+                <div class="card-header p-1" style="background: #000080;"></div>
                 <div class="card-body">
                     <h4 class="card-title">Data Tiket</h4>
                     <div class="col-lg-12 alert alert-warning">
@@ -72,11 +73,20 @@
                                     <input type="text" name="teknisi" class="form-control" autocomplete="off"
                                         value="{{ $param->get('teknisi') }}">
                                 </div>
+                                <div class="col-md-4">
+                                    <label class="text-small">Layanan : </label>
+                                    <select id="layanan" name="layanan[]" class="form-control js-example basic-multiple"
+                                        multiple="multiple" style="width: 100%">
+                                        @foreach ($layanan as $value)
+                                            <option value="{{ $value->id }}">{{ $value->nama_layanan }} - {{ $value->kode_biro }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <br />
-                                    <button type="submit" class="btn btn-success mr-2">Cari</button>
+                                    <button type="submit" class="btn btn-success mr-2"><i class="fa fa-search"></i>Cari</button>
                                 </div>
                             </div>
                         </form>
@@ -158,5 +168,9 @@
         var jenisParam = searchParams.getAll('jenis[]');
         $('#jenis').val(jenisParam);
         $('#jenis').select2();
+
+        var jenisLayanan = searchParams.getAll('layanan[]');
+        $('#layanan').val(jenisLayanan);
+        $('#layanan').select2();
     </script>
 @endpush
