@@ -37,7 +37,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         #$tikets = Tiket::get();/ 
-        $filter_layanan = $request->layanan == 'all' || $request->layanan == '' ? ['1','5','6'] : [$request->layanan];
+        $filter_layanan = $request->layanan == 'all' || $request->layanan == '' ? ['1','5','6','7','8'] : [$request->layanan];
         $layanan = Layanan::where(['status_layanan' => '1'])->get();
         $tiketMasukHariIni = Tiket::where('created_at', '>=', date('Y-m-d'))->whereIn('layananId', $filter_layanan)->count();
         // print_r($filter_layanan);
