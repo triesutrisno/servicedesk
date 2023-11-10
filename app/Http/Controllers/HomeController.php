@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Tiket;
 use App\Tiketdetail;
 use App\Infouser;
+use App\Layanan;
 use Illuminate\Support\Facades\Http;
 
 
@@ -33,20 +34,25 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        #$tikets = Tiket::get();
-        $tiketMasukHariIni = Tiket::where('created_at', '>=', date('Y-m-d'))->count();
-        $tiketMasukBulanIni = Tiket::where('created_at', '>=', date('Y-m-01'))->count();
-        $tiketMasukTahunIni = Tiket::where('created_at', '>=', date('Y-01-01'))->count();
+        #$tikets = Tiket::get();/ 
+        $filter_layanan = $request->layanan == 'all' || $request->layanan == '' ? ['1','5','6'] : [$request->layanan];
+        $layanan = Layanan::where(['status_layanan' => '1'])->get();
+        $tiketMasukHariIni = Tiket::where('created_at', '>=', date('Y-m-d'))->whereIn('layananId', $filter_layanan)->count();
+        // print_r($filter_layanan);
+        $tiketMasukBulanIni = Tiket::where('created_at', '>=', date('Y-m-01'))->whereIn('layananId', $filter_layanan)->count();
+        $tiketMasukTahunIni = Tiket::where('created_at', '>=', date('Y-01-01'))->whereIn('layananId', $filter_layanan)->count();
 
-        $tiketCloseHariIni = Tiket::where('updated_at', '>=', date('Y-m-d'))->whereIn('tiketStatus', ['7',  '8',])->count();
-        $tiketCloseBulanIni = Tiket::where('updated_at', '>=', date('Y-m-01'))->whereIn('tiketStatus', ['7',  '8',])->count();
-        $tiketCloseTahunIni = Tiket::where('updated_at', '>=', date('Y-01-01'))->whereIn('tiketStatus', ['7',  '8',])->count();
+        $tiketCloseHariIni = Tiket::where('updated_at', '>=', date('Y-m-d'))->whereIn('layananId', $filter_layanan)->whereIn('tiketStatus', ['7',  '8',])->count();
+        $tiketCloseBulanIni = Tiket::where('updated_at', '>=', date('Y-m-01'))->whereIn('layananId', $filter_layanan)->whereIn('tiketStatus', ['7',  '8',])->count();
+        $tiketCloseTahunIni = Tiket::where('updated_at', '>=', date('Y-01-01'))->whereIn('layananId', $filter_layanan)->whereIn('tiketStatus', ['7',  '8',])->count();
         $dataTiketStatus = Tiket::selectRaw("count(*) as total, MONTH(created_at) month, tiketStatus, serviceId")
+            ->whereIn('layananId', $filter_layanan)
             ->groupBy('month', 'tiketStatus', 'serviceId')->get();
 
         $dataTiket = Tiket::where('tiket.created_at', '>=', date('Y-01-01'))
+        ->whereIn('layananId', $filter_layanan)
             ->selectRaw("count(*) as total, MONTH(tiket.created_at) month,
             tiketStatus, serviceId, ticket_service.ServiceName,
             CASE
@@ -181,7 +187,9 @@ class HomeController extends Controller
             'dataGraphByUnit' => $dataGraphByUnit,
             'dataGraphByUnitPct' => $dataGraphByUnitPct,
             'kode' => '',
-            'pesan' => ''
+            'pesan' => '',
+            'layanan' => $layanan,
+            'requestLayanan' => $request->layanan
         ]);
     }
 
