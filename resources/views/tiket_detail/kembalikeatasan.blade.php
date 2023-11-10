@@ -107,7 +107,7 @@
                             <tr>
                                 <td>Deskripsi Tiket</td>
                                 <td>:</td>
-                                <td colspan="4" class="datae">{{ $datas[0]->tiketKeterangan}}</td>
+                                <td colspan="4" class="datae" style="white-space:pre">{{ $datas[0]->tiketKeterangan}}</td>
                             </tr>
                             <tr>
                                 <td>Keterangan *</td>
