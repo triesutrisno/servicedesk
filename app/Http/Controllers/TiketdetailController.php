@@ -236,6 +236,7 @@ class TiketdetailController extends Controller
                 Tiket::where('tiketId', $tktDetail[0]['tiketId'])
                     ->update([
                         'tiketStatus' => '9',
+                        'sort' => '7',
                         'tiketMaindays' => $request->tiketMaindays,
                         'subServiceId' => $request->subServiceId
                     ]);
@@ -258,6 +259,7 @@ class TiketdetailController extends Controller
                 Tiket::where('tiketId', $tktDetail[0]['tiketId'])
                     ->update([
                         'tiketStatus' => '10',
+                        'sort' =>'6',
                         'tiketMaindays' => $request->tiketMaindays,
                         'subServiceId' => $request->subServiceId
                     ]);
@@ -340,6 +342,7 @@ class TiketdetailController extends Controller
                 Tiket::where('tiketId', $tktDetail[0]['tiketId'])
                     ->update([
                         'tiketStatus' => '7',
+                        'sort' => '4',
                         'tiketMaindays' => $request->tiketMaindays,
                         'subServiceId' => $request->subServiceId
                     ]);
@@ -427,6 +430,7 @@ class TiketdetailController extends Controller
                 Tiket::where('tiketId', $tktDetail[0]['tiketId'])
                     ->update([
                         'tiketStatus' => '6',
+                        'sort' => '3',
                         'tiketMaindays' => $request->tiketMaindays,
                         'subServiceId' => $request->subServiceId
                     ]);
@@ -676,6 +680,7 @@ class TiketdetailController extends Controller
             Tiket::where('tiketId', $tiketId)
                 ->update([
                     'tiketStatus' => '11',
+                    'sort' => '2',
                     'flagForward' => '1', // flag forward
                     'subServiceId' => $request->subServiceId
                 ]);
@@ -861,6 +866,7 @@ class TiketdetailController extends Controller
             Tiket::where('tiketId', $tiketId)
                 ->update([
                     'tiketStatus' => '11',
+                    'sort' => '2',
                     'tiketApproveService' => "W",
                     'tiketTglApproveService' => NULL,
                     'tiketNikAtasanService' => session('infoUser')['AL_NIK'],
