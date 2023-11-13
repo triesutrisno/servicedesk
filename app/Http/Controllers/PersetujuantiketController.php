@@ -180,6 +180,7 @@ class PersetujuantiketController extends Controller
                     'tiketApproveService' => "A",
                     'tiketStatus' => "4",
                     'tiketSeverity' => $request->tiketSeverity,
+                    'sort' => "1"
                 ]);
 
             if (Tiketdetail::where(['tiketId' => $id])->doesntExist()) { // Cek data apakah sudah ada atau belum di database
@@ -299,6 +300,7 @@ class PersetujuantiketController extends Controller
                     'tiketTglApproveService' => date("Y-m-d H:i:s"),
                     'tiketStatus' => "5",
                     'reject_reason' => $reject_reason,
+                    'sort' => "10"
                 ]);
 
             $histori = new Histori();
@@ -408,6 +410,7 @@ class PersetujuantiketController extends Controller
                         'tiketStatus' => "1",
                         'flagFeedback' => "1",
                         'remarkFeedback' => $request->remark,
+                        'sort' => "11"
                     ]);
             } else {
                 Tiket::where('tiketId', $request->tiketId)
@@ -419,6 +422,7 @@ class PersetujuantiketController extends Controller
                         'tiketStatus' => "1",
                         'flagFeedback' => "1",
                         'remarkFeedback' => $request->remark,
+                        'sort' => "11"
                     ]);
             }
 
@@ -723,7 +727,8 @@ class PersetujuantiketController extends Controller
                     'tiketNikAtasanService' => $request->nikTeknisi,
                     'tiketEmailAtasanService' => $request->emailTeknisi,
                     'flagForward' => '1', // flag forward
-                    'tiketStatus' => '11' // status Forward
+                    'tiketStatus' => '11', // status Forward
+                    'sort' => "2"
                 ]);
 
             $forward = new Forward();

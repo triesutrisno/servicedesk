@@ -3,35 +3,74 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex-row">
+    {{-- <div class="flex-row">
         <div class="form-group text-center">
             <a href="{{ url('tiket/create') }}" class="btn btn-primary btn-rounded btn-fw"><i class="fa fa-plus"></i> Open
                 Ticket</a>
 
             <a href="{{ url('tiket') }}" class="btn btn-danger btn-rounded btn-fw"><i class="fa fa-book"></i> Close Ticket</a>
         </div>
-    </div>
+    </div> --}}
     <div class="container-fluid">
-        <fieldset class="scheduler-border">
-            <legend class="scheduler-border">Data Tiket</legend>
-            <form action="{{ url('home') }}" method="get">
-            <div class="row">
-                    <div class="col-md-3 col-lg-3 col-xs-12 mb-3">
-                        <label class="text-small">Layanan : </label>
-                                            <select id="layanan" name="layanan" class="form-control js-example basic-multiple"
-                                                style="width: 100%">
-                                                <option value="all">Pilih Semua</option>
-                                                @foreach ($layanan as $value)
-                                                    <option value="{{ $value->id }}" {{ $requestLayanan == $value->id ? 'selected' : ''}}>{{ $value->nama_layanan }} - {{ $value->kode_biro }}</option>
-                                                @endforeach
-                                            </select>
+        <div class="card mb-3">
+            <div class="card-header"><h2>Dashboard</h2></div>
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-sm col-12">
+                        <form action="{{ url('home') }}" method="get">
+                            <div class="row">
+                                    <div class="col-md-6 col-lg-6 col-xs-12 mb-3">
+                                        <label class="text-small">Layanan : </label>
+                                                            <select id="layanan" name="layanan" class="form-control js-example basic-multiple"
+                                                                style="width: 100%">
+                                                                <option value="all">Pilih Semua</option>
+                                                                @foreach ($layanan as $value)
+                                                                    <option value="{{ $value->id }}" {{ $requestLayanan == $value->id ? 'selected' : ''}}>{{ $value->nama_layanan }} - {{ $value->kode_biro }}</option>
+                                                                @endforeach
+                                                            </select>
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 col-xs-12 mb-3">
+                                        <br>
+                                        <button type="submit" class="btn btn-primary mr-2"><i class="fa fa-search"></i>Search</button>
+                                    </div>
+                                </div>
+                            </form>
                     </div>
-                    <div class="col-md-3 col-lg-3 col-xs-12 mb-3">
-                        <br>
-                        <button type="submit" class="btn btn-primary mr-2"><i class="fa fa-search"></i>Search</button>
+                    <div class="col-sm-auto col-12 mt-4 mt-sm-0">
+                        <div class="form-group  justify-content-sm-end">
+                            <a href="{{ url('tiket/create') }}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Open
+                                Ticket</a>
+                
+                            <a href="{{ url('tiket') }}" class="btn btn-danger btn-sm"><i class="fa fa-book"></i> Close Ticket</a>
+                           
+                        </div>
                     </div>
+                    {{-- <div class="col-md-6 col-lg-6">
+                        <form action="{{ url('home') }}" method="get">
+                            <div class="row">
+                                    <div class="col-md-6 col-lg-6 col-xs-12 mb-3">
+                                        <label class="text-small">Layanan : </label>
+                                                            <select id="layanan" name="layanan" class="form-control js-example basic-multiple"
+                                                                style="width: 100%">
+                                                                <option value="all">Pilih Semua</option>
+                                                                @foreach ($layanan as $value)
+                                                                    <option value="{{ $value->id }}" {{ $requestLayanan == $value->id ? 'selected' : ''}}>{{ $value->nama_layanan }} - {{ $value->kode_biro }}</option>
+                                                                @endforeach
+                                                            </select>
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 col-xs-12 mb-3">
+                                        <br>
+                                        <button type="submit" class="btn btn-primary mr-2"><i class="fa fa-search"></i>Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                    </div> --}}
                 </div>
-            </form>
+                
+                
+            </div>
+        </div>
+            
                 <div class="row">
             
                     <!-- First Row -->
@@ -470,7 +509,7 @@
                         <iframe src="https://dashboard.silog.co.id/public/dashboard/b9aeb033-a2b1-4d27-9c2b-c748abc84238" frameborder="0"
                             width="100%" height="800" allowtransparency></iframe>
                 </div> --}}
-        </fieldset>
+
     </div>
     
 @endsection

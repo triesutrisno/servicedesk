@@ -294,6 +294,7 @@ class TiketController extends Controller
                 $request->request->add(['tiketEmailAtasan' => '']);
                 $request->request->add(['tiketApproveService' => 'W']);
                 $request->request->add(['tiketStatus' => '2']);
+                $request->request->add(['sort' => '9']);
             } else {
                 if (session('infoUser')['AL_NIK'] != "") {
                     if (in_array(session('infoUser')['ESELON'], array('10', '11', '12')) || session('infoUser')['AL_ESELON'] == "D1") {
@@ -303,6 +304,7 @@ class TiketController extends Controller
                         $request->request->add(['tiketEmailAtasan' => '']);
                         $request->request->add(['tiketApproveService' => 'W']);
                         $request->request->add(['tiketStatus' => '2']);
+                        $request->request->add(['sort' => '9']);
                     } else {
                         $request->request->add(['tiketApprove' => 'W']);
                         $request->request->add(['tiketNikAtasan' => session('infoUser')['AL_NIK']]);
@@ -311,6 +313,7 @@ class TiketController extends Controller
                         // $request->request->add(['tiketEmailAtasan' => 'tomi@silog.co.id']);
                         $request->request->add(['tiketApproveService' => 'N']);
                         $request->request->add(['tiketStatus' => '1']);
+                        $request->request->add(['sort' => '10']);
                     }
                 } else {
                     $request->request->add(['tiketApprove' => 'A']);
@@ -319,6 +322,7 @@ class TiketController extends Controller
                     $request->request->add(['tiketEmailAtasan' => '']);
                     $request->request->add(['tiketApproveService' => 'W']);
                     $request->request->add(['tiketStatus' => '2']);
+                    $request->request->add(['sort' => '9']);
                 }
             }
 
@@ -862,6 +866,7 @@ class TiketController extends Controller
         Tiket::where('tiketId', $id)
             ->update([
                 'tiketStatus' => 8,
+                'sort' =>'5'
             ]);
 
         $tiketDetail = Tiketdetail::where('tiketId', '=', $id)->get();

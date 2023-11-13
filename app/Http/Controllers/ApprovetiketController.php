@@ -71,6 +71,7 @@ class ApprovetiketController extends Controller
                     'tiketTglApprove' => date("Y-m-d H:i:s"),
                     'tiketApproveService' => "W",
                     'tiketStatus' => "2",
+                    'sort' => '12',
                 ]);
 
             $histori = new Histori();
@@ -184,6 +185,7 @@ class ApprovetiketController extends Controller
                     'tiketTglApprove' => date("Y-m-d H:i:s"),
                     'tiketApproveService' => "N",
                     'tiketStatus' => "3",
+                    'sort' => '13',
                     'reject_reason' => $reject_reason
                 ]);
 
