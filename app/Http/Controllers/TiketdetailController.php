@@ -96,7 +96,8 @@ class TiketdetailController extends Controller
             ->when($status, function ($query, $status) {
                 return $query->where('tiketStatus', $status);
             })
-            ->orderBy('b.tiketStatus', 'asc')
+            ->orderBy('b.sort', 'asc')
+            // ->orderBy('b.tiketStatus', 'asc')
             ->orderBy('b.kode_tiket', 'desc')
             
             ->get();
