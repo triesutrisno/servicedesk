@@ -37,7 +37,8 @@ class Tiket extends Model
         'flagFeedback',
         'remarkFeedback',
         'tiketSeverity',
-        'tiketMaindays'
+        'tiketMaindays',
+        'sort'
     ];
 
     public function layanan()
