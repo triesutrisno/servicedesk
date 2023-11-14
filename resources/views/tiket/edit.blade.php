@@ -16,14 +16,14 @@
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
             //alert(this.files[0].size/1024);
-            var filesize = parseFloat(this.files[0].size / 1024 / 1024).toFixed(2); // dalam KB
+            var filesize = parseFloat(this.files[0].size / 1024).toFixed(2); // dalam KB
             var filetype = $(this).val().split('.').pop().toLowerCase();
             //if($.inArray(filetype, ['xlsx', 'xls', 'docx', 'doc'] == -1){
 
             //}
             //alert(filesize);
-            if(filesize > 2){
-                alert('Maaf size file yang anda masukan melebihi kapasitas. Size file maximal 2Mb');
+            if(filesize >= 1000){
+                alert('Maaf size file yang anda masukan melebihi kapasitas. Size file maximal 1Mb');
                 $("#simpan").removeClass('btn-success');
                 $("#simpan").addClass('btn-secondary');
                 $("#simpan").prop('disabled', true);
