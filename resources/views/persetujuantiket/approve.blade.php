@@ -109,7 +109,7 @@
                             <tr>
                                 <td>Keterangan</td>
                                 <td>:</td>
-                                <td colspan="4">{{ $data[0]->tiketKeterangan}}</td>
+                                <td colspan="4" style="white-space:pre">{{ $data[0]->tiketKeterangan}}</td>
                             </tr>                        
                         </tbody>
                     </table>

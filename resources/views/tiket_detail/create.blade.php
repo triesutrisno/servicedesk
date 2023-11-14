@@ -143,7 +143,7 @@
                             <tr>
                                 <td>Keterangan *</td>
                                 <td>:</td>
-                                <td colspan="4" class="datae">
+                                <td colspan="4" class="datae" style="white-space:pre">
                                     <textarea class="form-control" required id="keterangan" name="keterangan" rows="6">{{ $datas[0]->keterangan }}</textarea>  
                                 </td>
                             </tr>  
