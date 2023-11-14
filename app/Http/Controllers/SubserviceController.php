@@ -91,7 +91,7 @@ class SubserviceController extends Controller
                      })->get();
 
         $service = service::where(['ServiceStatus'=>'1'])->get();
-        $unit = DB::table('m_unit')->select('id', 'nama_unit', 'nik_atasan_service')->get();
+        $unit = DB::table('m_unit')->select('id', 'nama_unit', 'nik_atasan_service','kode_unit')->get();
         return view('subservice.create', compact('service', 'unit'));
     }
 
@@ -155,7 +155,7 @@ class SubserviceController extends Controller
         $users = User::get();
 
         $service = Service::where(['ServiceStatus'=>'1'])->get();
-        $unit = DB::table('m_unit')->select('id', 'nama_unit', 'nik_atasan_service')->get();
+        $unit = DB::table('m_unit')->select('id', 'nama_unit', 'nik_atasan_service','kode_unit')->get();
         return view('subservice.edit', compact('data', 'users','service','unit'));
     }
 
