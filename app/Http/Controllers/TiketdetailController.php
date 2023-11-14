@@ -365,7 +365,7 @@ class TiketdetailController extends Controller
                     $isiEmail .= "<td>" . $tktDetail[0]['tiket'][0]['tiketKeterangan'] . "</td>";
                     $isiEmail .= "</tr>";
                     $isiEmail .= "<tr>";
-                    $isiEmail .= "<td>Remak</td>";
+                    $isiEmail .= "<td>Remark</td>";
                     $isiEmail .= "<td>:</td>";
                     $isiEmail .= "<td>" . $request->keterangan . "</td>";
                     $isiEmail .= "</tr>";

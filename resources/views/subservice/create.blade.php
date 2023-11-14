@@ -56,7 +56,7 @@
                                         <!-- <option value="1">SYSTEM DEVELOPMENT</option>
                                         <option value="2">IT INFRASTRUCTURE MANAGEMENT</option> -->
                                         @foreach ($unit as $key => $val)
-                                        <option value="{{ $val->id }}">{{ $val->nama_unit }}</option>
+                                        <option value="{{ $val->id }}">{{ $val->nama_unit }} - {{ $val->kode_unit }}</option>
                                         @endforeach
                                     </select>
                                 </div>
