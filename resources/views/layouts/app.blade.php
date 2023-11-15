@@ -44,7 +44,7 @@
 
           <li class="nav-item dropdown d-xl-inline-block">
             <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-              <span class="profile-text">Hello, {{Auth::user()->name}} !</span>
+              <span class="profile-text">Hello, {{Auth::user()->name}}</span>
                 @if(Auth::user()->gambar == '')
                   <img class="img-xs rounded-circle"  src="{{asset('images/user/default.png')}}" alt="profile image">
                 @else
@@ -56,7 +56,7 @@
                     <div class="d-flex border-bottom">
                     </div>
                 </a>
-                <a class="dropdown-item" style="margin-top: 20px;" href="{{ url('/useredit') }}">Edit Profile</a>
+                {{-- <a class="dropdown-item" style="margin-top: 20px;" href="{{ url('/useredit') }}">Edit Profile</a> --}}
                 <a class="dropdown-item" href="{{ url('/logout') }}">Sign Out</a>
             </div>
           </li>
