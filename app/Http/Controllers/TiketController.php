@@ -158,7 +158,7 @@ class TiketController extends Controller
 
     public function created($id)
     {
-        $service = Service::where(['ServiceStatus' => '1', 'id_layanan' => $id])->orderBy('min_eselon', 'desc')->get();
+        $service = Service::where(['ServiceStatus' => '1', 'id_layanan' => $id])->orderBy('keterangan', 'asc')->get();
         $userLevel = Userlevel::where(['status' => '1', 'level' => '1'])->orderBy('nik', 'asc')->get()->toArray();
         foreach ($userLevel as $val) {
             $levelUser[] = $val['nik'];

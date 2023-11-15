@@ -150,7 +150,7 @@
                         <td>{{ $data->nama_layanan }}</td>
                         <td>{{ $data->ServiceName }}</td>
                         <td>{{ $data->ServiceSubName }}</td>
-                        <td>{{ $data->tiketKeterangan}}</td>
+                        <td style="white-space:pre">{{ $data->tiketKeterangan}}</td>
                         <td>
                           @if($data->tiketPrioritas == '1')
                               Biasa
