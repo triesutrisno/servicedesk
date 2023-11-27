@@ -169,7 +169,7 @@
                         <div class="form-group col-md-6">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="tiketFile" name="tiketFile">
-                                <label class="custom-file-label" for="customFile">Pilih File, size maximal 2Mb</label>
+                                <label class="custom-file-label" for="customFile">Pilih File, size maximal 1Mb</label>
                             </div>
                         </div>
                         @if ($id_service == '5')
