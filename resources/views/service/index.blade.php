@@ -37,6 +37,7 @@
                         <th>ID System</th>
                         <th>Nama Layanan</th>
                           <th>Nama Service</th>
+                          <th>Eselon</th>
                           <th>Status</th>
                           <th>
                             Action
@@ -50,6 +51,7 @@
                         <td class="py-1">{{$data->id}}</td>
                         <td class="py-1">{{$data->nama_layanan}}</td>
                           <td class="py-1">{{$data->ServiceName}}</td>
+                          <td class="py-1">{{$data->min_eselon}}</td>
                           <td>
                             @if($data->ServiceStatus == '1')
                             <label class="badge badge-success">Aktif</label>
