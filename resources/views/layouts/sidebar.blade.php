@@ -45,7 +45,7 @@
         </li>
     @endif
 
-    @if (session('infoUser')['ESELON'] <= '40' || session('infoUser')['ESELON'] == 'D0')
+    {{-- @if (session('infoUser')['ESELON'] <= '40' || session('infoUser')['ESELON'] == 'D0') --}}
         <li class="nav-item">
             <a class="nav-link" href="{{ url('approvetiket') }}">
                 <i class="menu-icon fa fa-handshake-o"></i>
@@ -58,7 +58,7 @@
                 <span class="menu-title">Persetujuan Tiket</span>
             </a>
         </li>
-    @endif
+    {{-- @endif --}}
 
     <li class="nav-item">
       <a class="nav-link" href="{{url('tiket')}}">
