@@ -57,7 +57,7 @@
                     </div>
                 </a>
                 {{-- <a class="dropdown-item" style="margin-top: 20px;" href="{{ url('/useredit') }}">Edit Profile</a> --}}
-                <a class="dropdown-item" href="{{ url('/logout') }}">Sign Out</a>
+                <a class="dropdown-item mt-2" href="{{ url('/logout') }}">Sign Out</a>
             </div>
           </li>
         </ul>

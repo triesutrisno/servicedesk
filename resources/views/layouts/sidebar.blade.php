@@ -72,12 +72,21 @@
             <span class="menu-title">Tiket V2</span>
         </a>
     </li>
+    @if (session('infoUser')['ESELON'] <= '20' && session('infoUser')['PERUSAHAAN'] == 'H0000000')
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url('tugasku') }}">
+            <i class="menu-icon fa fa-cubes"></i>
+            <span class="menu-title">Waiting Approval</span>
+        </a>
+    </li>   
+    @else 
     <li class="nav-item">
         <a class="nav-link" href="{{ url('tugasku') }}">
             <i class="menu-icon fa fa-cubes"></i>
             <span class="menu-title">Tugasku</span>
         </a>
     </li>
+    @endif
     <li class="nav-item">
         <a class="nav-link" href="{{ url('saran') }}">
             <i class="menu-icon fa fa-comments"></i>

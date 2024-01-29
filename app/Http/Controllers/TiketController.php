@@ -401,7 +401,7 @@ class TiketController extends Controller
                             'subjectEmail' => 'Info Permintaan Tiket',
                             'isiEmail' => addslashes($isiEmail),
                             'status' => 'outbox',
-                            'password' => 'sistem2017',
+                            'password' => env('APP_EMAIL'),
                             'contentEmail' => '0',
                             'sistem' => 'tiketSilog',
                         ]);
@@ -487,7 +487,7 @@ class TiketController extends Controller
                                 'subjectEmail' => 'Permintaan Approve Tiket',
                                 'isiEmail' => addslashes($isiEmail),
                                 'status' => 'outbox',
-                                'password' => 'sistem2017',
+                                'password' => env('APP_EMAIL'),
                                 'contentEmail' => '0',
                                 'sistem' => 'tiketSilog',
                             ]);
@@ -591,7 +591,7 @@ class TiketController extends Controller
                                 'subjectEmail' => 'Info Permintaan Tiket',
                                 'isiEmail' => addslashes($isiEmail),
                                 'status' => 'outbox',
-                                'password' => 'sistem2017',
+                                'password' => env('APP_EMAIL'),
                                 'contentEmail' => '0',
                                 'sistem' => 'tiketSilog',
                             ]);
@@ -693,7 +693,7 @@ class TiketController extends Controller
             ->orderBy('a.tiketStatus', 'asc')
             ->orderBy('a.kode_tiket', 'asc')
             ->get();
-        //dd($datas);
+        // dd($datas);
 
         $histori = DB::table('tb_histori as a')
             ->select(

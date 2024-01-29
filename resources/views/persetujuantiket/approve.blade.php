@@ -24,7 +24,7 @@
     </div>
 </div>
 <br />
-<div class="row" style="margin-top: 20px;">
+<div class="row" style="margin-top: 2px;">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
         <div class="card-header p-1" style="background: #000080;"></div>
@@ -115,9 +115,9 @@
                     </table>
                     <br />
                     <div class="form-group">
-                        <label for="tiketNikAtasanService" class="col-md-4 control-label">Teknisi</label>
+                        <label for="tiketNikAtasanService" class="col-md-4 control-label">Teknisi <span class="text-danger">*</span></label>
                         <div class="input-group col-md-6">
-                            <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required>
+                            <input type="text" name="nikTeknisi" id="nikTeknisi" class="form-control" required readonly>
                             <input type="hidden" name="emailTeknisi" id="emailTeknisi" readonly="true" class="form-control" required>                            
                             <input type="hidden" name="namaTeknisi" id="namaTeknisi" readonly="true" class="form-control" required>
                             <a href="#" data-toggle="modal" data-target="#myModalTeknisi" style="text-decoration:none">
@@ -130,6 +130,12 @@
                         </div>
                         <div class="col-md-6" id="namaTeknisi2"></div>
                     </div>
+                    @if(session('infoUser')['PERUSAHAAN'] == 'H0000000')
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Remark</label>
+                        <textarea class="form-control ml-3 mr-4" rows="5" name="remark"></textarea>
+                    </div>
+                    @endif
                     @php
                     $serviceSAP = ['18','20'];
                     @endphp

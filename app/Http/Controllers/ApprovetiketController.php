@@ -135,7 +135,7 @@ class ApprovetiketController extends Controller
                         'subjectEmail' => 'Info Permintaan Tiket',
                         'isiEmail' => addslashes($isiEmail),
                         'status' => 'outbox',
-                        'password' => 'sistem2017',
+                        'password' => env('APP_EMAIL'),
                         'contentEmail' => '0',
                         'sistem' => 'tiketSilog',
                     ]);
