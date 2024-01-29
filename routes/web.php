@@ -71,6 +71,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/persetujuantiket/detail/{id}', 'PersetujuantiketController@show');
     Route::get('/persetujuantiket/forward/{id}', 'PersetujuantiketController@forward');
     Route::post('/persetujuantiket/forward/{idTiket}', 'PersetujuantiketController@saveforward');
+    Route::get('/persetujuantiket/requestApproval/{id}', 'PersetujuantiketController@requestApproval');
+    Route::post('/persetujuantiket/requestApproval/{idTiket}', 'PersetujuantiketController@saverequestApproval');
     Route::patch('/persetujuantiket/feedback', 'PersetujuantiketController@feedback');
 
     Route::get('/tugasku', 'TiketdetailController@index');

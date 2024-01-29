@@ -62,7 +62,7 @@ class SaranController extends Controller
                 'subjectEmail' => 'Kritik Saran baru dari Tiket',
                 'isiEmail' => addslashes($isiEmail),
                 'status' => 'outbox',
-                'password' => 'sistem2017',
+                'password' => env('APP_EMAIL'),
                 'contentEmail' => '0',
                 'sistem' => 'tiketSilog',
             ]);

@@ -36,7 +36,8 @@
                     title: 'Keterangan Reject',
                     input: 'textarea',
                     inputAttributes: {
-                        autocapitalize: 'off'
+                        autocapitalize: 'off',
+                        required: 'true'
                     },
                     showCancelButton: true,
                     confirmButtonText: 'Reject',
@@ -156,6 +157,11 @@
                               <a href="{{ url('/persetujuantiket')}}/forward/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-info" title="Forward">
                                     <i class="fa fa-share icon-lg"></i>
                               </a>
+                          @endif
+                          @if(session('infoUser')['PERUSAHAAN'] == 'H0000000')
+                            <a href="{{ url('/persetujuantiket')}}/requestApproval/{{ $data->tiketId }}" class="btn btn-icons btn-inverse-success" title="Request Approve">
+                                    <i class="fa fa-user icon-lg"></i>
+                            </a>
                           @endif
                       </td>
                         <!--<td align="center">{{$loop->iteration}}</td>-->
