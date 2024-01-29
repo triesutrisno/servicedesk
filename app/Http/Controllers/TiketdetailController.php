@@ -299,7 +299,7 @@ class TiketdetailController extends Controller
                             'subjectEmail' => 'Informasi Penyelesaian Tiket',
                             'isiEmail' => addslashes($isiEmail),
                             'status' => 'outbox',
-                            'password' => env('APP_EMAIL'),
+                            'password' => 'Veteran1974!@Gsk',
                             'contentEmail' => '0',
                             'sistem' => 'tiketSilog',
                         ]);
@@ -387,7 +387,7 @@ class TiketdetailController extends Controller
                             'subjectEmail' => 'Informasi Penyelesaian Tiket',
                             'isiEmail' => addslashes($isiEmail),
                             'status' => 'outbox',
-                            'password' => env('APP_EMAIL'),
+                            'password' => 'Veteran1974!@Gsk',
                             'contentEmail' => '0',
                             'sistem' => 'tiketSilog',
                         ]);
@@ -734,7 +734,7 @@ class TiketdetailController extends Controller
                     'subjectEmail' => 'Info Pengerjaan Tiket',
                     'isiEmail' => addslashes($isiEmail),
                     'status' => 'outbox',
-                    'password' => env('APP_EMAIL'),
+                    'password' => 'Veteran1974!@Gsk',
                     'contentEmail' => '0',
                     'sistem' => 'tiketSilog',
                 ]);
@@ -925,7 +925,7 @@ class TiketdetailController extends Controller
                     'subjectEmail' => 'Info Pengembalian Tiket',
                     'isiEmail' => addslashes($isiEmail),
                     'status' => 'outbox',
-                    'password' => env('APP_EMAIL'),
+                    'password' => 'Veteran1974!@Gsk',
                     'contentEmail' => '0',
                     'sistem' => 'tiketSilog',
                 ]);
