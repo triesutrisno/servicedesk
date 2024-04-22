@@ -163,13 +163,13 @@ $(document).ready(function() {
                         <tr>
                             <td>Keterangan</td>
                             <td>:</td>
-                            <td class="datae" style="white-space:pre">{{ $data[0]->tiketKeterangan}}</td>
-                            @if (session('infoUser')['PERUSAHAAN'] == 'H0000000')
+                            <td colspan="4" class="datae" style="white-space:pre">{{ $data[0]->tiketKeterangan}}</td>
+                        </tr>
+                        <tr> @if (session('infoUser')['PERUSAHAAN'] == 'H0000000')
                             <td>Remark</td>
                             <td>:</td>
-                            <td class="datae" style="white-space:pre">{{ $data[0]->remark}}</td>
-                            @endif
-                        </tr>
+                            <td colspan="4" class="datae" style="white-space:pre">{{ $data[0]->remark}}</td>
+                            @endif</tr>
                 </table>
                 </div>
                 <br />
