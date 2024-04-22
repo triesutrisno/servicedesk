@@ -504,7 +504,8 @@ class TiketdetailController extends Controller
                 'b.tiketDetailStatus',
                 'b.tiketDetailId',
                 'a.tiketSeverity',
-                'a.tiketMaindays'
+                'a.tiketMaindays',
+                'a.remark'
             )
             ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
             ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')
@@ -634,17 +635,19 @@ class TiketdetailController extends Controller
 
         if ($datas[0]->nikTeknisi == session('infoUser')['NIK']) {
             $urle = env('API_BASE_URL') . "/getTeman.php";
+            // dd($urle);
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'token' => 'tiketing.silog.co.id'
             ])
                 ->post($urle, [
                     'nikAtasan' => session('infoUser')['AL_NIK'],
-                    //'kodeBiro' => session('infoUser')['BIROBU'],
+                    // 'kodeBiro' => session('infoUser')['BIROBU'],
                 ]);
+            // dd($response)
             $dtAPi = json_decode($response->getBody()->getContents(), true);
             $responStatus = $response->getStatusCode();
-            //dd(session('infoUser')['KODEPARENTUNIT']);
+            // dd( $response);
             if ($responStatus == '200') {
                 $dtAtasanService = $dtAPi["data"];
             } else {
