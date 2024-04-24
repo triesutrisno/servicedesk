@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\TiketDataTable;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Carbon\Carbon;
+use App\User;
 use App\Tiket;
-use App\Tiketdetail;
 use App\Histori;
-use App\Nextnumber;
 use App\Layanan;
 use App\Service;
-use App\Subservice;
-use App\User;
 use App\Tbapprove;
 use App\Userlevel;
+use Carbon\Carbon;
+use App\Nextnumber;
+use App\Subservice;
+use App\Tiketdetail;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\DataTables\TiketDataTable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Database\QueryException;
 
 class TiketController extends Controller
 {
@@ -141,7 +143,7 @@ class TiketController extends Controller
         // dd($param);exit;
         $layanan = Layanan::where(['status_layanan' => '1'])->get();
         return $dataTable
-            ->render('tiket.index2', ['param' => $param, 'layanan' =>$layanan]);
+            ->render('tiket.index2', ['param' => $param, 'layanan' => $layanan]);
     }
 
     /**
@@ -627,7 +629,101 @@ class TiketController extends Controller
             return redirect('/tiket')->with(['kode' => '90', 'pesan' => 'Data sudah ada !']);
         }
     }
+    /**
+     * Store interface API SID created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store2(Request $request, $layananId, $serviceId)
+    {
+        try {
+            if (Tiket::where([
+                'layananId' => $layananId,
+                'serviceId' => $serviceId,
+                'nikUser' => session('infoUser')['NIK'],
+                'subServiceId' => $request->subServiceId,
+                'tiketKeterangan' => $request->tiketKeterangan,
+                'tiketStatus' => '1'
+            ])->where('created_at', '>=', date("Y-m-d"))->doesntExist()) {
 
+                $request->request->add(['layananId' => $layananId]);
+                $request->request->add(['serviceId' => $serviceId]);
+                $request->request->add(['comp' => session('infoUser')['PERUSAHAAN']]);
+                $request->request->add(['unit' => session('infoUser')['UNIT']]);
+                $request->request->add(['biro' => session('infoUser')['BIROBU']]);
+                // $request->request->add(['unit' => 'H1070200']);
+                // $request->request->add(['biro' => 'H1070000']);
+                $request->request->add(['nikUser' => session('infoUser')['NIK']]);
+                $request->request->add(['tiketEmail' => session('infoUser')['EMAIL']]);
+                // $request->request->add(['file' => $gambar]);
+                $serviceSAP = ['0'];
+                if (in_array($serviceId, $serviceSAP)) {
+                    $request->request->add(['tiketApprove' => 'A']);
+                    $request->request->add(['tiketTglApprove' => date("Y-m-d H:i:s")]);
+                    $request->request->add(['tiketNikAtasan' => '']);
+                    $request->request->add(['tiketEmailAtasan' => '']);
+                    $request->request->add(['tiketApproveService' => 'W']);
+                    $request->request->add(['tiketStatus' => '2']);
+                    $request->request->add(['sort' => '9']);
+                } else {
+                    if (session('infoUser')['AL_NIK'] != "") {
+                        if (in_array(session('infoUser')['ESELON'], array('10', '11', '12')) || session('infoUser')['AL_ESELON'] == "D1") {
+                            $request->request->add(['tiketApprove' => 'A']);
+                            $request->request->add(['tiketTglApprove' => date("Y-m-d H:i:s")]);
+                            $request->request->add(['tiketNikAtasan' => '']);
+                            $request->request->add(['tiketEmailAtasan' => '']);
+                            $request->request->add(['tiketApproveService' => 'W']);
+                            $request->request->add(['tiketStatus' => '2']);
+                            $request->request->add(['sort' => '9']);
+                        } else {
+                            $request->request->add(['tiketApprove' => 'W']);
+                            $request->request->add(['tiketNikAtasan' => session('infoUser')['AL_NIK']]);
+                            $request->request->add(['tiketEmailAtasan' => session('infoUser')['AL_EMAIL']]);
+                            // $request->request->add(['tiketNikAtasan' => '942834']);
+                            // $request->request->add(['tiketEmailAtasan' => 'tomi@silog.co.id']);
+                            $request->request->add(['tiketApproveService' => 'N']);
+                            $request->request->add(['tiketStatus' => '1']);
+                            $request->request->add(['sort' => '10']);
+                        }
+                    } else {
+                        $request->request->add(['tiketApprove' => 'A']);
+                        $request->request->add(['tiketTglApprove' => date("Y-m-d H:i:s")]);
+                        $request->request->add(['tiketNikAtasan' => '']);
+                        $request->request->add(['tiketEmailAtasan' => '']);
+                        $request->request->add(['tiketApproveService' => 'W']);
+                        $request->request->add(['tiketStatus' => '2']);
+                        $request->request->add(['sort' => '9']);
+                    }
+                }
+
+                //set tiketNikAtasanService
+                $subService = Subservice::find($request->get('subServiceId'));
+                // dd($subService->unit->atasanUnit);
+                $atasanUnit = $subService->unit->atasanUnit;
+                $request->request->add(['tiketNikAtasanService' => $atasanUnit->username]);
+                $request->request->add(['tiketEmailAtasanService' => $atasanUnit->email]);
+                // $request->request->add(['tiketNikAtasanService' => '942834']);
+                // $request->request->add(['tiketEmailAtasanService' => 'tomi@silog.co.id']);
+                //
+
+                Tiket::create($request->all());
+
+                $response = [
+                    'message' => 'New Tiket Created',
+                ];
+                return response()->json($response, Response::HTTP_CREATED);
+            } else {
+                return redirect('/tiket')->with(['kode' => '90', 'pesan' => 'Data sudah ada !']);
+            }
+        } catch (QueryException $e) {
+            $error = [
+                'type' => 500,
+                'message' => $e->getMessage()
+            ];
+            return response()->json($error, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -866,7 +962,7 @@ class TiketController extends Controller
         Tiket::where('tiketId', $id)
             ->update([
                 'tiketStatus' => 8,
-                'sort' =>'5'
+                'sort' => '5'
             ]);
 
         $tiketDetail = Tiketdetail::where('tiketId', '=', $id)->get();
