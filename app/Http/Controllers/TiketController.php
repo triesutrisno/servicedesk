@@ -337,7 +337,7 @@ class TiketController extends Controller
             // $request->request->add(['tiketNikAtasanService' => '942834']);
             // $request->request->add(['tiketEmailAtasanService' => 'tomi@silog.co.id']);
             //
-
+            // dd($request->all());
             Tiket::create($request->all());
 
             $tiket = Tiket::with(['layanan', 'service', 'subService', 'userBy'])
@@ -635,93 +635,117 @@ class TiketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store2(Request $request, $layananId, $serviceId)
+    public function store2(Request $request)
     {
         try {
             if (Tiket::where([
-                'layananId' => $layananId,
-                'serviceId' => $serviceId,
-                'nikUser' => session('infoUser')['NIK'],
+                'layananId' => 1,
+                'serviceId' => 1,
+                'nikUser' => '942834',
                 'subServiceId' => $request->subServiceId,
                 'tiketKeterangan' => $request->tiketKeterangan,
                 'tiketStatus' => '1'
             ])->where('created_at', '>=', date("Y-m-d"))->doesntExist()) {
+                // $value = [];
+                $value = '';
+                for ($i = 0; $i < count($request->data); $i++) {
+                    $value = [
+                        "layananId" => $request->data[$i]['layananId'],
+                        "serviceId" => $request->data[$i]['serviceId'],
+                        "subServiceId" => $request->data[$i]['subServiceId'],
+                        "comp" => $request->data[$i]['comp'],
+                        "unit" => $request->data[$i]['unit'],
+                        "biro" => $request->data[$i]['biro'],
+                        "tiketKeterangan" => $request->data[$i]['tiketKeterangan'],
+                        "nikUser" => $request->data[$i]['nikUser'],
+                        "tanggal_buat" => date("Y-m-d H:i:s"),
+                        "tiketEmail" => $request->data[$i]['tiketEmail'],
+                        "file" => $request->data[$i]['file'],
+                        "tiketApprove" => 'A',
+                        "tiketTglApprove" => date("Y-m-d H:i:s"),
+                        "tiketNikAtasan" => $request->data[$i]['tiketNikAtasan'],
+                        "tiketEmailAtasan" => $request->data[$i]['tiketEmailAtasan'],
+                        "tiketApproveService" => 'W',
+                        // "tiketApproveService" => date("Y-m-d H:i:s"),
+                        "tiketNikAtasanService" => '01525',
+                        "tiketEmailAtasanService" => 'Abdurrahman@silog.co.id',
+                        "tiketPrioritas" => '3',
+                        "tiketStatus" => '2',
+                        "created_at" => date("Y-m-d H:i:s"),
+                        "updated_at" => date("Y-m-d H:i:s"),
+                        "noHp" => $request->data[$i]['noHp'],
+                        "sort" => '1'
+                    ];
 
-                $request->request->add(['layananId' => $layananId]);
-                $request->request->add(['serviceId' => $serviceId]);
-                $request->request->add(['comp' => session('infoUser')['PERUSAHAAN']]);
-                $request->request->add(['unit' => session('infoUser')['UNIT']]);
-                $request->request->add(['biro' => session('infoUser')['BIROBU']]);
-                // $request->request->add(['unit' => 'H1070200']);
-                // $request->request->add(['biro' => 'H1070000']);
-                $request->request->add(['nikUser' => session('infoUser')['NIK']]);
-                $request->request->add(['tiketEmail' => session('infoUser')['EMAIL']]);
-                // $request->request->add(['file' => $gambar]);
-                $serviceSAP = ['0'];
-                if (in_array($serviceId, $serviceSAP)) {
-                    $request->request->add(['tiketApprove' => 'A']);
-                    $request->request->add(['tiketTglApprove' => date("Y-m-d H:i:s")]);
-                    $request->request->add(['tiketNikAtasan' => '']);
-                    $request->request->add(['tiketEmailAtasan' => '']);
-                    $request->request->add(['tiketApproveService' => 'W']);
-                    $request->request->add(['tiketStatus' => '2']);
-                    $request->request->add(['sort' => '9']);
-                } else {
-                    if (session('infoUser')['AL_NIK'] != "") {
-                        if (in_array(session('infoUser')['ESELON'], array('10', '11', '12')) || session('infoUser')['AL_ESELON'] == "D1") {
-                            $request->request->add(['tiketApprove' => 'A']);
-                            $request->request->add(['tiketTglApprove' => date("Y-m-d H:i:s")]);
-                            $request->request->add(['tiketNikAtasan' => '']);
-                            $request->request->add(['tiketEmailAtasan' => '']);
-                            $request->request->add(['tiketApproveService' => 'W']);
-                            $request->request->add(['tiketStatus' => '2']);
-                            $request->request->add(['sort' => '9']);
-                        } else {
-                            $request->request->add(['tiketApprove' => 'W']);
-                            $request->request->add(['tiketNikAtasan' => session('infoUser')['AL_NIK']]);
-                            $request->request->add(['tiketEmailAtasan' => session('infoUser')['AL_EMAIL']]);
-                            // $request->request->add(['tiketNikAtasan' => '942834']);
-                            // $request->request->add(['tiketEmailAtasan' => 'tomi@silog.co.id']);
-                            $request->request->add(['tiketApproveService' => 'N']);
-                            $request->request->add(['tiketStatus' => '1']);
-                            $request->request->add(['sort' => '10']);
-                        }
-                    } else {
-                        $request->request->add(['tiketApprove' => 'A']);
-                        $request->request->add(['tiketTglApprove' => date("Y-m-d H:i:s")]);
-                        $request->request->add(['tiketNikAtasan' => '']);
-                        $request->request->add(['tiketEmailAtasan' => '']);
-                        $request->request->add(['tiketApproveService' => 'W']);
-                        $request->request->add(['tiketStatus' => '2']);
-                        $request->request->add(['sort' => '9']);
-                    }
+                    // print_r($value);
                 }
+                // print_r($value);
+                $dtNextnumber = Nextnumber::where([
+                    'tahun' => date("Y"),
+                    'status' => 1,
+                ])->get();
+                $jmlNext = count($dtNextnumber);
+                $nomer = sprintf("%05d", $dtNextnumber[0]['nextnumber']);
+                $nextnumber = "TK" . date("y") . date("m") . $nomer; //TK200900001
+                $kode = $nextnumber;
+                $update = Nextnumber::where('id', $dtNextnumber[0]['id'])
+                    ->update([
+                        'nextnumber' => $dtNextnumber[0]['nextnumber'] + 1,
+                    ]);
 
-                //set tiketNikAtasanService
-                $subService = Subservice::find($request->get('subServiceId'));
-                // dd($subService->unit->atasanUnit);
-                $atasanUnit = $subService->unit->atasanUnit;
-                $request->request->add(['tiketNikAtasanService' => $atasanUnit->username]);
-                $request->request->add(['tiketEmailAtasanService' => $atasanUnit->email]);
-                // $request->request->add(['tiketNikAtasanService' => '942834']);
-                // $request->request->add(['tiketEmailAtasanService' => 'tomi@silog.co.id']);
-                //
-
-                Tiket::create($request->all());
-
+                Tiket::create([
+                    "kode_tiket" => $kode,
+                    "comp" => $value['comp'],
+                    "unit" => $value['unit'],
+                    "biro" => $value['biro'],
+                    "nikUser" => $value['nikUser'],
+                    "tiketEmail" => $value['tiketEmail'],
+                    "layananId" => $value['layananId'],
+                    "serviceId" => $value['serviceId'],
+                    "subServiceId" => $value['subServiceId'],
+                    "tiketKeterangan" => $value['tiketKeterangan'],
+                    "file" => $value['file'],
+                    "tiketApprove" => $value['tiketApprove'],
+                    "tiketTglApprove" => $value['tiketTglApprove'],
+                    "tiketNikAtasan" => $value['tiketNikAtasan'],
+                    "tiketEmailAtasan" => $value['tiketEmailAtasan'],
+                    "tiketApproveService" => $value['tiketApproveService'],
+                    "tiketNikAtasanService" => $value['tiketNikAtasanService'],
+                    "tiketEmailAtasanService" => $value['tiketEmailAtasanService'],
+                    "tiketPrioritas" => $value['tiketPrioritas'],
+                    "tiketStatus" => $value['tiketStatus'],
+                    "created_at" => $value['created_at'],
+                    "updated_at" => $value['updated_at'],
+                    "noHp" => $value['noHp'],
+                    "sort" => $value['sort'],
+                    "remark" => "10"
+                ]);
+                $tiket = Tiket::with(['layanan', 'service', 'subService', 'userBy'])
+                    ->where(['kode_tiket' => $kode])
+                    ->get();
+                $data = [
+                    "tiket" => $kode,
+                    "nama_layanan" => $tiket[0]['layanan'][0]['nama_layanan'],
+                    "service_name" => $tiket[0]['service']['ServiceName'],
+                    "sub_service" => $tiket[0]['subService']['ServiceSubName'],
+                    "keterangan" => $tiket[0]['tiketKeterangan'],
+                    "userBy" => $tiket[0]['userBy']['name'],
+                    "tanggal_buat" => $tiket[0]['created_at']
+                ];
                 $response = [
-                    'message' => 'New Tiket Created',
+                    "success" => true,
+                    "message" => "Data berhasil disimpan dengan nomer tiket $kode!",
+                    "data" => $data
+
                 ];
                 return response()->json($response, Response::HTTP_CREATED);
-            } else {
-                return redirect('/tiket')->with(['kode' => '90', 'pesan' => 'Data sudah ada !']);
             }
         } catch (QueryException $e) {
             $error = [
                 'type' => 500,
                 'message' => $e->getMessage()
             ];
-            return response()->json($error, Response::HTTP_UNPROCESSABLE_ENTITY);
+            return response()->json($error, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
     /**
@@ -774,7 +798,8 @@ class TiketController extends Controller
                 'a.nikLengkap',
                 'a.noHp',
                 'a.tiketSeverity',
-                'a.tiketMaindays'
+                'a.tiketMaindays',
+                'a.remark'
             )
             ->leftjoin('tiket_detail as b', 'b.tiketId', '=', 'a.tiketId')
             ->leftjoin('m_layanan as c', 'c.id', '=', 'a.layananId')

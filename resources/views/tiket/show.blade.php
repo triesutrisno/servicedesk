@@ -111,8 +111,10 @@
                             <td>File</td>
                             <td>:</td>
                             <td>
-                                @if($data[0]->file!="")
+                                @if($data[0]->file!="" && $data[0]->remark!="10")
                                     <a href="{{ url('/images/fileTiket') }}/{{$data[0]->file}}">Lampiran</a>
+                                @elseif ($data[0]->file!="" && $data[0]->remark=="10")
+                                    <a href="{{$data[0]->file}}">Lampiran</a>
                                 @endif
                             </td>
                         </tr>

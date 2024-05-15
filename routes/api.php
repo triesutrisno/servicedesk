@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 // Route::get('/tiket/create/{id}/{id2}', 'TiketController@add');
-Route::post('/tiket/create/{id}/{id2}', 'TiketController@store2');
+Route::post('/tiket/createTiket', 'TiketController@store2');
