@@ -642,9 +642,9 @@ class TiketdetailController extends Controller
             ])
                 ->post($urle, [
                     'nikAtasan' => session('infoUser')['AL_NIK'],
-                    // 'kodeBiro' => session('infoUser')['BIROBU'],
+                    'kodeBiro' => session('infoUser')['BIROBU'],
                 ]);
-            // dd($response)
+            // dd(session('infoUser'));
             $dtAPi = json_decode($response->getBody()->getContents(), true);
             $responStatus = $response->getStatusCode();
             // dd( $response);
